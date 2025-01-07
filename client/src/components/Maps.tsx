@@ -4,13 +4,17 @@
  * "react-leaflet-cluster";
  * "react-leaflet@next"
  * AND "npm i -D @types/leaflet"
+ * --------------------------------------------------
+ *
+ * This component displays the OSM map (full screen mode)
+ * with an arbitrary position and with certain markers (charging stations).
+ *
  */
 
 import "./maps.css";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-//import MarkerClusterGroup from "react-leaflet-cluster";
 
 // markers : simulation of charging stations
 const markers = [
@@ -23,6 +27,12 @@ const markers = [
   {
     geocode: { lat: 48.885, lng: 2.34 },
   },
+  {
+    geocode: { lat: 48.875, lng: 2.34 },
+  },
+  {
+    geocode: { lat: 48.8566, lng: 2.3522 },
+  },
 ];
 
 const position = { lat: 48.8566, lng: 2.3522 };
@@ -30,7 +40,7 @@ const position = { lat: 48.8566, lng: 2.3522 };
 export default function Maps() {
   return (
     <>
-      <MapContainer center={position} zoom={13}>
+      <MapContainer center={position} zoom={13} zoomControl={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
