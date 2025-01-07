@@ -1,7 +1,10 @@
-import "./App.css";
+import Maps from "./components/Maps";
+import HomePage from "./pages/HomePage";
 
-function App() {
-  return <h1>Hello Project 3</h1>;
+export default function App() {
+  return (
+    <>
+      <Maps />
+    </>
+  );
 }
-
-export default App;
