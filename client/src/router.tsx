@@ -5,12 +5,10 @@ import PresentationPage from "./pages/PresentationPage";
 
 export const mainRouter = createBrowserRouter([
   {
+    path: "/",
+    element: <PresentationPage />,
+  },
+  {
     element: <App />,
-    children: [
-      {
-        path: "/",
-        element: <PresentationPage />,
-      },
-    ],
   },
 ]);
