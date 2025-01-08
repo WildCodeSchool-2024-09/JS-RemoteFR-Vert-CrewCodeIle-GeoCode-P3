@@ -11,7 +11,7 @@
  *
  */
 
-import "./maps.css";
+import "../index.css";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
