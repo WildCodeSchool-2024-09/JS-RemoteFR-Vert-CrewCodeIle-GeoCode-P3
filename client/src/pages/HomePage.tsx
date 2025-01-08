@@ -1,7 +1,8 @@
+import Maps from "../components/Maps";
 export default function HomePage() {
   return (
     <>
-      <h1>bienvenu</h1>
+      <Maps />
     </>
   );
 }
