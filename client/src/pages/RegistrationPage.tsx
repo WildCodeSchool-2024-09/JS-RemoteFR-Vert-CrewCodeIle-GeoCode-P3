@@ -24,6 +24,15 @@ export default function RegistrationPage() {
   const onSubmit: SubmitHandler<inputProps> = (data) => setFormInput(data);
   console.info(formInput);
 
+  const nameValidation = /^[A-Za-z\é\è\ê\ï-]+$/g;
+  const emailValidation =
+    /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
+  const errorMessage = {
+    name: "Caractères non valides : 09 _@$*'[{]}",
+    emailMiss: "Veuillez inclure @ dans l'adresse e-mail",
+    invalidEmail: "Caractère spéciaux non valides : <*:[etc",
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="w-36">
@@ -33,8 +42,8 @@ export default function RegistrationPage() {
             {...register("firstName", {
               required: "Champ requis",
               pattern: {
-                value: /^[A-Za-z\é\è\ê\ï-]+$/g,
-                message: "Caractères non valides : 09 _@$*'[{]}",
+                value: nameValidation,
+                message: errorMessage.name,
               },
             })}
           />
@@ -46,16 +55,28 @@ export default function RegistrationPage() {
             {...register("lastName", {
               required: "Champ requis",
               pattern: {
-                value: /^[A-Za-z\é\è\ê\ï-]+$/g,
+                value: nameValidation,
                 message: "Caractères non valides : 09 _@$*'[{]}",
               },
             })}
           />
-          <p className="text-red-800">{errors.firstName?.message}</p>
+          <p className="text-red-800">{errors.lastName?.message}</p>
         </label>
         <label>
           Email
-          <input {...register("email", { required: "This is requiered" })} />
+          <input
+            type="email"
+            {...register("email", {
+              required: "This is requiered",
+
+              validate: {
+                miss: (value) => value.includes("@") || errorMessage.emailMiss,
+                invalid: (value) =>
+                  emailValidation.test(value) || errorMessage.invalidEmail,
+              },
+            })}
+          />
+          <p className="text-red-800">{errors.email?.message}</p>
         </label>
         <label>
           Date de naissance
