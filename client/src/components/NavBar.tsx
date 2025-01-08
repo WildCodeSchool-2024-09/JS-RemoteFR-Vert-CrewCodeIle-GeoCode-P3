@@ -27,7 +27,7 @@ export default function NavBar() {
               <p
                 className={
                   e.name === navBarData[0].name
-                    ? "hidden lg:hidden"
+                    ? "hidden"
                     : "hidden lg:inline-block lg:bg-interestColor lg:py-3 lg:min-w-28 lg:max-w-28 lg:m-0 lg:text-center lg:rounded-full lg:shadow-md lg:shadow-darkColor lg:font-title lg:text-lightColor lg:active:bg-darkColor"
                 }
               >
