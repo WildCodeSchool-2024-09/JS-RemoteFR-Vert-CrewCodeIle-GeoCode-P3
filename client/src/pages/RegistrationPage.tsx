@@ -29,7 +29,7 @@ export default function RegistrationPage() {
     /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
   const errorMessage = {
     name: "Caractères non valides : 09 _@$*'[{]}",
-    emailMiss: "Veuillez inclure @ dans l'adresse e-mail",
+
     invalidEmail: "Caractère spéciaux non valides : <*:[etc",
   };
 
@@ -37,8 +37,9 @@ export default function RegistrationPage() {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="w-36">
         <label>
-          Prénom
+          Prénom*
           <input
+            type="text"
             {...register("firstName", {
               required: "Champ requis",
               pattern: {
@@ -50,8 +51,9 @@ export default function RegistrationPage() {
           <p className="text-red-800">{errors.firstName?.message}</p>
         </label>
         <label>
-          Nom
+          Nom*
           <input
+            type="text"
             {...register("lastName", {
               required: "Champ requis",
               pattern: {
@@ -63,44 +65,57 @@ export default function RegistrationPage() {
           <p className="text-red-800">{errors.lastName?.message}</p>
         </label>
         <label>
-          Email
+          Email*
           <input
             type="email"
             {...register("email", {
-              required: "This is requiered",
-
-              validate: {
-                miss: (value) => value.includes("@") || errorMessage.emailMiss,
-                invalid: (value) =>
-                  emailValidation.test(value) || errorMessage.invalidEmail,
-              },
+              required: "Champ requis",
+              pattern: emailValidation,
             })}
           />
           <p className="text-red-800">{errors.email?.message}</p>
         </label>
         <label>
-          Date de naissance
-          <input {...register("birthday", { required: "This is requiered" })} />
+          Date de naissance*
+          <input
+            type="date"
+            {...register("birthday", { required: "Champ requis" })}
+          />
+          <p className="text-red-800">{errors.birthday?.message}</p>
         </label>
         <label>
-          Ville
-          <input {...register("city", { required: true })} />
+          Ville*
+          <input
+            type="text"
+            {...register("city", { required: "Champ requis" })}
+          />
+          <p className="text-red-800">{errors.city?.message}</p>
         </label>
         <label>
-          Code postal
-          <input {...register("zipCode", { required: true })} />
+          Code postal*
+          <input
+            type="number"
+            {...register("zipCode", { required: "Champ requis", minLength: 5 })}
+          />
+          <p className="text-red-800">{errors.zipCode?.message}</p>
         </label>
         <label>
-          Nombre de véhicules
-          <input {...register("vehicle", { required: true })} />
+          Nombre de véhicules*
+          <input type="number" {...register("vehicle", { required: true })} />
         </label>
         <label>
-          Mot de pass
-          <input {...register("password", { required: true })} />
+          Mot de pass*
+          <input
+            type="password"
+            {...register("password", { required: true })}
+          />
         </label>
         <label>
-          Confirmation du mot de pass
-          <input {...register("confirmation", { required: true })} />
+          Confirmation du mot de pass*
+          <input
+            type="password"
+            {...register("confirmation", { required: true })}
+          />
         </label>
 
         <input type="submit" />
