@@ -30,13 +30,27 @@ export default function RegistrationPage() {
         <label>
           Prénom
           <input
-            {...register("firstName", { required: "This is requiered" })}
+            {...register("firstName", {
+              required: "Champ requis",
+              pattern: {
+                value: /^[A-Za-z\é\è\ê\ï-]+$/g,
+                message: "Caractères non valides : 09 _@$*'[{]}",
+              },
+            })}
           />
           <p className="text-red-800">{errors.firstName?.message}</p>
         </label>
         <label>
           Nom
-          <input {...register("lastName", { required: "This is requiered" })} />
+          <input
+            {...register("lastName", {
+              required: "Champ requis",
+              pattern: {
+                value: /^[A-Za-z\é\è\ê\ï-]+$/g,
+                message: "Caractères non valides : 09 _@$*'[{]}",
+              },
+            })}
+          />
           <p className="text-red-800">{errors.firstName?.message}</p>
         </label>
         <label>
