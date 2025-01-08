@@ -8,7 +8,5 @@ export const mainRouter = createBrowserRouter([
     path: "/",
     element: <PresentationPage />,
   },
-  {
-    element: <App />,
-  },
+  { path: "/home", element: <App /> },
 ]);
