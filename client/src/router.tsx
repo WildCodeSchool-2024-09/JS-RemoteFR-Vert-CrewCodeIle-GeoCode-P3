@@ -11,6 +11,12 @@ export const mainRouter = createBrowserRouter([
   },
   {
     element: <App />,
-    children: [{ path: "/home", element: <RegistrationPage /> }],
+    children: [
+      {
+        path: "/home",
+        element: <RegistrationPage />,
+        loader: () => fetch(`${import.meta.env.VITE_API_BRAND}`),
+      },
+    ],
   },
 ]);

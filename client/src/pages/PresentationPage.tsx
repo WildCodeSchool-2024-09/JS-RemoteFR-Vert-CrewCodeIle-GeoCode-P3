@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import presentationText from "../assets/data/presentation.json";
-import type { PresentationProps } from "../assets/definition/lib";
+import type { PresentationProps } from "../assets/lib/definition";
 import logo from "../assets/images/logo.png";
 
 export default function PresentationPage() {
