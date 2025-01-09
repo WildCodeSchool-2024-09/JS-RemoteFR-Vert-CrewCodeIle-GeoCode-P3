@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
-import type {
-  InputProps,
-  BrandProps,
-  ModelProps,
-  ErrorMessageProps,
-  SocketProps,
-} from "../assets/lib/definition";
 import messageError from "../assets/data/errorMessage.json";
 import socket from "../assets/data/socket.json";
+import type {
+  BrandProps,
+  ErrorMessageProps,
+  InputProps,
+  ModelProps,
+  SocketProps,
+} from "../assets/lib/definition";
 
 export default function RegistrationPage() {
   //State stockage des données du formulaire
@@ -20,9 +20,9 @@ export default function RegistrationPage() {
   const socketType: SocketProps[] = socket;
   //Récupération des données du formulaire
   const onSubmit: SubmitHandler<InputProps> = (data) => setFormInput(data);
-  // regex firstname / lastname / city : accepte Maj & min accepté, accent fr, tiret, au moins 1 occurence doit etre présente
+  // regex validation firstname / lastname / city : accepte Maj & min accepté, accent fr, tiret, au moins 1 occurence doit etre présente
   const nameValidation = /^[A-Za-z\é\è\ê\ï-]+$/g;
-  // regex password : Au moins 1 minuscule, 1 majuscule, 1 chiffre, 1 caractère spécial, min length 8
+  // regex validation password : Au moins 1 minuscule, 1 majuscule, 1 chiffre, 1 caractère spécial, min length 8
   const passwordValidation =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g;
   //API marques véhicule
@@ -50,7 +50,7 @@ export default function RegistrationPage() {
 
   return (
     <>
-      <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl z-[10000]">
+      <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl z-[10000] lg:w-36 ">
         <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
 
         <h3 className="text-interestColor">Informations personnelles</h3>
@@ -179,7 +179,7 @@ export default function RegistrationPage() {
                       {a.nome}
                     </option>
                   ))
-                : model}
+                : null}
             </select>
           </label>
           <label className={styleLabel}>
@@ -223,7 +223,7 @@ export default function RegistrationPage() {
             <p className="text-red-800">{errors.confirm?.message}</p>
           </label>
           <button
-            className="border-interestColor border px-6  rounded-3xl bg-interestColor text-white py-1"
+            className="border-interestColor mx-20 border px-6  rounded-3xl bg-interestColor text-white py-1"
             type="submit"
           >
             Envoyer
