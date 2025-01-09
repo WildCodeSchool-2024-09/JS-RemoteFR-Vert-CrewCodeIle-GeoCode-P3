@@ -15,27 +15,14 @@ import "../index.css";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import charchingPoints from "../assets/data/chargingPointsCars.json";
+import type { chargingPointsType } from "../assets/definition/chargingPointsType";
 
-// markers : simulation of charging stations
-const markers = [
-  {
-    geocode: { lat: 48.86, lng: 2.3822 },
-  },
-  {
-    geocode: { lat: 48.83, lng: 2.3562 },
-  },
-  {
-    geocode: { lat: 48.885, lng: 2.34 },
-  },
-  {
-    geocode: { lat: 48.875, lng: 2.34 },
-  },
-  {
-    geocode: { lat: 48.8566, lng: 2.3522 },
-  },
-];
+const pointsMarkers: chargingPointsType[] = charchingPoints;
 
 const position = { lat: 48.8566, lng: 2.3522 };
+
+console.info("Point cooordonees", pointsMarkers);
 
 export default function Maps() {
   return (
@@ -46,9 +33,8 @@ export default function Maps() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MarkerClusterGroup>
-          {markers?.map((pos, index) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <Marker position={pos.geocode} key={index} />
+          {pointsMarkers?.map((p) => (
+            <Marker position={[p.latitude, p.longitude]} key={p.id} />
           ))}
         </MarkerClusterGroup>
       </MapContainer>
