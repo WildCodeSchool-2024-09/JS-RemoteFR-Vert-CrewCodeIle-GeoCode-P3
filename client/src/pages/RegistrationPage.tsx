@@ -42,6 +42,7 @@ export default function RegistrationPage() {
     formState: { errors },
   } = useForm<InputProps>();
 
+  console.info(apiBrand);
   console.info(formInput);
 
   //Styles label & input formulaire
