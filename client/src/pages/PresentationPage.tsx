@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import presentationText from "../assets/data/presentation.json";
-import logo from "../assets/images/logo.png";
-import type { PresentationProps } from "../assets/lib/definition";
+import type { PresentationProps } from "../assets/definition/lib";
+import logo from "../assets/images/Logo.png";
 
 export default function PresentationPage() {
   const presentation: PresentationProps = presentationText;

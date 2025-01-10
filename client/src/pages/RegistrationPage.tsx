@@ -9,7 +9,7 @@ import type {
   InputProps,
   ModelProps,
   SocketProps,
-} from "../assets/lib/definition";
+} from "../assets/definition/lib";
 
 export default function RegistrationPage() {
   //State stockage des données du formulaire
