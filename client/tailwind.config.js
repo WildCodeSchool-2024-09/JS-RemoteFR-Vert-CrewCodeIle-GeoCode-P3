@@ -14,6 +14,9 @@ export default {
         title: ["Prompt", "sans-serif"],
         paragraph: ["Libre Franklin", "sans-serif"],
       },
+      screens: {
+        vsm: "321px",
+      },
     },
   },
   plugins: [],
