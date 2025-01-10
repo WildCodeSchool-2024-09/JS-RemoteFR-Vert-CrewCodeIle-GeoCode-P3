@@ -14,7 +14,6 @@ import { mainRouter } from "./router";
 
 // Import additional components for new routes
 // Try creating these components in the "pages" folder
-
 // import About from "./pages/About";
 // import Contact from "./pages/Contact";
 
