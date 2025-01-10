@@ -83,7 +83,7 @@ export default function RegistrationPage() {
                 required: "Champ requis",
                 pattern: {
                   value: nameValidation,
-                  message: "Caractères non valides : 09 _@$*'[{]}",
+                  message: errorMessage.name,
                 },
               })}
             />
