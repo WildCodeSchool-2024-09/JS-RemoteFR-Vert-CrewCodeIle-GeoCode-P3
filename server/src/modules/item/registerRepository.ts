@@ -1,6 +1,6 @@
+import type { InputProps } from "../../../../client/src/assets/definition/lib";
 import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
-import type { InputProps } from "../../../../client/src/assets/definition/lib";
 
 class RegisterRepository {
   async create(register: Omit<InputProps, "id">) {

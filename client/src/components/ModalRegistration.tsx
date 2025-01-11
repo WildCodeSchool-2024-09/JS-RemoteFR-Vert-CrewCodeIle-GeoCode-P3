@@ -43,20 +43,21 @@ export default function RegistrationPage() {
   console.info(formInput);
 
   //Styles label & input form
-  const styleLabel = "inline-block w-full";
-  const styleInput = "border  w-full rounded-md";
+  const styleLabel = "inline-block w-full font-paragraph";
+  const styleInput = "border  w-full rounded-md font-normal font-paragraph";
 
   return (
     <>
       <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[10000] lg:w-36 ">
         <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
 
-        <h3 className="text-interestColor">Informations personnelles</h3>
-
         <form
-          className=" text-left space-y-3 border mt-2 font-bold p-3 rounded-xl z-[10000] "
+          className=" text-left space-y-3 border  font-bold p-3 rounded-xl z-[10000] "
           onSubmit={handleSubmit(onSubmit)}
         >
+          <h3 className="text-interestColor text-center font-normal">
+            Informations personnelles
+          </h3>
           <label className={styleLabel}>
             Prénom* :
             <input
@@ -66,7 +67,7 @@ export default function RegistrationPage() {
                 required: "Champ requis",
                 pattern: {
                   value: /^[A-Za-z\é\è\ê\ï-]+$/g,
-                  message: errorMessage.name,
+                  message: errorMessage.firstName,
                 },
               })}
             />
@@ -81,7 +82,7 @@ export default function RegistrationPage() {
                 required: "Champ requis",
                 pattern: {
                   value: /^[A-Za-z\é\è\ê\ï\s-]+$/g,
-                  message: errorMessage.name,
+                  message: errorMessage.lastName,
                 },
               })}
             />
@@ -92,8 +93,13 @@ export default function RegistrationPage() {
             <input
               className={styleInput}
               type="email"
+              placeholder="email@mail.com"
               {...register("email", {
                 required: "Champ requis",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/g,
+                  message: errorMessage.email,
+                },
               })}
             />
             <p className="text-red-800">{errors.email?.message}</p>
@@ -144,14 +150,9 @@ export default function RegistrationPage() {
             />
             <p className="text-red-800">{errors.zipCode?.message}</p>
           </label>
-          <label className={styleLabel}>
-            Nombre de véhicules* :
-            <input
-              className={styleInput}
-              type="number"
-              {...register("vehicle", { required: "Champ requis" })}
-            />
-          </label>
+          <h3 className="text-interestColor text-center font-normal">
+            Informations véhicule
+          </h3>
           <label className={styleLabel}>
             Constructeur* :
             <select
@@ -230,7 +231,7 @@ export default function RegistrationPage() {
             className="border-interestColor mx-20 border px-6  rounded-3xl bg-interestColor text-white py-1"
             type="submit"
           >
-            Suivant
+            Envoyer
           </button>
         </form>
       </fieldset>

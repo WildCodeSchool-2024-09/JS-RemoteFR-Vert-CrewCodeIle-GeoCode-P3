@@ -1,5 +1,7 @@
 {
-  "name": "Caractères non valides : 09 _@$*'[{]}",
+  "firstName": "Caractères non valides : 09 _@$*'[{]}",
+  "lastName": "Caractères non valides : 09_@$*'[{]}",
+  "email": "Email non valide",
   "confirmPassword": "Les mots de passe ne correspondent pas",
   "confirmAge": "Vous devez avoir 18ans"
 }

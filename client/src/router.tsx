@@ -1,9 +1,9 @@
 import App from "./App";
 
 import { createBrowserRouter } from "react-router-dom";
+import RegistrationPage from "./components/ModalRegistration";
 import HomePage from "./pages/HomePage";
 import PresentationPage from "./pages/PresentationPage";
-import RegistrationPage from "./components/ModalRegistration";
 
 export const mainRouter = createBrowserRouter([
   {

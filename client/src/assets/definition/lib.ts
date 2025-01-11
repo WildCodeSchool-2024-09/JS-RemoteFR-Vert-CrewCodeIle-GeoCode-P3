@@ -28,8 +28,9 @@ export type ModelProps = {
 };
 
 export type ErrorMessageProps = {
-  name: string;
-
+  firstName: string;
+  lastName: string;
+  email: string;
   confirmPassword: string;
   confirmAge: string;
 };
