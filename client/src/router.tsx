@@ -3,7 +3,7 @@ import App from "./App";
 import { createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import PresentationPage from "./pages/PresentationPage";
-import RegistrationPage from "./pages/RegistrationPage";
+import RegistrationPage from "./components/ModalRegistration";
 
 export const mainRouter = createBrowserRouter([
   {

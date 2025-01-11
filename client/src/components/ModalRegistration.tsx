@@ -19,12 +19,10 @@ export default function RegistrationPage() {
   //Json type de prise vehicules
   const socketType: SocketProps[] = socket;
   //Récupération des données du formulaire
-  const onSubmit: SubmitHandler<InputProps> = (data) => setFormInput(data);
-  // regex validation firstname / lastname / city : accepte Maj & min accepté, accent fr, tiret, au moins 1 occurence doit etre présente
-  const nameValidation = /^[A-Za-z\é\è\ê\ï-]+$/g;
-  // regex validation password : Au moins 1 minuscule, 1 majuscule, 1 chiffre, 1 caractère spécial, min length 8
-  const passwordValidation =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g;
+  const onSubmit: SubmitHandler<InputProps> = (data) => {
+    setFormInput(data);
+  };
+
   //API marques véhicule
   const apiBrand = useLoaderData() as BrandProps[];
   //API model véhicule
@@ -42,16 +40,15 @@ export default function RegistrationPage() {
     formState: { errors },
   } = useForm<InputProps>();
 
-  console.info(apiBrand);
   console.info(formInput);
 
-  //Styles label & input formulaire
+  //Styles label & input form
   const styleLabel = "inline-block w-full";
   const styleInput = "border  w-full rounded-md";
 
   return (
     <>
-      <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl z-[10000] lg:w-36 ">
+      <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[10000] lg:w-36 ">
         <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
 
         <h3 className="text-interestColor">Informations personnelles</h3>
@@ -68,7 +65,7 @@ export default function RegistrationPage() {
               {...register("firstName", {
                 required: "Champ requis",
                 pattern: {
-                  value: nameValidation,
+                  value: /^[A-Za-z\é\è\ê\ï-]+$/g,
                   message: errorMessage.name,
                 },
               })}
@@ -83,7 +80,7 @@ export default function RegistrationPage() {
               {...register("lastName", {
                 required: "Champ requis",
                 pattern: {
-                  value: nameValidation,
+                  value: /^[A-Za-z\é\è\ê\ï\s-]+$/g,
                   message: errorMessage.name,
                 },
               })}
@@ -127,7 +124,7 @@ export default function RegistrationPage() {
               {...register("city", {
                 required: "Champ requis",
                 pattern: {
-                  value: nameValidation,
+                  value: /^[A-Za-z\é\è\ê\ï\s-]+$/g,
                   message: "Caractères non valides : 09 _@$*'[{]}",
                 },
               })}
@@ -203,9 +200,15 @@ export default function RegistrationPage() {
               type="password"
               {...register("password", {
                 required: "Champ requis",
-                pattern: passwordValidation,
+                pattern: {
+                  value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g,
+                  message:
+                    "Le mot de passe doit contenir une Majuscule, une minuscule, un chiffre et un caractère spécial",
+                },
               })}
             />
+            <p className="text-red-800">{errors.password?.message}</p>
           </label>
           <label className={styleLabel}>
             Confirmation du mot de passe*
@@ -227,7 +230,7 @@ export default function RegistrationPage() {
             className="border-interestColor mx-20 border px-6  rounded-3xl bg-interestColor text-white py-1"
             type="submit"
           >
-            Envoyer
+            Suivant
           </button>
         </form>
       </fieldset>

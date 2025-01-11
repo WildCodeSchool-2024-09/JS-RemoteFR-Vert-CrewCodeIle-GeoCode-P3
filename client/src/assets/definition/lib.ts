@@ -4,6 +4,7 @@ export type PresentationProps = {
   buttonText: string;
 };
 export type InputProps = {
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
