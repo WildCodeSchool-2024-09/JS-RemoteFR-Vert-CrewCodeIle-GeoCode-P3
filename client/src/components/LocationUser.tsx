@@ -12,7 +12,7 @@ export default function LocationUser({
       coordinates: [48.8566, 2.3522],
     },
     properties: {
-      label: "Recherche de position en cours",
+      label: "",
     },
   };
 
@@ -43,7 +43,7 @@ export default function LocationUser({
           coordinates: [e.latlng.lat, e.latlng.lng],
         },
         properties: {
-          label: "Ma position",
+          label: "",
         },
       };
       setPosition(positionFound);
@@ -74,7 +74,6 @@ export default function LocationUser({
       setPosition(positionPut);
     }
   }, [selectedPosition]);
-  //[latitude, longitude]
 
   return (
     <Marker

@@ -16,11 +16,6 @@ export default function HomePage() {
   const [selectedPosition, setSelectedPosition] =
     useState<searchApi>(defaultPosition);
 
-  /*
-  function useSetter(input: searchApi) {
-    setSelectedPosition(input);
-  }
-*/
   return (
     <>
       <Search setSelectedPosition={setSelectedPosition} />

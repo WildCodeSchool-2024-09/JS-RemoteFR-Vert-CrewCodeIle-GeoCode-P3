@@ -21,4 +21,8 @@ router.post("/api/items", itemActions.add);
 import searchActions from "./modules/searchActions";
 router.post("/api/search", searchActions.getApiCodesPostaux);
 
+// Define database station-related route
+import stationActions from "./modules/stations/stationActions";
+router.get("/api/station/", stationActions.browse);
+
 export default router;

@@ -29,7 +29,7 @@ export default function Search(majPosition: {
         // timer to delay the API call (0.5 s)
         const timeDelay = setTimeout(() => {
           //call Apî "codes postaux"
-          fetch("http://localhost:3310/api/search", {
+          fetch(`${import.meta.env.VITE_API_URL}/api/search`, {
             headers: { "Content-Type": "application/json" },
             method: "POST",
             body: JSON.stringify({
