@@ -15,4 +15,10 @@ router.post("/api/items", itemActions.add);
 
 /* ************************************************************************* */
 
+// Define maps-related routes
+
+// Define search bar-related route
+import searchActions from "./modules/searchActions";
+router.post("/api/search", searchActions.getApiCodesPostaux);
+
 export default router;
