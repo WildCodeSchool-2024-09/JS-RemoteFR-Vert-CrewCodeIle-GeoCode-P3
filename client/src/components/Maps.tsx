@@ -7,10 +7,10 @@
  * --------------------------------------------------
  *
  * This component displays the OSM map (full screen mode)
- * with an arbitrary position and with certain markers (charging stations).
  *
  */
 
+import "../index.css";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer } from "react-leaflet";
 import type { searchApi } from "../types/searchApi";

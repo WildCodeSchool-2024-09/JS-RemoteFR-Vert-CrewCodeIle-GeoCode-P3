@@ -6,9 +6,9 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: rgb(240, 248, 255, 0.1);
   position: absolute;
-  z-index: 3000;
+  z-index: 9000;
   margin: 10px auto;
-  top: 30px;
+  top: 45px;
   left: 50%;
   transform: translate(-50%, -50%);
 }
