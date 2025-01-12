@@ -1,7 +1,42 @@
 import type { RequestHandler } from "express";
 
 import registerRepository from "./registerRepository";
+import Joi from "joi";
 
+const registerSchema = Joi.object({
+  firstName: Joi.string()
+    .pattern(/^[A-Za-z\é\è\ê\ï-]+$/g)
+    .required(),
+  lastName: Joi.string()
+    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/g)
+    .required(),
+  email: Joi.string()
+    .pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/g)
+    .email({ minDomainSegments: 2 })
+    .required(),
+  birthday: { from: Joi.date() },
+  city: Joi.string()
+    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/g)
+    .required(),
+  zipCode: Joi.number().min(5).max(5).required(),
+  brand: Joi.string().required(),
+  model: Joi.string().required(),
+  socket: Joi.string().required(),
+  password: Joi.string()
+    .pattern(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g,
+    )
+    .required(),
+  confirm: Joi.ref("password"),
+});
+const validate: RequestHandler = (req, res, next) => {
+  const { error } = registerSchema.validate(req.body);
+  if (error == null) {
+    next();
+  } else {
+    res.status(400).json({ valdationErrors: error.details });
+  }
+};
 const browse: RequestHandler = async (req, res, next) => {
   try {
     const brand = await registerRepository.readAll();
@@ -48,4 +83,4 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read, add };
+export default { browse, read, add, validate };
