@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 
-import registerRepository from "./registerRepository";
 import Joi from "joi";
+import registerRepository from "./registerRepository";
 
 const registerSchema = Joi.object({
   firstName: Joi.string()
