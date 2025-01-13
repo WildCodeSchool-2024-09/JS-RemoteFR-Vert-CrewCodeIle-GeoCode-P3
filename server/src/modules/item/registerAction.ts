@@ -1,8 +1,8 @@
 import type { RequestHandler } from "express";
-
 import Joi from "joi";
 import registerRepository from "./registerRepository";
 
+// Validation Schema with Joi
 const registerSchema = Joi.object({
   firstName: Joi.string()
     .pattern(/^[A-Za-z\é\è\ê\ï-]+$/g)
@@ -29,6 +29,8 @@ const registerSchema = Joi.object({
     .required(),
   confirm: Joi.ref("password"),
 });
+
+//Validation/controls for register submission
 const validate: RequestHandler = (req, res, next) => {
   const { error } = registerSchema.validate(req.body);
   if (error == null) {
@@ -37,6 +39,8 @@ const validate: RequestHandler = (req, res, next) => {
     res.status(400).json({ valdationErrors: error.details });
   }
 };
+
+// Read all brand in DataBase
 const browse: RequestHandler = async (req, res, next) => {
   try {
     const brand = await registerRepository.readAll();
@@ -46,6 +50,7 @@ const browse: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Read Model & socket assiciated to brand
 const read: RequestHandler = async (req, res, next) => {
   try {
     const formItemId = Number(req.params.id);
@@ -60,6 +65,7 @@ const read: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Add user information from ModalRegistration
 const add: RequestHandler = async (req, res, next) => {
   try {
     const newRegister = {

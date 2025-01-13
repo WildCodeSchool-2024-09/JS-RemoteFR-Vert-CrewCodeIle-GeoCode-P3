@@ -1,37 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { useLoaderData } from "react-router-dom";
-import messageError from "../assets/data/errorMessage.json";
-import socket from "../assets/data/socket.json";
-import type {
-  BrandProps,
-  ErrorMessageProps,
-  InputProps,
-  ModelProps,
-  SocketProps,
-} from "../assets/definition/lib";
 
-export default function RegistrationPage() {
+import messageError from "../assets/data/errorMessage.json";
+
+import type { ErrorMessageProps, InputProps } from "../assets/definition/lib";
+import { useNavigate } from "react-router-dom";
+
+export default function ModalRegistration() {
   //State stockage des données du formulaire
   const [formInput, setFormInput] = useState<InputProps>();
   //Json message erreur formulaire
   const errorMessage: ErrorMessageProps = messageError;
-  //Json type de prise vehicules
-  const socketType: SocketProps[] = socket;
-  //Récupération des données du formulaire
+
+  const navigate = useNavigate();
+  //Récupération des données du formulaire && Navigation vers 2eme partie formulaire
   const onSubmit: SubmitHandler<InputProps> = (data) => {
     setFormInput(data);
+    navigate("/formulaire/vehicule", { state: data });
   };
-
-  //API marques véhicule
-  const apiBrand = useLoaderData() as BrandProps[];
-  //API model véhicule
-  const [model, setModel] = useState<ModelProps>();
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_MODEL}`)
-      .then((res) => res.json())
-      .then((data) => setModel(data));
-  }, []);
 
   const {
     register,
@@ -150,50 +136,6 @@ export default function RegistrationPage() {
             />
             <p className="text-red-800">{errors.zipCode?.message}</p>
           </label>
-          <h3 className="text-interestColor text-center font-normal">
-            Informations véhicule
-          </h3>
-          <label className={styleLabel}>
-            Constructeur* :
-            <select
-              className={styleInput}
-              {...register("brand", { required: true })}
-            >
-              {apiBrand.map((a) => (
-                <option key={a.codigo} value={a.nome}>
-                  {a.nome}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className={styleLabel}>
-            Modèle* :
-            <select
-              className={styleInput}
-              {...register("model", { required: true })}
-            >
-              {model
-                ? model.modelos.map((a) => (
-                    <option key={a.codigo} value={a.nome}>
-                      {a.nome}
-                    </option>
-                  ))
-                : null}
-            </select>
-          </label>
-          <label className={styleLabel}>
-            Type de prise* :
-            <select
-              className={styleInput}
-              {...register("socket", { required: true })}
-            >
-              {socketType.map((a) => (
-                <option key={a.id} value={a.name}>
-                  {a.name}
-                </option>
-              ))}
-            </select>
-          </label>
           <label className={styleLabel}>
             Mot de passe*
             <input
@@ -231,7 +173,7 @@ export default function RegistrationPage() {
             className="border-interestColor mx-20 border px-6  rounded-3xl bg-interestColor text-white py-1"
             type="submit"
           >
-            Envoyer
+            Suivant
           </button>
         </form>
       </fieldset>

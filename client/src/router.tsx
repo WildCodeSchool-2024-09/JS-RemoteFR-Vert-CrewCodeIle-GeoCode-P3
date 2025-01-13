@@ -1,9 +1,11 @@
 import App from "./App";
 
 import { createBrowserRouter } from "react-router-dom";
-import RegistrationPage from "./components/ModalRegistration";
+
 import HomePage from "./pages/HomePage";
 import PresentationPage from "./pages/PresentationPage";
+import ModalVehiculeRegistration from "./components/ModalVehiculeRegistration";
+import ModalRegistration from "./components/ModalRegistration";
 
 export const mainRouter = createBrowserRouter([
   {
@@ -19,8 +21,11 @@ export const mainRouter = createBrowserRouter([
       },
       {
         path: "/formulaire",
-        element: <RegistrationPage />,
-        loader: () => fetch(`${import.meta.env.VITE_API_BRAND}`),
+        element: <ModalRegistration />,
+      },
+      {
+        path: "/formulaire/vehicule",
+        element: <ModalVehiculeRegistration />,
       },
     ],
   },
