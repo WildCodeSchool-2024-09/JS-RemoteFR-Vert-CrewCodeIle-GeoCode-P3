@@ -2,10 +2,10 @@ import App from "./App";
 
 import { createBrowserRouter } from "react-router-dom";
 
+import ModalRegistration from "./components/ModalRegistration";
+import ModalVehiculeRegistration from "./components/ModalVehiculeRegistration";
 import HomePage from "./pages/HomePage";
 import PresentationPage from "./pages/PresentationPage";
-import ModalVehiculeRegistration from "./components/ModalVehiculeRegistration";
-import ModalRegistration from "./components/ModalRegistration";
 
 export const mainRouter = createBrowserRouter([
   {

@@ -1,7 +1,7 @@
-import { type SubmitHandler, useForm } from "react-hook-form";
-import type { InputProps } from "../assets/definition/lib";
 import { useState } from "react";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
+import type { InputProps } from "../assets/definition/lib";
 
 export default function ModalVehiculeRegistration() {
   const {

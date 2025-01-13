@@ -3,8 +3,8 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 
 import messageError from "../assets/data/errorMessage.json";
 
-import type { ErrorMessageProps, InputProps } from "../assets/definition/lib";
 import { useNavigate } from "react-router-dom";
+import type { ErrorMessageProps, InputProps } from "../assets/definition/lib";
 
 export default function ModalRegistration() {
   //State stockage des données du formulaire
