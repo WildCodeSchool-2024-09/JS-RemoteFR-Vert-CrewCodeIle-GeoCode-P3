@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { useLoaderData, useLocation } from "react-router-dom";
 import type {
-  ModelProps,
   BrandProps,
   InputProps,
+  ModelProps,
+  SocketProps,
 } from "../assets/definition/lib";
 
 export default function ModalVehiculeRegistration() {
@@ -22,13 +23,17 @@ export default function ModalVehiculeRegistration() {
   const userInformation = location.state;
 
   const [formInputVehiule, setFormInputVehicule] = useState<InputProps>();
+  console.info(userInformation);
+  console.info(formInputVehiule);
 
   const apiBrand = useLoaderData() as BrandProps[];
 
   const [dataModel, setDataModel] = useState<ModelProps[]>();
+  const [dataSocket, setDataSocket] = useState<SocketProps[]>();
   const id = Number.parseInt(watch("brand"));
+  const idSocket = Number.parseInt(watch("model"));
 
-  console.info(dataModel);
+  console.info(idSocket);
   console.info(id);
   useEffect(() => {
     fetch(`http://localhost:3310/api/register/${id}`).then((res) =>
@@ -38,6 +43,12 @@ export default function ModalVehiculeRegistration() {
         .catch((error) => console.error(error)),
     );
   }, [id]);
+
+  useEffect(() => {
+    fetch(`http://localhost:3310/api/register/socket/${idSocket}`).then((res) =>
+      res.json().then((data: SocketProps[]) => setDataSocket(data)),
+    );
+  }, [idSocket]);
 
   return (
     <>
@@ -72,9 +83,9 @@ export default function ModalVehiculeRegistration() {
               {...register("model", { required: true })}
             >
               {dataModel
-                ? dataModel.map((d) => (
-                    <option value={d.id} key={d.label}>
-                      {d.label}
+                ? dataModel.map((m) => (
+                    <option value={m.socket_id} key={m.id}>
+                      {m.label}
                     </option>
                   ))
                 : "-"}
@@ -87,7 +98,13 @@ export default function ModalVehiculeRegistration() {
               className="border  w-full rounded-md font-normal font-paragraph"
               {...register("socket", { required: true })}
             >
-              <option>choix 1</option>
+              {dataSocket
+                ? dataSocket.map((s) => (
+                    <option value={s.id} key={s.id}>
+                      {s.label}
+                    </option>
+                  ))
+                : "-"}
             </select>
           </label>
           <button

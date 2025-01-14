@@ -1,7 +1,6 @@
 import type { RequestHandler } from "express";
 import Joi from "joi";
 import registerRepository from "./registerRepository";
-import type { ModelProps } from "../../../../client/src/assets/definition/lib";
 
 // Validation Schema with Joi
 const registerSchema = Joi.object({
@@ -52,16 +51,30 @@ const browse: RequestHandler = async (req, res, next) => {
 };
 
 // Read Model & socket assiciated to brand
-const read: RequestHandler = async (req, res, next) => {
+const readModel: RequestHandler = async (req, res, next) => {
   try {
     const formItemId = Number(req.params.id);
-    const formItem = await registerRepository.read(formItemId);
-    console.info(formItem);
+    const formItem = await registerRepository.readModel(formItemId);
 
     if (formItem === null) {
       res.sendStatus(404);
     } else {
       res.json(formItem);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+const readSocket: RequestHandler = async (req, res, next) => {
+  try {
+    const formItemId = Number(req.params.id);
+    const formItemSocket = await registerRepository.readSocket(formItemId);
+
+    console.info(formItemId);
+    if (formItemSocket === null) {
+      res.sendStatus(404);
+    } else {
+      res.json(formItemSocket);
     }
   } catch (err) {
     next(err);
@@ -92,4 +105,4 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read, add, validate };
+export default { browse, readModel, add, validate, readSocket };

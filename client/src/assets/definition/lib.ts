@@ -28,6 +28,7 @@ export type ModelProps = {
   label: string;
   socket_id: number;
   model_id: number;
+  socketType: string;
 };
 
 export type ErrorMessageProps = {
@@ -40,5 +41,5 @@ export type ErrorMessageProps = {
 
 export type SocketProps = {
   id: number;
-  name: string;
+  label: string;
 };

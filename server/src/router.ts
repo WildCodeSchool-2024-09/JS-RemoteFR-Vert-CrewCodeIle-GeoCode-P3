@@ -16,7 +16,8 @@ router.post("/api/items", itemActions.add);
 // Defin register-related routes
 import registerAction from "./modules/item/registerAction";
 router.get("/api/register", registerAction.browse);
-router.get("/api/register/:id", registerAction.read);
+router.get("/api/register/:id", registerAction.readModel);
+router.get("/api/register/socket/:id", registerAction.readSocket);
 router.post("/api/register", registerAction.validate, registerAction.add);
 
 /* ************************************************************************* */

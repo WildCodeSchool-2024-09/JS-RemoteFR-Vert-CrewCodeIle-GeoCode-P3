@@ -2,6 +2,7 @@ import type {
   BrandProps,
   InputProps,
   ModelProps,
+  SocketProps,
 } from "../../../../client/src/assets/definition/lib";
 import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
@@ -30,12 +31,19 @@ class RegisterRepository {
     return rows as BrandProps[];
   }
 
-  async read(id: number) {
+  async readModel(id: number) {
     const [rows] = await databaseClient.query<Rows>(
-      "SELECT m.label, m.id FROM model AS m JOIN brand AS b ON b.id = m.brand_id WHERE m.brand_id = ?",
+      "SELECT m.label, m.id, m.socket_id FROM model AS m JOIN brand AS b ON b.id = m.brand_id WHERE m.brand_id = ?",
       [id],
     );
     return rows as ModelProps[];
+  }
+  async readSocket(id: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT s.label, s.id FROM socket AS s JOIN model AS m ON s.id = m.socket_id WHERE m.socket_id = ?",
+      [id],
+    );
+    return rows as SocketProps[];
   }
 }
 
