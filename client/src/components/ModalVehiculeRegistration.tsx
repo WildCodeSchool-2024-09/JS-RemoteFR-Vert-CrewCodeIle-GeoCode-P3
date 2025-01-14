@@ -1,25 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
-import type { InputProps } from "../assets/definition/lib";
+import { useLoaderData, useLocation } from "react-router-dom";
+import type {
+  ModelProps,
+  BrandProps,
+  InputProps,
+} from "../assets/definition/lib";
 
 export default function ModalVehiculeRegistration() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<InputProps>();
   const onSubmit: SubmitHandler<InputProps> = (data) => {
     setFormInputVehicule(data);
   };
+
   const location = useLocation();
-  const formData = location.state;
+  const userInformation = location.state;
 
   const [formInputVehiule, setFormInputVehicule] = useState<InputProps>();
-  const styleLabel = "inline-block w-full font-paragraph";
-  const styleInput = "border  w-full rounded-md font-normal font-paragraph";
-  console.info(formData);
-  console.info(formInputVehiule);
+
+  const apiBrand = useLoaderData() as BrandProps[];
+
+  const [dataModel, setDataModel] = useState<ModelProps[]>();
+  const id = Number.parseInt(watch("brand"));
+
+  console.info(dataModel);
+  console.info(id);
+  useEffect(() => {
+    fetch(`http://localhost:3310/api/register/${id}`).then((res) =>
+      res
+        .json()
+        .then((data: ModelProps[]) => setDataModel(data))
+        .catch((error) => console.error(error)),
+    );
+  }, [id]);
+
   return (
     <>
       <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[10000] lg:w-36 ">
@@ -31,31 +50,41 @@ export default function ModalVehiculeRegistration() {
           <h3 className="text-interestColor text-center font-normal">
             Informations véhicule
           </h3>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Constructeur* :
             <select
-              className={styleInput}
+              className="border  w-full rounded-md font-normal font-paragraph"
               {...register("brand", { required: true })}
             >
-              <option>choix 1</option>
+              <option>----</option>
+              {apiBrand.map((a) => (
+                <option value={a.id} key={a.label}>
+                  {a.label}
+                </option>
+              ))}
             </select>
             <p className="text-red-800">{errors.confirm?.message}</p>
           </label>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Modèle* :
             <select
-              className={styleInput}
+              className="border  w-full rounded-md font-normal font-paragraph"
               {...register("model", { required: true })}
             >
-              {" "}
-              <option>choix 1</option>
+              {dataModel
+                ? dataModel.map((d) => (
+                    <option value={d.id} key={d.label}>
+                      {d.label}
+                    </option>
+                  ))
+                : "-"}
             </select>
             <p className="text-red-800">{errors.confirm?.message}</p>
           </label>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Type de prise* :
             <select
-              className={styleInput}
+              className="border  w-full rounded-md font-normal font-paragraph"
               {...register("socket", { required: true })}
             >
               <option>choix 1</option>

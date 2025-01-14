@@ -1,22 +1,23 @@
 import type { RequestHandler } from "express";
 import Joi from "joi";
 import registerRepository from "./registerRepository";
+import type { ModelProps } from "../../../../client/src/assets/definition/lib";
 
 // Validation Schema with Joi
 const registerSchema = Joi.object({
   firstName: Joi.string()
-    .pattern(/^[A-Za-z\é\è\ê\ï-]+$/g)
+    .pattern(/^[A-Za-z\é\è\ê\ï-]+$/)
     .required(),
   lastName: Joi.string()
-    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/g)
+    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
     .required(),
   email: Joi.string()
-    .pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/g)
+    .pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/)
     .email({ minDomainSegments: 2 })
     .required(),
   birthday: { from: Joi.date() },
   city: Joi.string()
-    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/g)
+    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
     .required(),
   zipCode: Joi.number().min(5).max(5).required(),
   brand: Joi.string().required(),
@@ -24,7 +25,7 @@ const registerSchema = Joi.object({
   socket: Joi.string().required(),
   password: Joi.string()
     .pattern(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
     )
     .required(),
   confirm: Joi.ref("password"),
@@ -54,7 +55,9 @@ const browse: RequestHandler = async (req, res, next) => {
 const read: RequestHandler = async (req, res, next) => {
   try {
     const formItemId = Number(req.params.id);
-    const formItem = registerRepository.read(formItemId);
+    const formItem = await registerRepository.read(formItemId);
+    console.info(formItem);
+
     if (formItem === null) {
       res.sendStatus(404);
     } else {

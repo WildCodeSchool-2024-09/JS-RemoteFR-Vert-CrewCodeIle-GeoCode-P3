@@ -20,11 +20,14 @@ export type InputProps = {
 };
 
 export type BrandProps = {
-  codigo: number;
-  nome: string;
+  id: number;
+  label: string;
 };
 export type ModelProps = {
-  modelos: { codigo: number; nome: string }[];
+  id: number;
+  label: string;
+  socket_id: number;
+  model_id: number;
 };
 
 export type ErrorMessageProps = {

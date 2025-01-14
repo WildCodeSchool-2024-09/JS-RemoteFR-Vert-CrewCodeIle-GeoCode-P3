@@ -14,6 +14,7 @@ export default function ModalRegistration() {
 
   const navigate = useNavigate();
   //Récupération des données du formulaire && Navigation vers 2eme partie formulaire
+
   const onSubmit: SubmitHandler<InputProps> = (data) => {
     setFormInput(data);
     navigate("/formulaire/vehicule", { state: data });
@@ -52,7 +53,7 @@ export default function ModalRegistration() {
               {...register("firstName", {
                 required: "Champ requis",
                 pattern: {
-                  value: /^[A-Za-z\é\è\ê\ï-]+$/g,
+                  value: /^[A-Za-z\é\è\ê\ï-]+$/,
                   message: errorMessage.firstName,
                 },
               })}
@@ -67,7 +68,7 @@ export default function ModalRegistration() {
               {...register("lastName", {
                 required: "Champ requis",
                 pattern: {
-                  value: /^[A-Za-z\é\è\ê\ï\s-]+$/g,
+                  value: /^[A-Za-z\é\è\ê\ï\s-]+$/,
                   message: errorMessage.lastName,
                 },
               })}
@@ -83,7 +84,7 @@ export default function ModalRegistration() {
               {...register("email", {
                 required: "Champ requis",
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/g,
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/,
                   message: errorMessage.email,
                 },
               })}
@@ -116,7 +117,7 @@ export default function ModalRegistration() {
               {...register("city", {
                 required: "Champ requis",
                 pattern: {
-                  value: /^[A-Za-z\é\è\ê\ï\s-]+$/g,
+                  value: /^[A-Za-z\é\è\ê\ï\s-]+$/,
                   message: "Caractères non valides : 09 _@$*'[{]}",
                 },
               })}
@@ -145,7 +146,7 @@ export default function ModalRegistration() {
                 required: "Champ requis",
                 pattern: {
                   value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g,
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                   message:
                     "Le mot de passe doit contenir une Majuscule, une minuscule, un chiffre et un caractère spécial",
                 },

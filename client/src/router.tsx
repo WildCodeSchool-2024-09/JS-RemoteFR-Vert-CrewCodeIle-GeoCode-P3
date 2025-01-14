@@ -26,6 +26,7 @@ export const mainRouter = createBrowserRouter([
       {
         path: "/formulaire/vehicule",
         element: <ModalVehiculeRegistration />,
+        loader: () => fetch("http://localhost:3310/api/register"),
       },
     ],
   },

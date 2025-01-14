@@ -1,4 +1,8 @@
-import type { InputProps } from "../../../../client/src/assets/definition/lib";
+import type {
+  BrandProps,
+  InputProps,
+  ModelProps,
+} from "../../../../client/src/assets/definition/lib";
 import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
 
@@ -21,17 +25,17 @@ class RegisterRepository {
   }
   async readAll() {
     const [rows] = await databaseClient.query<Rows>(
-      "SELECT b.label FROM brand AS b",
+      "SELECT label, id FROM brand ",
     );
-    return rows as InputProps[];
+    return rows as BrandProps[];
   }
 
   async read(id: number) {
     const [rows] = await databaseClient.query<Rows>(
-      "SELECT m.label, s.label FROM model AS m JOIN brand AS b ON b.id = m.brand_id JOIN socket AS s ON s.id = m.socket_id WHERE id = ?",
+      "SELECT m.label, m.id FROM model AS m JOIN brand AS b ON b.id = m.brand_id WHERE m.brand_id = ?",
       [id],
     );
-    return rows[0] as InputProps;
+    return rows as ModelProps[];
   }
 }
 
