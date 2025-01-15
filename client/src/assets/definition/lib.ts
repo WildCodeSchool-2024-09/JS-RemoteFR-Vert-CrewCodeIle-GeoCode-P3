@@ -11,12 +11,28 @@ export type InputProps = {
   birthday: Date;
   city: string;
   zipCode: number;
-  vehicle: number;
   password: string;
   confirm: string;
   brand: string;
   model: string;
   socket: string;
+};
+
+export type VehicleProps = {
+  brand: string;
+  model: string;
+  socket: string;
+};
+export type UserProps = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthday: Date;
+  city: string;
+  zipCode: number;
+  password: string;
+  confirm: string;
 };
 
 export type BrandProps = {

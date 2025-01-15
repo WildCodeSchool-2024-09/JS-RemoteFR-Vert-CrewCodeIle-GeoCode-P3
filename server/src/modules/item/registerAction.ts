@@ -41,7 +41,7 @@ const validate: RequestHandler = (req, res, next) => {
 };
 
 // Read all brand in DataBase
-const browse: RequestHandler = async (req, res, next) => {
+const browseBrand: RequestHandler = async (req, res, next) => {
   try {
     const brand = await registerRepository.readAll();
     res.json(brand);
@@ -82,7 +82,7 @@ const readSocket: RequestHandler = async (req, res, next) => {
 };
 
 // Add user information from ModalRegistration
-const add: RequestHandler = async (req, res, next) => {
+const addUserInfo: RequestHandler = async (req, res, next) => {
   try {
     const newRegister = {
       firstName: req.body.firstName,
@@ -94,15 +94,28 @@ const add: RequestHandler = async (req, res, next) => {
       vehicle: req.body.vehicle,
       password: req.body.password,
       confirm: req.body.confirm,
-      brand: req.body.brand,
-      model: req.body.model,
-      socket: req.body.socket,
     };
-    const insertId = await registerRepository.create(newRegister);
+    const insertId = await registerRepository.createUserInfo(newRegister);
+
     res.status(201).json({ insertId });
   } catch (err) {
     next(err);
   }
 };
 
-export default { browse, readModel, add, validate, readSocket };
+const addVehicleInfo: RequestHandler = async (req, res, next) => {
+  try {
+    const newRegister = {
+      brand: req.body.firstName,
+      model: req.body.lastName,
+      socket: req.body.email,
+    };
+    const insertId = await registerRepository.createVehicleInfo(newRegister);
+
+    res.status(201).json({ insertId });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default { browseBrand, readModel, addUserInfo, validate, readSocket };

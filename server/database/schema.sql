@@ -1,6 +1,11 @@
 create table user (
   id int unsigned primary key auto_increment not null,
+  firstName VARCHAR(255) NOT NULL,
+  lastName VARCHAR(255) NOT NULL,
+  birthday DATE NOT NULL,
   email varchar(255) not null unique,
+  city VARCHAR(255) NOT NULL,
+  zipCode INT NOT NULL,
   password varchar(255) not null
 );
 
@@ -23,9 +28,7 @@ create table model (
 );
 
 
-insert into user(id, email, password)
-values
-  (1, "jdoe@mail.com", "123456");
+
 
 insert into brand (label )
 values

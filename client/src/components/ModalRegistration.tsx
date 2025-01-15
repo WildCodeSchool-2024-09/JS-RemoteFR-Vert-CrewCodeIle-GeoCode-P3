@@ -1,23 +1,30 @@
-import { useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import messageError from "../assets/data/errorMessage.json";
 
 import { useNavigate } from "react-router-dom";
-import type { ErrorMessageProps, InputProps } from "../assets/definition/lib";
+import type {
+  ErrorMessageProps,
+  InputProps,
+  UserProps,
+} from "../assets/definition/lib";
 
 export default function ModalRegistration() {
   //State stockage des données du formulaire
-  const [formInput, setFormInput] = useState<InputProps>();
+
   //Json message erreur formulaire
   const errorMessage: ErrorMessageProps = messageError;
 
   const navigate = useNavigate();
   //Récupération des données du formulaire && Navigation vers 2eme partie formulaire
 
-  const onSubmit: SubmitHandler<InputProps> = (data) => {
-    setFormInput(data);
-    navigate("/formulaire/vehicule", { state: data });
+  const onSubmit: SubmitHandler<UserProps> = (userData) => {
+    fetch("http://localhost:3310/api/register", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(userData),
+    }).then((response) => response.json());
+    navigate("/formulaire/vehicule");
   };
 
   const {
@@ -26,8 +33,6 @@ export default function ModalRegistration() {
     watch,
     formState: { errors },
   } = useForm<InputProps>();
-
-  console.info(formInput);
 
   //Styles label & input form
   const styleLabel = "inline-block w-full font-paragraph";

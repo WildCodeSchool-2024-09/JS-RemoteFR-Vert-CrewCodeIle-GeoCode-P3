@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { useLoaderData, useLocation } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import type {
   BrandProps,
   InputProps,
@@ -19,11 +19,8 @@ export default function ModalVehiculeRegistration() {
     setFormInputVehicule(data);
   };
 
-  const location = useLocation();
-  const userInformation = location.state;
-
   const [formInputVehiule, setFormInputVehicule] = useState<InputProps>();
-  console.info(userInformation);
+
   console.info(formInputVehiule);
 
   const apiBrand = useLoaderData() as BrandProps[];
@@ -33,14 +30,9 @@ export default function ModalVehiculeRegistration() {
   const id = Number.parseInt(watch("brand"));
   const idSocket = Number.parseInt(watch("model"));
 
-  console.info(idSocket);
-  console.info(id);
   useEffect(() => {
     fetch(`http://localhost:3310/api/register/${id}`).then((res) =>
-      res
-        .json()
-        .then((data: ModelProps[]) => setDataModel(data))
-        .catch((error) => console.error(error)),
+      res.json().then((data: ModelProps[]) => setDataModel(data)),
     );
   }, [id]);
 
