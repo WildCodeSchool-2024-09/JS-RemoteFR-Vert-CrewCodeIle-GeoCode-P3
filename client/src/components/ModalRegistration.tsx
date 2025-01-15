@@ -2,12 +2,15 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 
 import messageError from "../assets/data/errorMessage.json";
 
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import type {
   ErrorMessageProps,
   InputProps,
   UserProps,
 } from "../assets/definition/lib";
+import { useState } from "react";
+import ModalVehiculeRegistration from "./ModalVehiculeRegistration";
+import { createPortal } from "react-dom";
 
 export default function ModalRegistration() {
   //State stockage des données du formulaire
@@ -15,18 +18,20 @@ export default function ModalRegistration() {
   //Json message erreur formulaire
   const errorMessage: ErrorMessageProps = messageError;
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   //Récupération des données du formulaire && Navigation vers 2eme partie formulaire
+  const [showVehiculeModal, setShowVehiculeModal] = useState(false);
 
   const onSubmit: SubmitHandler<UserProps> = (userData) => {
-    fetch("http://localhost:3310/api/register", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(userData),
     }).then((response) => response.json());
-    navigate("/formulaire/vehicule");
+    setShowVehiculeModal(true);
+    // navigate("/formulaire/vehicule");
   };
-
+  console.info(showVehiculeModal);
   const {
     register,
     handleSubmit,
@@ -40,7 +45,9 @@ export default function ModalRegistration() {
 
   return (
     <>
-      <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[10000] lg:w-36 ">
+      <fieldset
+        className={`${showVehiculeModal ? "opacity-0" : "opacity-100"} text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[9500] lg:w-36`}
+      >
         <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
 
         <form
@@ -181,6 +188,8 @@ export default function ModalRegistration() {
           >
             Suivant
           </button>
+          {showVehiculeModal &&
+            createPortal(<ModalVehiculeRegistration />, document.body)}
         </form>
       </fieldset>
     </>

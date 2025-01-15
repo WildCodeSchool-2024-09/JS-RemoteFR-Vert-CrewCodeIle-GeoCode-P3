@@ -20,13 +20,12 @@ export const mainRouter = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/formulaire",
+        path: "/home/formulaire",
         element: <ModalRegistration />,
       },
       {
-        path: "/formulaire/vehicule",
+        path: "/home/formulaire/vehicule",
         element: <ModalVehiculeRegistration />,
-        loader: () => fetch("http://localhost:3310/api/register"),
       },
     ],
   },
