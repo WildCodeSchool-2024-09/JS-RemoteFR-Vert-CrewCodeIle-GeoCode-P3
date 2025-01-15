@@ -16,6 +16,7 @@ router.post("/api/items", itemActions.add);
 // Defin register-related routes
 import registerAction from "./modules/item/registerAction";
 router.get("/api/register", registerAction.browseBrand);
+router.get("/api/register/mail", registerAction.browseMail);
 router.get("/api/register/:id", registerAction.readModel);
 router.get("/api/register/socket/:id", registerAction.readSocket);
 router.post("/api/register", registerAction.addUserInfo);

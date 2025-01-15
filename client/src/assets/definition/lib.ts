@@ -3,22 +3,8 @@ export type PresentationProps = {
   link: string;
   buttonText: string;
 };
-export type InputProps = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  birthday: Date;
-  city: string;
-  zipCode: number;
-  password: string;
-  confirm: string;
-  brand: string;
-  model: string;
-  socket: string;
-};
 
-export type VehicleProps = {
+export type VehiculeProps = {
   brand: number;
   model: number;
   socket: number;
@@ -58,4 +44,8 @@ export type ErrorMessageProps = {
 export type SocketProps = {
   id: number;
   label: string;
+};
+
+export type MailProps = {
+  email: string;
 };

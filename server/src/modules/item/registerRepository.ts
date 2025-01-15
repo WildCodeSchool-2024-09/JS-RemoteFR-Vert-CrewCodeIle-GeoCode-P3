@@ -3,7 +3,7 @@ import type {
   ModelProps,
   SocketProps,
   UserProps,
-  VehicleProps,
+  VehiculeProps,
 } from "../../../../client/src/assets/definition/lib";
 import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
@@ -26,7 +26,7 @@ class RegisterRepository {
     return result.insertId;
   }
 
-  async createVehicleInfo(register: Omit<VehicleProps, "id">) {
+  async createVehicleInfo(register: Omit<VehiculeProps, "id">) {
     // VOIR INSERTION DANS BRAND / MODEL / SOCKET
     const [result] = await databaseClient.query<Result>(
       "INSERT INTO car (brand_id, model_id, socket_id) values(?,?,?)",
@@ -40,6 +40,11 @@ class RegisterRepository {
       "SELECT label, id FROM brand ",
     );
     return rows as BrandProps[];
+  }
+
+  async readAllMail() {
+    const [rows] = await databaseClient.query<Rows>("SELECT email FROM user");
+    return rows as UserProps[];
   }
 
   async readModel(id: number) {

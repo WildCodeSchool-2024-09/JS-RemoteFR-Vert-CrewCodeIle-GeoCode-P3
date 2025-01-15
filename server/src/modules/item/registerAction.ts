@@ -50,6 +50,15 @@ const browseBrand: RequestHandler = async (req, res, next) => {
   }
 };
 
+const browseMail: RequestHandler = async (req, res, next) => {
+  try {
+    const mail = await registerRepository.readAllMail();
+    res.json(mail);
+  } catch (err) {
+    next(err);
+  }
+};
+
 // Read Model & socket assiciated to brand
 const readModel: RequestHandler = async (req, res, next) => {
   try {
@@ -91,7 +100,6 @@ const addUserInfo: RequestHandler = async (req, res, next) => {
       birthday: req.body.birthday,
       city: req.body.city,
       zipCode: req.body.zipCode,
-      vehicle: req.body.vehicle,
       password: req.body.password,
       confirm: req.body.confirm,
     };
@@ -120,6 +128,7 @@ const addVehicleInfo: RequestHandler = async (req, res, next) => {
 
 export default {
   browseBrand,
+  browseMail,
   readModel,
   addUserInfo,
   validate,

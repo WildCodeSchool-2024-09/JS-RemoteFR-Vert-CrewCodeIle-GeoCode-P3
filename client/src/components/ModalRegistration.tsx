@@ -1,16 +1,13 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
-
 import messageError from "../assets/data/errorMessage.json";
-
-// import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import type {
   ErrorMessageProps,
-  InputProps,
   UserProps,
+  MailProps,
 } from "../assets/definition/lib";
-import { useState } from "react";
 import ModalVehiculeRegistration from "./ModalVehiculeRegistration";
-import { createPortal } from "react-dom";
 
 export default function ModalRegistration() {
   //State stockage des données du formulaire
@@ -18,9 +15,11 @@ export default function ModalRegistration() {
   //Json message erreur formulaire
   const errorMessage: ErrorMessageProps = messageError;
 
-  // const navigate = useNavigate();
   //Récupération des données du formulaire && Navigation vers 2eme partie formulaire
   const [showVehiculeModal, setShowVehiculeModal] = useState(false);
+  const [userMail, setUserMail] = useState<MailProps[]>();
+
+  const mail = userMail?.map((u) => u.email);
 
   const onSubmit: SubmitHandler<UserProps> = (userData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
@@ -29,19 +28,23 @@ export default function ModalRegistration() {
       body: JSON.stringify(userData),
     }).then((response) => response.json());
     setShowVehiculeModal(true);
-    // navigate("/formulaire/vehicule");
   };
-  console.info(showVehiculeModal);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<InputProps>();
+  } = useForm<UserProps>();
 
   //Styles label & input form
   const styleLabel = "inline-block w-full font-paragraph";
   const styleInput = "border w-full rounded-md font-normal font-paragraph";
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/register/mail`).then((res) =>
+      res.json().then((data: []) => setUserMail(data)),
+    );
+  }, []);
 
   return (
     <>
@@ -98,6 +101,11 @@ export default function ModalRegistration() {
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/,
                   message: errorMessage.email,
+                },
+                validate: (value) => {
+                  if (mail?.includes(value)) {
+                    return "Email déjà utilisé";
+                  }
                 },
               })}
             />

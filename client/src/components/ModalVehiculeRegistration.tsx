@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { createPortal } from "react-dom";
 
 import type {
   BrandProps,
-  InputProps,
+  VehiculeProps,
   ModelProps,
   SocketProps,
 } from "../assets/definition/lib";
+import ModalRegistrationValidate from "./ModalRegistrationValidate";
 
 export default function ModalVehiculeRegistration() {
   const {
@@ -14,14 +16,15 @@ export default function ModalVehiculeRegistration() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<InputProps>();
+  } = useForm<VehiculeProps>();
 
-  const onSubmit: SubmitHandler<InputProps> = (vehiculeData) => {
+  const onSubmitVehicule: SubmitHandler<VehiculeProps> = (vehiculeData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/register/vehicule`, {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(vehiculeData),
     }).then((response) => response.json());
+    setShowValidateModal(true);
   };
 
   // Stock brand from fecth
@@ -31,9 +34,11 @@ export default function ModalVehiculeRegistration() {
   // Stock socket from fecth
   const [dataSocket, setDataSocket] = useState<SocketProps>();
 
+  const [showValidateModal, setShowValidateModal] = useState(false);
+
   //Recover ID from brand & model to passed them to fetch
-  const id = Number.parseInt(watch("brand"));
-  const idSocket = Number.parseInt(watch("model"));
+  const id = watch("brand");
+  const idSocket = watch("model");
 
   // Fetch all brand from DB
   useEffect(() => {
@@ -44,28 +49,36 @@ export default function ModalVehiculeRegistration() {
 
   // Fetch model from DB where modelId = brandId
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/register/${id}`).then((res) =>
-      res.json().then((data: ModelProps[]) => setDataModel(data)),
-    );
+    if (id) {
+      fetch(`${import.meta.env.VITE_API_URL}/api/register/${id}`).then((res) =>
+        res.json().then((data: ModelProps[]) => setDataModel(data)),
+      );
+    }
   }, [id]);
 
   // Fetch socket from DB where socketId = modelId
   useEffect(() => {
-    fetch(
-      `${import.meta.env.VITE_API_URL}/api/register/socket/${idSocket}`,
-    ).then((res) =>
-      res.json().then((data: SocketProps) => setDataSocket(data)),
-    );
+    if (idSocket) {
+      fetch(
+        `${import.meta.env.VITE_API_URL}/api/register/socket/${idSocket}`,
+      ).then((res) =>
+        res.json().then((data: SocketProps) => setDataSocket(data)),
+      );
+    }
   }, [idSocket]);
 
   return (
     <>
-      <div className="fixed z-[9600] top-1/3 mx-auto -translate-y-1/2 -translate-x1/2">
+      {showValidateModal &&
+        createPortal(<ModalRegistrationValidate />, document.body)}
+      <div
+        className={`${showValidateModal ? "opacity-0" : "opacity-100"} fixed z-[9600] top-1/3 mx-auto -translate-y-1/2 -translate-x1/2`}
+      >
         <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[10000] lg:w-36 ">
           <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
           <form
             className=" text-left space-y-3 border  font-bold p-3 rounded-xl z-[10000] "
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmitVehicule)}
           >
             <h3 className="text-interestColor text-center font-normal">
               Informations véhicule
@@ -76,7 +89,7 @@ export default function ModalVehiculeRegistration() {
                 className="border  w-full rounded-md font-normal font-paragraph"
                 {...register("brand", { required: true })}
               >
-                <option value={0}>Selectionnez un constructeur</option>
+                <option value={0}>Selectionnez un construteur</option>
                 {dataBrand
                   ? dataBrand.map((a) => (
                       <option value={a.id} key={a.label}>
@@ -85,7 +98,7 @@ export default function ModalVehiculeRegistration() {
                     ))
                   : "-"}
               </select>
-              <p className="text-red-800">{errors.confirm?.message}</p>
+              <p className="text-red-800">{errors.brand?.message}</p>
             </label>
             <label className="inline-block w-full font-paragraph">
               Modèle* :
@@ -93,7 +106,7 @@ export default function ModalVehiculeRegistration() {
                 className="border  w-full rounded-md font-normal font-paragraph"
                 {...register("model", { required: true })}
               >
-                <option value={0}>Selectionnez un modèle</option>
+                <option value={0}>Selectionnez un construteur</option>
                 {dataModel
                   ? dataModel.map((m) => (
                       <option value={m.socket_id} key={m.id}>
@@ -102,7 +115,7 @@ export default function ModalVehiculeRegistration() {
                     ))
                   : "-"}
               </select>
-              <p className="text-red-800">{errors.confirm?.message}</p>
+              <p className="text-red-800">{errors.model?.message}</p>
             </label>
             <label className="inline-block w-full font-paragraph">
               Type de prise* :
@@ -110,11 +123,13 @@ export default function ModalVehiculeRegistration() {
                 className="border  w-full rounded-md font-normal font-paragraph"
                 {...register("socket", { required: true })}
               >
+                <option value={0}>Selectionnez un construteur</option>
                 {dataSocket && (
                   <option value={dataSocket.id}>{dataSocket.label}</option>
                 )}
               </select>
             </label>
+            <p className="text-red-800">{errors.socket?.message}</p>
             <button
               className="border-interestColor mx-20 border px-6  rounded-3xl bg-interestColor text-white py-1"
               type="submit"
