@@ -15,13 +15,14 @@ export default function ModalVehiculeRegistration() {
     watch,
     formState: { errors },
   } = useForm<InputProps>();
-  const onSubmit: SubmitHandler<InputProps> = (data) => {
-    setFormInputVehicule(data);
+
+  const onSubmit: SubmitHandler<InputProps> = (vehiculeData) => {
+    fetch("http://localhost:3310/api/register/vehicule", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(vehiculeData),
+    }).then((response) => response.json());
   };
-
-  const [formInputVehiule, setFormInputVehicule] = useState<InputProps>();
-
-  console.info(formInputVehiule);
 
   const apiBrand = useLoaderData() as BrandProps[];
 
@@ -59,6 +60,7 @@ export default function ModalVehiculeRegistration() {
               className="border  w-full rounded-md font-normal font-paragraph"
               {...register("brand", { required: true })}
             >
+              <option value={0}>Selectionnez un constructeur</option>
               {apiBrand.map((a) => (
                 <option value={a.id} key={a.label}>
                   {a.label}
@@ -73,6 +75,7 @@ export default function ModalVehiculeRegistration() {
               className="border  w-full rounded-md font-normal font-paragraph"
               {...register("model", { required: true })}
             >
+              <option value={0}>Selectionnez un modèle</option>
               {dataModel
                 ? dataModel.map((m) => (
                     <option value={m.socket_id} key={m.id}>
@@ -89,7 +92,9 @@ export default function ModalVehiculeRegistration() {
               className="border  w-full rounded-md font-normal font-paragraph"
               {...register("socket", { required: true })}
             >
-              {dataSocket && <option>{dataSocket.label}</option>}
+              {dataSocket && (
+                <option value={dataSocket.id}>{dataSocket.label}</option>
+              )}
             </select>
           </label>
           <button

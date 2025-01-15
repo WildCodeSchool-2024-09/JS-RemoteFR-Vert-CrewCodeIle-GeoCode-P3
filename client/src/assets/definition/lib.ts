@@ -19,9 +19,9 @@ export type InputProps = {
 };
 
 export type VehicleProps = {
-  brand: string;
-  model: string;
-  socket: string;
+  brand: number;
+  model: number;
+  socket: number;
 };
 export type UserProps = {
   id: number;

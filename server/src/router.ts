@@ -19,6 +19,7 @@ router.get("/api/register", registerAction.browseBrand);
 router.get("/api/register/:id", registerAction.readModel);
 router.get("/api/register/socket/:id", registerAction.readSocket);
 router.post("/api/register", registerAction.addUserInfo);
+router.post("/api/register/vehicule", registerAction.addVehicleInfo);
 
 /* ************************************************************************* */
 

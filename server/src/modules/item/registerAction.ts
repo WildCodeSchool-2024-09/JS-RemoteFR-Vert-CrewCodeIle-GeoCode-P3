@@ -106,16 +106,23 @@ const addUserInfo: RequestHandler = async (req, res, next) => {
 const addVehicleInfo: RequestHandler = async (req, res, next) => {
   try {
     const newRegister = {
-      brand: req.body.firstName,
-      model: req.body.lastName,
-      socket: req.body.email,
+      brand: Number(req.body.brand),
+      model: Number(req.body.model),
+      socket: Number(req.body.socket),
     };
     const insertId = await registerRepository.createVehicleInfo(newRegister);
-
+    console.info(req.body.model);
     res.status(201).json({ insertId });
   } catch (err) {
     next(err);
   }
 };
 
-export default { browseBrand, readModel, addUserInfo, validate, readSocket };
+export default {
+  browseBrand,
+  readModel,
+  addUserInfo,
+  validate,
+  readSocket,
+  addVehicleInfo,
+};

@@ -1,6 +1,5 @@
 import type {
   BrandProps,
-  InputProps,
   ModelProps,
   SocketProps,
   UserProps,
@@ -30,7 +29,7 @@ class RegisterRepository {
   async createVehicleInfo(register: Omit<VehicleProps, "id">) {
     // VOIR INSERTION DANS BRAND / MODEL / SOCKET
     const [result] = await databaseClient.query<Result>(
-      "INSERT INTO user (brand, model, socket) values(?,?,?)",
+      "INSERT INTO car (brand_id, model_id, socket_id) values(?,?,?)",
       [register.brand, register.model, register.socket],
     );
     return result.insertId;

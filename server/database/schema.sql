@@ -1,5 +1,5 @@
 create table user (
-  id int unsigned primary key auto_increment not null,
+  id int primary key auto_increment not null,
   firstName VARCHAR(255) NOT NULL,
   lastName VARCHAR(255) NOT NULL,
   birthday DATE NOT NULL,
@@ -26,6 +26,18 @@ create table model (
   CONSTRAINT Foreign Key (socket_id) REFERENCES socket(id),
   CONSTRAINT Foreign Key (brand_id) REFERENCES brand(id)
 );
+
+CREATE table car (
+  id int primary key auto_increment not null,
+  brand_id int not null,
+  model_id int not null,
+  socket_id int not null,
+  CONSTRAINT Foreign Key (brand_id) REFERENCES brand(id),
+  CONSTRAINT Foreign Key (model_id) REFERENCES model(id),
+  CONSTRAINT Foreign Key (socket_id) REFERENCES socket(id)
+);
+
+
 
 
 
