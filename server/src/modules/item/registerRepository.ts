@@ -43,7 +43,7 @@ class RegisterRepository {
       "SELECT s.label, s.id FROM socket AS s JOIN model AS m ON s.id = m.socket_id WHERE m.socket_id = ?",
       [id],
     );
-    return rows as SocketProps[];
+    return rows[0] as SocketProps;
   }
 }
 

@@ -29,7 +29,7 @@ export default function ModalVehiculeRegistration() {
   const apiBrand = useLoaderData() as BrandProps[];
 
   const [dataModel, setDataModel] = useState<ModelProps[]>();
-  const [dataSocket, setDataSocket] = useState<SocketProps[]>();
+  const [dataSocket, setDataSocket] = useState<SocketProps>();
   const id = Number.parseInt(watch("brand"));
   const idSocket = Number.parseInt(watch("model"));
 
@@ -46,7 +46,7 @@ export default function ModalVehiculeRegistration() {
 
   useEffect(() => {
     fetch(`http://localhost:3310/api/register/socket/${idSocket}`).then((res) =>
-      res.json().then((data: SocketProps[]) => setDataSocket(data)),
+      res.json().then((data: SocketProps) => setDataSocket(data)),
     );
   }, [idSocket]);
 
@@ -67,7 +67,6 @@ export default function ModalVehiculeRegistration() {
               className="border  w-full rounded-md font-normal font-paragraph"
               {...register("brand", { required: true })}
             >
-              <option>----</option>
               {apiBrand.map((a) => (
                 <option value={a.id} key={a.label}>
                   {a.label}
@@ -98,13 +97,7 @@ export default function ModalVehiculeRegistration() {
               className="border  w-full rounded-md font-normal font-paragraph"
               {...register("socket", { required: true })}
             >
-              {dataSocket
-                ? dataSocket.map((s) => (
-                    <option value={s.id} key={s.id}>
-                      {s.label}
-                    </option>
-                  ))
-                : "-"}
+              {dataSocket && <option>{dataSocket.label}</option>}
             </select>
           </label>
           <button

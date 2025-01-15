@@ -31,7 +31,7 @@ export default function ModalRegistration() {
 
   //Styles label & input form
   const styleLabel = "inline-block w-full font-paragraph";
-  const styleInput = "border  w-full rounded-md font-normal font-paragraph";
+  const styleInput = "border w-full rounded-md font-normal font-paragraph";
 
   return (
     <>
