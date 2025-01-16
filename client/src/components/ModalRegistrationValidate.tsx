@@ -5,7 +5,7 @@ export default function ModalRegistrationValidate() {
     z-[10000] fixed top-32 left-8  -translate-y-1/2 -translate-x1/2  lg:w-72 lg:absolute lg:left-[42%] lg:-translate-y-1/2 lg: lg:top-72"
     >
       <article>
-        <h2>INSCRIPTION VALIDEE</h2>
+        <h2 className="mb-2 uppercase font-bold">Inscription validée</h2>
         <p className="mb-4">Bonne route !</p>
         <button
           className="border-interestColor mx-20 border px-6  rounded-3xl bg-interestColor text-white py-1 "
