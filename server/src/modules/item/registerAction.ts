@@ -30,7 +30,7 @@ const registerSchema = Joi.object({
   confirm: Joi.ref("password"),
 });
 
-//Validation/controls for register submission
+//Validation/control for register submission
 const validate: RequestHandler = (req, res, next) => {
   const { error } = registerSchema.validate(req.body);
   if (error == null) {
@@ -40,7 +40,7 @@ const validate: RequestHandler = (req, res, next) => {
   }
 };
 
-// Read all brand in DataBase
+// browse all brand in DataBase from table brand
 const browseBrand: RequestHandler = async (req, res, next) => {
   try {
     const brand = await registerRepository.readAll();
@@ -50,6 +50,7 @@ const browseBrand: RequestHandler = async (req, res, next) => {
   }
 };
 
+//browse all mail registed from table user
 const browseMail: RequestHandler = async (req, res, next) => {
   try {
     const mail = await registerRepository.readAllMail();
@@ -59,7 +60,7 @@ const browseMail: RequestHandler = async (req, res, next) => {
   }
 };
 
-// Read Model & socket assiciated to brand
+// Read Model assiciated to brand from table model
 const readModel: RequestHandler = async (req, res, next) => {
   try {
     const formItemId = Number(req.params.id);
@@ -74,6 +75,8 @@ const readModel: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+// Read socket assiciated to model from table socket
 const readSocket: RequestHandler = async (req, res, next) => {
   try {
     const formItemId = Number(req.params.id);
@@ -90,7 +93,7 @@ const readSocket: RequestHandler = async (req, res, next) => {
   }
 };
 
-// Add user information from ModalRegistration
+// Add user information from ModalRegistration in DB, table user
 const addUserInfo: RequestHandler = async (req, res, next) => {
   try {
     const newRegister = {
@@ -111,6 +114,7 @@ const addUserInfo: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Add vehicule user information from ModalVehiculeRegistration in DB, table car
 const addVehicleInfo: RequestHandler = async (req, res, next) => {
   try {
     const newRegister = {

@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import { type SubmitHandler, useForm } from "react-hook-form";
 import { createPortal } from "react-dom";
+import messageError from "../assets/data/errorMessage.json";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
 import type {
   BrandProps,
-  VehiculeProps,
+  ErrorMessageProps,
   ModelProps,
   SocketProps,
+  VehiculeProps,
 } from "../assets/definition/lib";
 import ModalRegistrationValidate from "./ModalRegistrationValidate";
 
 export default function ModalVehiculeRegistration() {
+  // Method from react-hook-form
   const {
     register,
     handleSubmit,
@@ -18,6 +21,7 @@ export default function ModalVehiculeRegistration() {
     formState: { errors },
   } = useForm<VehiculeProps>();
 
+  //To recover information from form & send them to data base
   const onSubmitVehicule: SubmitHandler<VehiculeProps> = (vehiculeData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/register/vehicule`, {
       method: "post",
@@ -27,27 +31,20 @@ export default function ModalVehiculeRegistration() {
     setShowValidateModal(true);
   };
 
-  // Stock brand from fecth
-  const [dataBrand, setDatabrand] = useState<BrandProps[]>();
-  // Stock model from fecth
-  const [dataModel, setDataModel] = useState<ModelProps[]>();
-  // Stock socket from fecth
-  const [dataSocket, setDataSocket] = useState<SocketProps>();
-
-  const [showValidateModal, setShowValidateModal] = useState(false);
-
   //Recover ID from brand & model to passed them to fetch
   const id = watch("brand");
   const idSocket = watch("model");
 
-  // Fetch all brand from DB
+  // Fetch brand from DB & stock them with state
+  const [dataBrand, setDatabrand] = useState<BrandProps[]>();
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/register`).then((res) =>
       res.json().then((data: ModelProps[]) => setDatabrand(data)),
     );
   }, []);
 
-  // Fetch model from DB where modelId = brandId
+  // Fetch model from DB where modelId = brandId & stock model with state
+  const [dataModel, setDataModel] = useState<ModelProps[]>();
   useEffect(() => {
     if (id) {
       fetch(`${import.meta.env.VITE_API_URL}/api/register/${id}`).then((res) =>
@@ -55,8 +52,8 @@ export default function ModalVehiculeRegistration() {
       );
     }
   }, [id]);
-
-  // Fetch socket from DB where socketId = modelId
+  // Fetch model from DB where modelId = brandId & stock socket with state
+  const [dataSocket, setDataSocket] = useState<SocketProps>();
   useEffect(() => {
     if (idSocket) {
       fetch(
@@ -66,6 +63,12 @@ export default function ModalVehiculeRegistration() {
       );
     }
   }, [idSocket]);
+
+  //Open modal "Register validate"
+  const [showValidateModal, setShowValidateModal] = useState(false);
+
+  //Json error message form
+  const errorMessage: ErrorMessageProps = messageError;
 
   return (
     <>
@@ -87,7 +90,7 @@ export default function ModalVehiculeRegistration() {
               Constructeur* :
               <select
                 className="border  w-full rounded-md font-normal font-paragraph"
-                {...register("brand", { required: true })}
+                {...register("brand", { required: errorMessage.required })}
               >
                 <option value={0}>Selectionnez un construteur</option>
                 {dataBrand
@@ -104,7 +107,7 @@ export default function ModalVehiculeRegistration() {
               Modèle* :
               <select
                 className="border  w-full rounded-md font-normal font-paragraph"
-                {...register("model", { required: true })}
+                {...register("model", { required: errorMessage.required })}
               >
                 <option value={0}>Selectionnez un construteur</option>
                 {dataModel
@@ -121,7 +124,7 @@ export default function ModalVehiculeRegistration() {
               Type de prise* :
               <select
                 className="border  w-full rounded-md font-normal font-paragraph"
-                {...register("socket", { required: true })}
+                {...register("socket", { required: errorMessage.required })}
               >
                 <option value={0}>Selectionnez un construteur</option>
                 {dataSocket && (

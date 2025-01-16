@@ -1,64 +1,61 @@
-create table user (
-  id int primary key auto_increment not null,
+CREATE TABLE user (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   firstName VARCHAR(255) NOT NULL,
   lastName VARCHAR(255) NOT NULL,
   birthday DATE NOT NULL,
-  email varchar(255) not null unique,
+  email VARCHAR(255) NOT NULL, unique,
   city VARCHAR(255) NOT NULL,
   zipCode INT NOT NULL,
-  password varchar(255) not null
+  password VARCHAR(255) NOT NULL,
 );
 
-create table brand (
-  id int primary key auto_increment not null,
-  label varchar(255) not null
+CREATE TABLE brand (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  label VARCHAR(255) NOT NULL,
 );
-create table socket (
-  id int primary key auto_increment not null,
-  label varchar(255) not null
+CREATE TABLE socket (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  label VARCHAR(255) NOT NULL,
 );
 
-create table model (
-  id int primary key auto_increment not null,
-  label varchar(255) not null,
-  socket_id int not null,
-  brand_id int not null,
-  CONSTRAINT Foreign Key (socket_id) REFERENCES socket(id),
-  CONSTRAINT Foreign Key (brand_id) REFERENCES brand(id)
+CREATE TABLE model (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  label VARCHAR(255) NOT NULL,
+  socket_id INT NOT NULL,
+  brand_id INT NOT NULL,
+  CONSTRAINT FOREIGN KEY  (socket_id) REFERENCES socket(id),
+  CONSTRAINT FOREIGN KEY  (brand_id) REFERENCES brand(id)
 );
 
 CREATE table car (
-  id int primary key auto_increment not null,
-  brand_id int not null,
-  model_id int not null,
-  socket_id int not null,
-  CONSTRAINT Foreign Key (brand_id) REFERENCES brand(id),
-  CONSTRAINT Foreign Key (model_id) REFERENCES model(id),
-  CONSTRAINT Foreign Key (socket_id) REFERENCES socket(id)
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  brand_id INT NOT NULL,
+  model_id INT NOT NULL,
+  socket_id INT NOT NULL,
+  CONSTRAINT FOREIGN KEY  (brand_id) REFERENCES brand(id),
+  CONSTRAINT FOREIGN KEY (model_id) REFERENCES model(id),
+  CONSTRAINT FOREIGN KEY  (socket_id) REFERENCES socket(id)
 );
 
 
 
-
-
-
-insert into brand (label )
-values
+INSERT INTO brand (label )
+VALUES
   ( "Renault"),
   ( "Wolkswagen"),
   ( "Lexus"),
   ( "tesla"),
   ( "Peugeot");
 
-  insert into socket(label)
-values
+  INSERT INTO socket(label)
+VALUES
  ("type 1"),
  ("type 2"),
  ("type 3"),
  ("type Chademo");
 
-  insert into model (label, socket_id, brand_id )
-values
+  INSERT INTO model (label, socket_id, brand_id )
+VALUES
   ( "kangoo", 1 , 1),
   ( "transporter", 2 , 2),
   ( "voyager", 2 , 3),

@@ -1,26 +1,31 @@
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import messageError from "../assets/data/errorMessage.json";
-import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
 import type {
   ErrorMessageProps,
-  UserProps,
   MailProps,
+  UserProps,
 } from "../assets/definition/lib";
 import ModalVehiculeRegistration from "./ModalVehiculeRegistration";
 
 export default function ModalRegistration() {
-  //State stockage des données du formulaire
-
-  //Json message erreur formulaire
+  //Json error message form
   const errorMessage: ErrorMessageProps = messageError;
 
-  //Récupération des données du formulaire && Navigation vers 2eme partie formulaire
+  //Open modal about vehicule information
   const [showVehiculeModal, setShowVehiculeModal] = useState(false);
+
+  //To recover information from fetch on table user, to check if mail is already used
   const [userMail, setUserMail] = useState<MailProps[]>();
+  const mailVerification = userMail?.map((u) => u.email);
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/register/mail`).then((res) =>
+      res.json().then((data: []) => setUserMail(data)),
+    );
+  }, []);
 
-  const mail = userMail?.map((u) => u.email);
-
+  //To recover information from form & send them to data base
   const onSubmit: SubmitHandler<UserProps> = (userData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
       method: "post",
@@ -29,6 +34,8 @@ export default function ModalRegistration() {
     }).then((response) => response.json());
     setShowVehiculeModal(true);
   };
+
+  // Method from react-hook-form
   const {
     register,
     handleSubmit,
@@ -39,12 +46,6 @@ export default function ModalRegistration() {
   //Styles label & input form
   const styleLabel = "inline-block w-full font-paragraph";
   const styleInput = "border w-full rounded-md font-normal font-paragraph";
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/register/mail`).then((res) =>
-      res.json().then((data: []) => setUserMail(data)),
-    );
-  }, []);
 
   return (
     <>
@@ -66,7 +67,7 @@ export default function ModalRegistration() {
               className={styleInput}
               type="text"
               {...register("firstName", {
-                required: "Champ requis",
+                required: errorMessage.required,
                 pattern: {
                   value: /^[A-Za-z\é\è\ê\ï-]+$/,
                   message: errorMessage.firstName,
@@ -81,7 +82,7 @@ export default function ModalRegistration() {
               className={styleInput}
               type="text"
               {...register("lastName", {
-                required: "Champ requis",
+                required: errorMessage.required,
                 pattern: {
                   value: /^[A-Za-z\é\è\ê\ï\s-]+$/,
                   message: errorMessage.lastName,
@@ -97,14 +98,14 @@ export default function ModalRegistration() {
               type="email"
               placeholder="email@mail.com"
               {...register("email", {
-                required: "Champ requis",
+                required: errorMessage.required,
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/,
                   message: errorMessage.email,
                 },
                 validate: (value) => {
-                  if (mail?.includes(value)) {
-                    return "Email déjà utilisé";
+                  if (mailVerification?.includes(value)) {
+                    return errorMessage.mailCheck;
                   }
                 },
               })}
@@ -117,7 +118,7 @@ export default function ModalRegistration() {
               className=" rounded-md border block w-full text-center font-light"
               type="date"
               {...register("birthday", {
-                required: "Champ requis",
+                required: errorMessage.required,
                 validate: (value) => {
                   const birthday = new Date(value);
                   const now = new Date(Date.now());
@@ -135,10 +136,10 @@ export default function ModalRegistration() {
               className={styleInput}
               type="text"
               {...register("city", {
-                required: "Champ requis",
+                required: errorMessage.required,
                 pattern: {
                   value: /^[A-Za-z\é\è\ê\ï\s-]+$/,
-                  message: "Caractères non valides : 09 _@$*'[{]}",
+                  message: errorMessage.city,
                 },
               })}
             />
@@ -150,7 +151,7 @@ export default function ModalRegistration() {
               className={styleInput}
               type="number"
               {...register("zipCode", {
-                required: "Champ requis",
+                required: errorMessage.required,
                 minLength: 5,
                 maxLength: 5,
               })}
@@ -163,12 +164,11 @@ export default function ModalRegistration() {
               className={styleInput}
               type="password"
               {...register("password", {
-                required: "Champ requis",
+                required: errorMessage.required,
                 pattern: {
                   value:
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message:
-                    "Le mot de passe doit contenir une Majuscule, une minuscule, un chiffre et un caractère spécial",
+                  message: errorMessage.confirmPassword,
                 },
               })}
             />
@@ -180,7 +180,7 @@ export default function ModalRegistration() {
               className={styleInput}
               type="password"
               {...register("confirm", {
-                required: "Champ requis",
+                required: errorMessage.required,
                 validate: (value) => {
                   if (value !== watch("password")) {
                     return errorMessage.confirmPassword;

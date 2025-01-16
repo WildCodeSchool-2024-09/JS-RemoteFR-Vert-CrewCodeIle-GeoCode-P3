@@ -33,14 +33,6 @@ export type ModelProps = {
   socketType: string;
 };
 
-export type ErrorMessageProps = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  confirmPassword: string;
-  confirmAge: string;
-};
-
 export type SocketProps = {
   id: number;
   label: string;
@@ -48,4 +40,15 @@ export type SocketProps = {
 
 export type MailProps = {
   email: string;
+};
+
+export type ErrorMessageProps = {
+  required: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  mailCheck: string;
+  city: string;
+  confirmPassword: string;
+  confirmAge: string;
 };
