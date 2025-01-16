@@ -49,6 +49,8 @@ export type ErrorMessageProps = {
   email: string;
   mailCheck: string;
   city: string;
+  zipCode: string;
+  password: string;
   confirmPassword: string;
   confirmAge: string;
 };

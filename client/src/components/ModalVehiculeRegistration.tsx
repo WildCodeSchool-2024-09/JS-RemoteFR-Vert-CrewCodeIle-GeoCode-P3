@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import messageError from "../assets/data/errorMessage.json";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import messageError from "../assets/data/errorMessage.json";
 
 import type {
   BrandProps,
@@ -75,9 +75,9 @@ export default function ModalVehiculeRegistration() {
       {showValidateModal &&
         createPortal(<ModalRegistrationValidate />, document.body)}
       <div
-        className={`${showValidateModal ? "opacity-0" : "opacity-100"} fixed z-[9600] top-1/3 mx-auto -translate-y-1/2 -translate-x1/2`}
+        className={`${showValidateModal ? "opacity-0" : "opacity-100"} fixed z-[9600] top-1/3 mx-auto -translate-y-1/2 -translate-x1/2 lg:w-36 lg:relative lg:bottom-96 lg:-translate-x-1/2`}
       >
-        <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[10000] lg:w-36 ">
+        <fieldset className="text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[10000]">
           <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
           <form
             className=" text-left space-y-3 border  font-bold p-3 rounded-xl z-[10000] "
@@ -90,7 +90,14 @@ export default function ModalVehiculeRegistration() {
               Constructeur* :
               <select
                 className="border  w-full rounded-md font-normal font-paragraph"
-                {...register("brand", { required: errorMessage.required })}
+                {...register("brand", {
+                  required: errorMessage.required,
+                  validate: (value) => {
+                    if (value < 1) {
+                      return "veuillez selectionner un constructeur";
+                    }
+                  },
+                })}
               >
                 <option value={0}>Selectionnez un construteur</option>
                 {dataBrand
@@ -107,9 +114,16 @@ export default function ModalVehiculeRegistration() {
               Modèle* :
               <select
                 className="border  w-full rounded-md font-normal font-paragraph"
-                {...register("model", { required: errorMessage.required })}
+                {...register("model", {
+                  required: errorMessage.required,
+                  validate: (value) => {
+                    if (value < 1) {
+                      return "veuillez selectionner un modèle";
+                    }
+                  },
+                })}
               >
-                <option value={0}>Selectionnez un construteur</option>
+                <option value={0}>Selectionnez un modèle</option>
                 {dataModel
                   ? dataModel.map((m) => (
                       <option value={m.socket_id} key={m.id}>
@@ -124,9 +138,16 @@ export default function ModalVehiculeRegistration() {
               Type de prise* :
               <select
                 className="border  w-full rounded-md font-normal font-paragraph"
-                {...register("socket", { required: errorMessage.required })}
+                {...register("socket", {
+                  required: errorMessage.required,
+                  validate: (value) => {
+                    if (value < 1) {
+                      return "veuillez selectionner un type de prise";
+                    }
+                  },
+                })}
               >
-                <option value={0}>Selectionnez un construteur</option>
+                <option value={0}>Selectionnez un type de prise</option>
                 {dataSocket && (
                   <option value={dataSocket.id}>{dataSocket.label}</option>
                 )}

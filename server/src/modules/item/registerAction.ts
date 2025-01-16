@@ -1,38 +1,61 @@
 import type { RequestHandler } from "express";
-import Joi from "joi";
+import joi from "joi";
 import registerRepository from "./registerRepository";
 
-// Validation Schema with Joi
-const registerSchema = Joi.object({
-  firstName: Joi.string()
+// User validation Schema with Joi
+const now = Date.now();
+const minLegalAge = new Date(now - 100 * 60 * 60 * 24 * 365 * 18);
+const userRegisterSchema = joi.object({
+  firstName: joi
+    .string()
     .pattern(/^[A-Za-z\é\è\ê\ï-]+$/)
     .required(),
-  lastName: Joi.string()
+  lastName: joi
+    .string()
     .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
     .required(),
-  email: Joi.string()
+  birthday: joi.date().max(minLegalAge).required(),
+  email: joi
+    .string()
     .pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/)
-    .email({ minDomainSegments: 2 })
     .required(),
-  birthday: { from: Joi.date() },
-  city: Joi.string()
+  city: joi
+    .string()
     .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
     .required(),
-  zipCode: Joi.number().min(5).max(5).required(),
-  brand: Joi.string().required(),
-  model: Joi.string().required(),
-  socket: Joi.string().required(),
-  password: Joi.string()
+  zipCode: joi.number().integer().required(),
+  password: joi
+    .string()
     .pattern(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
     )
     .required(),
-  confirm: Joi.ref("password"),
+  confirm: joi.ref("password"),
+});
+// Vehicule validation Schema with Joi
+const userVehiculeSchema = joi.object({
+  brand: joi.number().required(),
+  model: joi.number().required(),
+  socket: joi.number().required(),
 });
 
-//Validation/control for register submission
-const validate: RequestHandler = (req, res, next) => {
-  const { error } = registerSchema.validate(req.body);
+//Validation for register submission
+const validateUser: RequestHandler = (req, res, next) => {
+  const { error } = userRegisterSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  if (error == null) {
+    next();
+  } else {
+    res.status(400).json({ valdationErrors: error.details });
+  }
+};
+
+//Validation for register submission
+const validateVehicule: RequestHandler = (req, res, next) => {
+  const { error } = userVehiculeSchema.validate(req.body, {
+    abortEarly: false,
+  });
   if (error == null) {
     next();
   } else {
@@ -135,7 +158,8 @@ export default {
   browseMail,
   readModel,
   addUserInfo,
-  validate,
+  validateUser,
   readSocket,
   addVehicleInfo,
+  validateVehicule,
 };

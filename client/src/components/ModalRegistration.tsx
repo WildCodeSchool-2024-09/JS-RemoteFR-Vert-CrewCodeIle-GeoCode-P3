@@ -49,8 +49,10 @@ export default function ModalRegistration() {
 
   return (
     <>
+      {showVehiculeModal &&
+        createPortal(<ModalVehiculeRegistration />, document.body)}
       <fieldset
-        className={`${showVehiculeModal ? "opacity-0" : "opacity-100"} text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[9500] lg:w-36`}
+        className={`${showVehiculeModal ? "opacity-0" : "opacity-100"} text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[9500] lg:w-36 lg:top-40`}
       >
         <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
 
@@ -168,7 +170,7 @@ export default function ModalRegistration() {
                 pattern: {
                   value:
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message: errorMessage.confirmPassword,
+                  message: errorMessage.password,
                 },
               })}
             />
@@ -196,8 +198,6 @@ export default function ModalRegistration() {
           >
             Suivant
           </button>
-          {showVehiculeModal &&
-            createPortal(<ModalVehiculeRegistration />, document.body)}
         </form>
       </fieldset>
     </>

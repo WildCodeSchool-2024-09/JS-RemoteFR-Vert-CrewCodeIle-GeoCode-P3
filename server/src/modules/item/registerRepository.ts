@@ -13,7 +13,7 @@ class RegisterRepository {
     // Insert user information in DB, table user
     const [result] = await databaseClient.query<Result>(
       `INSERT INTO user (firstName, lastName, email, birthday, city, zipCode,password) 
-            VALUUES(?,?,?,?,?,?,?)`,
+            VALUES(?,?,?,?,?,?,?)`,
       [
         register.firstName,
         register.lastName,
