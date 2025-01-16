@@ -5,11 +5,9 @@ import type { Result, Rows } from "../../../database/client";
 type Station = {
   id: number;
   name: string;
-  operator: string;
   adress: string;
   latitude: number;
   longitude: number;
-  nb_bornes: number;
 };
 
 class StationRepository {

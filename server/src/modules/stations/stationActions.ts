@@ -7,14 +7,13 @@ import stationRepository from "./stationRepository";
 const browse: RequestHandler = async (req, res, next) => {
   try {
     // Fetch all stations
-    const items = await stationRepository.readAll();
+    const rows = await stationRepository.readAll();
 
     // Respond with the items in JSON format
-    res.json(items);
+    res.json(rows);
   } catch (err) {
     // Pass any errors to the error-handling middleware
     next(err);
   }
 };
-
 export default { browse };

@@ -4,7 +4,6 @@
  */
 
 import { useEffect, useState } from "react";
-import "./search.css";
 import type { searchApi } from "../types/searchApi";
 
 export default function Search(majPosition: {
@@ -86,18 +85,20 @@ export default function Search(majPosition: {
   };
   return (
     <>
-      <div className="search-bar">
+      <div className="w-72 lg:w-[500px] p-2.5 border border-gray-300 rounded shadow-md bg-[rgba(0, 0, 0, 0.1)] bg-[rgba(240,248,255,0.1)] absolute z-[9000] left-[50%] top-2 lg:top-36 -translate-x-1/2">
         <input
           type="search"
           value={query}
+          className="bg-[url('../../public/icon-loupe.svg')] bg-[center length:20px_20px] bg-no-repeat px-3 py-2 pl-7 w-full h-8 text-lg border-none rounded-md shadow-sm"
           onChange={handleSearch}
           placeholder="Rechercher un lieu..."
         />
 
-        <ul>
+        <ul className="max-h-[75vh] overflow-y-auto list-none p-0 m-0 absolute">
           {query.length > 2 &&
             resultsApi?.map((item, index) => (
               <li
+                className="py-2.5 w-[260px] lg:w-[478px] border-b-solid border-b-gray-300 cursor-pointer relative z-[1000] bg-white hover:bg-[#E5E9E7] border-b last:border-b-0"
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                 key={index}
                 onClick={() => handleElementClick(item)}

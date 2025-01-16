@@ -19,15 +19,13 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import type { searchApi } from "../types/searchApi";
 import LocationUser from "./LocationUser";
 
-// struct table station
+// table station structure
 type Station = {
   id: number;
   name: string;
-  operator: string;
   adress: string;
   latitude: number;
   longitude: number;
-  nb_bornes: number;
 };
 
 export default function Maps({
@@ -70,8 +68,6 @@ export default function Maps({
                 Station : {s.name}
                 <br />
                 Adresse : {s.adress}
-                <br />
-                Bornes : {s.nb_bornes}
               </Popup>
             </Marker>
           ))}
