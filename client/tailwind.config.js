@@ -16,6 +16,10 @@ export default {
       },
       screens: {
         vsm: "321px",
+        vmd: "400px",
+      },
+      gridTemplateRows: {
+        40: "repeat(40, minmax(0, 1fr))",
       },
     },
   },

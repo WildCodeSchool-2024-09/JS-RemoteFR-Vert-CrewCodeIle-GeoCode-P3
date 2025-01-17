@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import ModaleContact from "./components/ModaleContact";
 import NavBar from "./components/NavBar";
 
 export default function App() {
-  // Etat de la modale du formulaire de contact
+  // Use a state: if the state is true, the modale is open then its false the modale is close
   const [showContactModale, setShowContactModale] = useState<boolean>(false);
 
   return (
@@ -13,11 +12,7 @@ export default function App() {
         showContactModale={showContactModale}
         setShowContactModale={setShowContactModale}
       />
-      <ModaleContact
-        showContactModale={showContactModale}
-        setShowContactModale={setShowContactModale}
-      />
-      <Outlet />
+      <Outlet context={{ showContactModale, setShowContactModale }} />
     </>
   );
 }

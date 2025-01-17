@@ -12,7 +12,7 @@ export type ContactModaleProps = {
 export type ContactFormProps = {
   lastname: string;
   firstname: string;
-  mail: string;
+  email: string;
   subject: string;
   message: string;
 };
