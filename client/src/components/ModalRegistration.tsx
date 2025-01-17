@@ -31,7 +31,9 @@ export default function ModalRegistration() {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(userData),
-    }).then((response) => response.json());
+    })
+      .then((response) => response.json())
+      .catch((err) => console.error(err));
     setShowVehiculeModal(true);
   };
 

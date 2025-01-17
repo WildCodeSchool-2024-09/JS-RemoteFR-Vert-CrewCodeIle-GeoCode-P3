@@ -27,7 +27,9 @@ export default function ModalVehiculeRegistration() {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(vehiculeData),
-    }).then((response) => response.json());
+    })
+      .then((response) => response.json())
+      .catch((err) => console.error(err));
     setShowValidateModal(true);
   };
 
