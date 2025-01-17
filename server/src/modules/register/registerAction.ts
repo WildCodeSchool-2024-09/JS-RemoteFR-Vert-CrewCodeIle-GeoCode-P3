@@ -4,7 +4,7 @@ import registerRepository from "./registerRepository";
 
 // User validation Schema with Joi
 const now = Date.now();
-const minLegalAge = new Date(now - 100 * 60 * 60 * 24 * 365 * 18);
+const minLegalAge = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
 const userRegisterSchema = joi.object({
   firstName: joi
     .string()
@@ -32,6 +32,7 @@ const userRegisterSchema = joi.object({
     .required(),
   confirm: joi.ref("password"),
 });
+
 // Vehicule validation Schema with Joi
 const userVehiculeSchema = joi.object({
   brand: joi.number().required(),

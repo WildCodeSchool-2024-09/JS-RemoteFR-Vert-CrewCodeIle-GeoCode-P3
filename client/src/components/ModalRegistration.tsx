@@ -13,7 +13,7 @@ export default function ModalRegistration() {
   //Json error message form
   const errorMessage: ErrorMessageProps = messageError;
 
-  //Open modal about vehicule information
+  //Open modal form vehicule information
   const [showVehiculeModal, setShowVehiculeModal] = useState(false);
 
   //To recover information from fetch on table user, to check if mail is already used
@@ -43,10 +43,6 @@ export default function ModalRegistration() {
     formState: { errors },
   } = useForm<UserProps>();
 
-  //Styles label & input form
-  const styleLabel = "inline-block w-full font-paragraph";
-  const styleInput = "border w-full rounded-md font-normal font-paragraph";
-
   return (
     <>
       {showVehiculeModal &&
@@ -63,10 +59,10 @@ export default function ModalRegistration() {
           <h3 className="text-interestColor text-center font-normal">
             Informations personnelles
           </h3>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Prénom* :
             <input
-              className={styleInput}
+              className="border w-full rounded-md font-normal font-paragraph"
               type="text"
               {...register("firstName", {
                 required: errorMessage.required,
@@ -78,10 +74,10 @@ export default function ModalRegistration() {
             />
             <p className="text-red-800">{errors.firstName?.message}</p>
           </label>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Nom* :
             <input
-              className={styleInput}
+              className="border w-full rounded-md font-normal font-paragraph"
               type="text"
               {...register("lastName", {
                 required: errorMessage.required,
@@ -93,10 +89,10 @@ export default function ModalRegistration() {
             />
             <p className="text-red-800">{errors.lastName?.message}</p>
           </label>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Email* :
             <input
-              className={styleInput}
+              className="border w-full rounded-md font-normal font-paragraph"
               type="email"
               placeholder="email@mail.com"
               {...register("email", {
@@ -114,7 +110,7 @@ export default function ModalRegistration() {
             />
             <p className="text-red-800">{errors.email?.message}</p>
           </label>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Date de naissance* :
             <input
               className=" rounded-md border block w-full text-center font-light"
@@ -132,10 +128,10 @@ export default function ModalRegistration() {
             />
             <p className="text-red-800">{errors.birthday?.message}</p>
           </label>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Ville*
             <input
-              className={styleInput}
+              className="border w-full rounded-md font-normal font-paragraph"
               type="text"
               {...register("city", {
                 required: errorMessage.required,
@@ -147,10 +143,10 @@ export default function ModalRegistration() {
             />
             <p className="text-red-800">{errors.city?.message}</p>
           </label>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Code postal* :
             <input
-              className={styleInput}
+              className="border w-full rounded-md font-normal font-paragraph"
               type="number"
               {...register("zipCode", {
                 required: errorMessage.required,
@@ -160,10 +156,10 @@ export default function ModalRegistration() {
             />
             <p className="text-red-800">{errors.zipCode?.message}</p>
           </label>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Mot de passe*
             <input
-              className={styleInput}
+              className="border w-full rounded-md font-normal font-paragraph"
               type="password"
               {...register("password", {
                 required: errorMessage.required,
@@ -176,10 +172,10 @@ export default function ModalRegistration() {
             />
             <p className="text-red-800">{errors.password?.message}</p>
           </label>
-          <label className={styleLabel}>
+          <label className="inline-block w-full font-paragraph">
             Confirmation du mot de passe*
             <input
-              className={styleInput}
+              className="border w-full rounded-md font-normal font-paragraph"
               type="password"
               {...register("confirm", {
                 required: errorMessage.required,

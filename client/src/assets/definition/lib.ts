@@ -53,4 +53,7 @@ export type ErrorMessageProps = {
   password: string;
   confirmPassword: string;
   confirmAge: string;
+  brand: string;
+  model: string;
+  socket: string;
 };

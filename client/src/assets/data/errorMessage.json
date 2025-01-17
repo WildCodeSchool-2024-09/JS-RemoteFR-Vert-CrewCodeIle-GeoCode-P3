@@ -8,5 +8,8 @@
   "zipCode": "Le code postal doit contenir 5 chiffres",
   "password": "Le mot de passe doit contenir une Majuscule, une minuscule, un chiffre et un caractère spécial",
   "confirmPassword": "Les mots de passe ne correspondent pas",
-  "confirmAge": "Vous devez avoir 18ans"
+  "confirmAge": "Vous devez avoir 18ans",
+  "brand": "veuillez selectionner un constructeur",
+  "model": "veuillez selectionner un modèle",
+  "socket": "veuillez selectionner un type de prise"
 }

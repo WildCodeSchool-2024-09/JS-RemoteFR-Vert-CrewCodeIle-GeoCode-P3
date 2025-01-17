@@ -21,7 +21,7 @@ export default function ModalVehiculeRegistration() {
     formState: { errors },
   } = useForm<VehiculeProps>();
 
-  //To recover information from form & send them to data base
+  //To recover information vehicule from form & send them to data base
   const onSubmitVehicule: SubmitHandler<VehiculeProps> = (vehiculeData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/register/vehicule`, {
       method: "post",
@@ -43,7 +43,7 @@ export default function ModalVehiculeRegistration() {
     );
   }, []);
 
-  // Fetch model from DB where modelId = brandId & stock model with state
+  // Fetch model from DB where model_id = brand(id) & stock model with state
   const [dataModel, setDataModel] = useState<ModelProps[]>();
   useEffect(() => {
     if (id) {
@@ -52,7 +52,7 @@ export default function ModalVehiculeRegistration() {
       );
     }
   }, [id]);
-  // Fetch model from DB where modelId = brandId & stock socket with state
+  // Fetch model from DB where socket_id = socket(id) & stock socket with state
   const [dataSocket, setDataSocket] = useState<SocketProps>();
   useEffect(() => {
     if (idSocket) {
@@ -94,7 +94,7 @@ export default function ModalVehiculeRegistration() {
                   required: errorMessage.required,
                   validate: (value) => {
                     if (value < 1) {
-                      return "veuillez selectionner un constructeur";
+                      return errorMessage.brand;
                     }
                   },
                 })}
@@ -118,7 +118,7 @@ export default function ModalVehiculeRegistration() {
                   required: errorMessage.required,
                   validate: (value) => {
                     if (value < 1) {
-                      return "veuillez selectionner un modèle";
+                      return errorMessage.model;
                     }
                   },
                 })}
@@ -142,7 +142,7 @@ export default function ModalVehiculeRegistration() {
                   required: errorMessage.required,
                   validate: (value) => {
                     if (value < 1) {
-                      return "veuillez selectionner un type de prise";
+                      return errorMessage.socket;
                     }
                   },
                 })}
