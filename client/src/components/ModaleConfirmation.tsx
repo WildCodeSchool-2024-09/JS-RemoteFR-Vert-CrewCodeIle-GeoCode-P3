@@ -17,7 +17,7 @@ export default function ModaleConfirmation({
     setShowConfirmationContactModale(false);
   };
   return (
-    <article className="fixed z-[1030] p-4 bg-lightColor w-9/12 h-1/2 top-1/3 flex flex-col justify-around items-center rounded-lg sm:w-1/2 sm:h-1/3 lg:w-1/3">
+    <article className="fixed z-[1030] p-4 bg-lightColor w-9/12 h-1/2 top-1/4 flex flex-col justify-around items-center rounded-lg sm:w-1/2 sm:h-1/3 lg:w-1/4">
       <p className=" text-darkColor font-paragraph mt-4 text-2xl text-center md:text-3xl">
         Message envoyé ! Merci de votre retour !
       </p>

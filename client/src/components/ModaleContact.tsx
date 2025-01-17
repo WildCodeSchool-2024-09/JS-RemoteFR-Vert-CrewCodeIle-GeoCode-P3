@@ -90,7 +90,7 @@ export default function ({
     >
       <form
         onSubmit={handleSubmit(onSubmitForm)}
-        className={`top-5 h-[150vw] overflow-hidden bg-lightColor absolute gap-2 p-6 pb-16 pt-3 grid grid-cols-3 w-11/12 grid-rows-40 rounded-lg shadow-lg transform duration-1000 ease-in-out vsm:h-[175vw] vmd:h-[180vw] sm:h-[110vw] sm:top-28 sm:w-4/6 lg:w-1/3 lg:h-[72vw] lg:left-8 lg:top-1/4 xl:h-[60vw] ${showContactModale ? "translate-y-0" : "translate-y-full"} ${
+        className={`top-5 h-[150vw] overflow-hidden bg-lightColor absolute gap-2 p-6 pb-16 pt-3 grid grid-cols-3 w-11/12 grid-rows-40 rounded-lg shadow-lg transform duration-1000 ease-in-out vsm:h-[175vw] vmd:h-[180vw] sm:h-[110vw] sm:top-28 sm:w-4/6 lg:w-1/3 lg:h-[72vw] lg:left-8 lg:top-1/4 xl:h-[45vw] xl:w-1/4 2xl:h-[35vw] ${showContactModale ? "translate-y-0" : "translate-y-full"} ${
           showConfirmationContactModale && "hidden"
         }`}
       >
@@ -99,7 +99,7 @@ export default function ({
         </h2>
         <label
           htmlFor="lastname"
-          className="text-l font-paragraph h-fit text-darkColor"
+          className="text-l font-paragraph h-fit text-darkColor lg:text-xl"
         >
           Nom:
         </label>
@@ -128,7 +128,7 @@ export default function ({
         </p>
         <label
           htmlFor="fistname"
-          className="text-l font-paragraph h-fit text-darkColor"
+          className="text-l font-paragraph h-fit text-darkColor lg:text-xl"
         >
           Prénom:
         </label>
@@ -157,7 +157,7 @@ export default function ({
         </p>
         <label
           htmlFor="email"
-          className="text-l h-fit font-paragraph text-darkColor"
+          className="text-l h-fit font-paragraph text-darkColor lg:text-xl"
         >
           Email:
         </label>
@@ -207,7 +207,7 @@ export default function ({
         </select>
         <label
           htmlFor="message"
-          className="text-l font-paragraph col-span-3 row-span-3 text-darkColor vsm:row-span-2"
+          className="text-l font-paragraph col-span-3 row-span-3 text-darkColor vsm:row-span-2 lg:text-xl"
         >
           Message:
         </label>
@@ -228,21 +228,21 @@ export default function ({
             },
           })}
           placeholder="Entrez votre message ici"
-          className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor resize-none row-span-7 h-20 col-span-3 vsm:row-span-10 vsm:h-36 vmd:h-44 sm:h-48 xl:row-span-12 xl:h-52 ${errors.message ? "border-red-800 border-2" : "border-gray-300"} rounded`}
+          className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor resize-none row-span-7 h-20 col-span-3 vsm:row-span-10 vsm:h-36 vmd:h-44 sm:h-48 xl:h-32 2xl:row-span-12 2xl:h-44 ${errors.message ? "border-red-800 border-2" : "border-gray-300"} rounded`}
         />
-        <p className="pointer-events-none text-center col-span-3 pt-2 row-span-4 text-sm text-red-800 font-paragraph sm:row-span-2">
+        <p className="pointer-events-none text-center col-span-3 pt-2 row-span-4 text-sm text-red-800 font-paragraph sm:row-span-2 xl:row-span-4">
           {errors.message?.message}
         </p>
         <button
           type="submit"
-          className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-darkColor row-span-5 font-paragraph rounded-full bg-interestColor text-white hover:bg-accentColor shadow-md shadow-darkColor active:bg-darkColor sm:row-span-4 lg:row-span-3"
+          className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-darkColor row-span-5 font-paragraph rounded-full bg-interestColor text-white hover:bg-accentColor shadow-md shadow-darkColor active:bg-darkColor sm:row-span-4 lg:row-span-3 xl:row-span-4 2xl:row-span-6"
         >
           Envoyer
         </button>
         <button
           type="button"
           onClick={() => setShowContactModale(!showContactModale)}
-          className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-darkColor row-span-5 font-paragraph rounded-full col-start-3 bg-interestColor text-white hover:bg-accentColor shadow-md shadow-darkColor active:bg-darkColor sm:row-span-4 lg:row-span-3"
+          className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-darkColor row-span-5 font-paragraph rounded-full col-start-3 bg-interestColor text-white hover:bg-accentColor shadow-md shadow-darkColor active:bg-darkColor sm:row-span-4 lg:row-span-3 xl:row-span-4 2xl:row-span-6"
         >
           Fermer
         </button>
