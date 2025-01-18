@@ -1,6 +1,6 @@
-import databaseClient from "../../../../database/client";
+import databaseClient from "../../../database/client";
 
-import type { Result } from "../../../../database/client";
+import type { Result } from "../../../database/client";
 
 type ContactForm = {
   id: number;

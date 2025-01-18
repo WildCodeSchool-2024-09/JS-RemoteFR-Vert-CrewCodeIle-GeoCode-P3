@@ -4,7 +4,7 @@ type ModaleConfirmation = {
   setShowContactModale: (boolean: boolean) => void;
 };
 
-export default function ModaleConfirmation({
+export default function ModaleValidateContact({
   showConfirmationContactModale,
   setShowConfirmationContactModale,
   setShowContactModale,

@@ -1,0 +1,21 @@
+{
+  "required": "Champ requis.",
+  "firstName": "Caractères non valides : 09 _@$*'[{]}.",
+  "lastName": "Caractères non valides : 09_@$*'[{]}.",
+  "email": "Email non valide.",
+  "mailCheck": "Email déjà utilisé.",
+  "city": "Caractères non valides : 09 _@$*'[{]}.",
+  "zipCode": "Le code postal doit contenir 5 chiffres.",
+  "password": "Le mot de passe doit contenir une Majuscule, une minuscule, un chiffre et un caractère spécial.",
+  "confirmPassword": "Les mots de passe ne correspondent pas.",
+  "confirmAge": "Vous devez avoir 18ans.",
+  "brand": "veuillez selectionner un constructeur.",
+  "model": "veuillez selectionner un modèle.",
+  "socket": "veuillez selectionner un type de prise.",
+  "minChar": "Le minimum de caractères est de 3.",
+  "minCharEmail": "Le minimum de caractères est de 7.",
+  "minCharMessage": "Le minimum de caractères est de 30.",
+  "maxChar": "Trop de caractères.",
+  "select": "Selection invalide.",
+  "message": "Le message contient des caractères interdits."
+}
