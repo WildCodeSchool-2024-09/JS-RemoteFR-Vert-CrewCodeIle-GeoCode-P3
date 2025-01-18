@@ -246,7 +246,7 @@ export default function ({
         </p>
         <button
           type="submit"
-          className="focus-visible:outline-dashed focus-visible:outline-2 focus-visible:outline-darkColor row-span-5 font-paragraph rounded-full bg-interestColor text-white hover:bg-accentColor shadow-md shadow-darkColor active:bg-darkColor vmd:row-span-4 md:row-span-3 lg:row-span-5 2xl:row-span-4 2xl:text-xl"
+          className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-darkColor row-span-5 font-paragraph rounded-full bg-interestColor text-white hover:bg-accentColor shadow-md shadow-darkColor active:bg-darkColor vmd:row-span-4 md:row-span-3 lg:row-span-5 2xl:row-span-4 2xl:text-xl"
         >
           Envoyer
         </button>
