@@ -6,7 +6,6 @@ import ModalRegistration from "./components/ModalRegistration";
 
 import HomePage from "./pages/HomePage";
 import PresentationPage from "./pages/PresentationPage";
-import ModalProfil from "./components/ModalProfil";
 
 export const mainRouter = createBrowserRouter([
   {
@@ -23,10 +22,6 @@ export const mainRouter = createBrowserRouter([
       {
         path: "/home/formulaire",
         element: <ModalRegistration />,
-      },
-      {
-        path: "/home/profil",
-        element: <ModalProfil />,
       },
     ],
   },

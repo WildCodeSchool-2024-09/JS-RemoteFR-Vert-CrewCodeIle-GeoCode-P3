@@ -4,9 +4,9 @@ import logo from "../assets/images/logo.png";
 import mapIcon from "../assets/images/map.png";
 import userIcon from "../assets/images/user.png";
 
+import { createPortal } from "react-dom";
 import data from "../assets/data/navbar.json";
 import type { ProfilModalProps } from "../assets/definition/lib";
-import { createPortal } from "react-dom";
 import ModalProfil from "./ModalProfil";
 
 export default function NavBar({

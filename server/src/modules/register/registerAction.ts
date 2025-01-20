@@ -124,6 +124,7 @@ const addUserInfo: RequestHandler = async (req, res, next) => {
       lastName: req.body.lastName,
       email: req.body.email,
       birthday: req.body.birthday,
+      photo: req.body.photo,
       city: req.body.city,
       zipCode: req.body.zipCode,
       password: req.body.password,
