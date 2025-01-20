@@ -10,6 +10,9 @@ const router = express.Router();
 
 // Defin register-related routes
 import RegisterRouter from "./routes/formRegister.routes";
+import ProfilRouter from "./routes/profil.routes";
+
+router.use("/", ProfilRouter);
 
 router.use("/", RegisterRouter);
 

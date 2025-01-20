@@ -15,6 +15,7 @@ export type UserProps = {
   lastName: string;
   email: string;
   birthday: Date;
+  photo: string;
   city: string;
   zipCode: number;
   password: string;
@@ -56,4 +57,9 @@ export type ErrorMessageProps = {
   brand: string;
   model: string;
   socket: string;
+};
+
+export type ProfilModalProps = {
+  showProfilModal: boolean;
+  setShowProfilModal: (s: boolean) => void;
 };

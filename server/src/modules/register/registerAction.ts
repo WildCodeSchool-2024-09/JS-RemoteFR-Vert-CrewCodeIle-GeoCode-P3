@@ -106,7 +106,6 @@ const readSocket: RequestHandler = async (req, res, next) => {
     const formItemId = Number(req.params.id);
     const formItemSocket = await registerRepository.readSocket(formItemId);
 
-    console.info(formItemId);
     if (formItemSocket === null) {
       res.sendStatus(404);
     } else {
