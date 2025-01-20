@@ -24,14 +24,32 @@ export default function ModalProfil() {
               src={userInfo[0].photo}
               alt="profil utilisateur"
             />
+            <figcaption className="mt-4 text-2xl w-48 text-center ">
+              Bonjour {userInfo[0].firstName}
+            </figcaption>
           </figure>
-          <article className="ml-4 text-interestColor">
-            <h2 className="mb-4">Nom</h2>
-            <h2 className="mb-4">Prénom</h2>
-            <h2 className="mb-4">Date de naissance</h2>
-            <h2 className="mb-4">Ville</h2>
-            <h2 className="mb-4">Code postal</h2>
-            <h2 className="mb-4">Nombre de véhicule</h2>
+          <article className="ml-4">
+            <div className="flex">
+              <h2 className="mb-4  text-interestColor">Nom</h2>
+              <h3 className="ml-8">{userInfo[0].lastName}</h3>
+            </div>
+            <div className="flex">
+              <h2 className="mb-4  text-interestColor">Prénom</h2>
+              <h3 className="ml-8">{userInfo[0].firstName}</h3>
+            </div>
+            <div className="flex">
+              <h2 className="mb-4  text-interestColor">Date de naissance</h2>
+              <h3 className="ml-8">""</h3>
+            </div>
+            <div className="flex">
+              <h2 className="mb-4  text-interestColor">Ville</h2>
+
+              <h3 className="ml-8">{userInfo[0].city}</h3>
+            </div>
+            <div className="flex">
+              <h2 className="mb-4  text-interestColor">Code postal</h2>
+              <h3 className="ml-8">{userInfo[0].zipCode}</h3>
+            </div>
           </article>
         </section>
       )}
