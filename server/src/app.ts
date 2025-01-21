@@ -56,7 +56,7 @@ app.use(express.json());
 // app.use(express.urlencoded());
 // app.use(express.text());
 // app.use(express.raw());
-app.use("/images", express.static("public/images"));
+app.use(express.static("public"));
 
 /* ************************************************************************* */
 

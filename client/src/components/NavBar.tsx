@@ -3,19 +3,17 @@ import contactIcon from "../assets/images/contact.png";
 import logo from "../assets/images/logo.png";
 import mapIcon from "../assets/images/map.png";
 import userIcon from "../assets/images/user.png";
-
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import data from "../assets/data/navbar.json";
-import type { ProfilModalProps } from "../assets/definition/lib";
+
 import ModalProfil from "./ModalProfil";
 
-export default function NavBar({
-  showProfilModal,
-  setShowProfilModal,
-}: ProfilModalProps) {
+export default function NavBar() {
   const navBarData = data;
   const navBarIcons = [mapIcon, userIcon, carIcon, contactIcon];
-  console.info(showProfilModal);
+  const [showProfilModal, setShowProfilModal] = useState<boolean>(false);
+  const handleClickModalProfil = () => setShowProfilModal(false);
   return (
     <>
       <nav className="flex h-10 justify-center z-[9000] absolute bottom-4 w-full lg:top-0 lg:bottom-auto lg:justify-between lg:bg-accentColor lg:h-28">
@@ -47,7 +45,14 @@ export default function NavBar({
         </ul>
       </nav>
       <section>
-        {showProfilModal && createPortal(<ModalProfil />, document.body)}
+        {showProfilModal &&
+          createPortal(
+            <ModalProfil
+              showProfilModal={showProfilModal}
+              closeModal={handleClickModalProfil}
+            />,
+            document.body,
+          )}
       </section>
     </>
   );
