@@ -28,7 +28,7 @@ export default function ({
     },
   });
   // Use a ref to reference all inputs
-  const inputRef = useRef<
+  const inputsRef = useRef<
     (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)[]
   >([]);
 
@@ -67,22 +67,6 @@ export default function ({
       });
   };
 
-  // All references
-  const lastNameRef = (e: HTMLInputElement) => {
-    if (e) inputRef.current[0] = e;
-  };
-  const firstNameRef = (e: HTMLInputElement) => {
-    if (e) inputRef.current[1] = e;
-  };
-  const emailRef = (e: HTMLInputElement) => {
-    if (e) inputRef.current[2] = e;
-  };
-  const subjectRef = (e: HTMLSelectElement) => {
-    if (e) inputRef.current[3] = e;
-  };
-  const messageRef = (e: HTMLTextAreaElement) => {
-    if (e) inputRef.current[4] = e;
-  };
   return (
     <section
       id="contact-header"
@@ -124,7 +108,7 @@ export default function ({
               message: errorMessage.lastName,
             },
           })}
-          ref={lastNameRef}
+          ref={(e) => e && inputsRef.current.push(e)}
           onFocus={handleFocus}
           placeholder="Doe"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.lastname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
@@ -155,7 +139,7 @@ export default function ({
               message: errorMessage.firstName,
             },
           })}
-          ref={firstNameRef}
+          ref={(e) => e && inputsRef.current.push(e)}
           onFocus={handleFocus}
           placeholder="John"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 border ${errors.firstname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
@@ -186,7 +170,7 @@ export default function ({
               message: errorMessage.email,
             },
           })}
-          ref={emailRef}
+          ref={(e) => e && inputsRef.current.push(e)}
           onFocus={handleFocus}
           placeholder="john-doe@mail.com"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.email ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
@@ -210,7 +194,7 @@ export default function ({
               }
             },
           })}
-          ref={subjectRef}
+          ref={(e) => e && inputsRef.current.push(e)}
           onFocus={handleFocus}
           className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 text-darkColor"
         >
@@ -249,7 +233,7 @@ export default function ({
               message: errorMessage.message,
             },
           })}
-          ref={messageRef}
+          ref={(e) => e && inputsRef.current.push(e)}
           onFocus={handleFocus}
           placeholder="Entrez votre message ici"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor resize-none row-span-9 h-24 col-span-3 vsm:row-span-10 vsm:h-36 vmd:h-44 sm:row-span-12 sm:h-72 lg:h-32 lg:row-span-9 xl:h-36 2xl:h-40 2xl:row-span-7 ${errors.message ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
