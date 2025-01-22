@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
 
-const getApiCodesPostaux: RequestHandler = async (req, res, next) => {
+const getApiAdressDataGouv: RequestHandler = async (req, res) => {
   try {
     // Fetch api "code postaux"
     const { query } = req.body;
@@ -12,8 +12,8 @@ const getApiCodesPostaux: RequestHandler = async (req, res, next) => {
     res.json(data);
   } catch (err) {
     // Pass any errors to the error-handling middleware
-    next(err);
+    res.sendStatus(503);
   }
 };
 
-export default { getApiCodesPostaux };
+export default { getApiAdressDataGouv };

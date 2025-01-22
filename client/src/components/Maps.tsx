@@ -12,16 +12,17 @@
 
 import "../index.css";
 import "leaflet/dist/leaflet.css";
-//import L from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import type { searchApi } from "../types/searchApi";
 import LocationUser from "./LocationUser";
 
 // table station structure
 type Station = {
   id: number;
+  id_station: string;
   name: string;
   adress: string;
   latitude: number;
@@ -34,24 +35,20 @@ export default function Maps({
   const position = { lat: 48.8566, lng: 2.3522 };
   const [stations, setStations] = useState<Station[]>();
 
-  // custom icon charging points
-  /*   const LeafIcon = L.Icon.extend({
-    options: {
-      iconUrl: "../assets/images/chargingPoint.png",
-      iconSize: [25, 41],
-      iconAnchor: [32, 64],
-    },
-  }); */
-
-  //const IconCharging = new LeafIcon();
-
   // call server database
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/station`)
       .then((response) => response.json())
       .then((data: Station[]) => {
-        setStations(data);
-      });
+        if (data.length > 0) {
+          setStations(data);
+        } else {
+          toast.warning(
+            "Oups ! Impossible d'afficher les stations de charge...",
+          );
+        }
+      })
+      .catch(Error);
   }, []);
 
   return (
@@ -73,6 +70,19 @@ export default function Maps({
           ))}
         </MarkerClusterGroup>
         <LocationUser selectedPosition={selectedPosition} />
+        <ToastContainer
+          position="top-center"
+          autoClose={6000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
       </MapContainer>
     </>
   );

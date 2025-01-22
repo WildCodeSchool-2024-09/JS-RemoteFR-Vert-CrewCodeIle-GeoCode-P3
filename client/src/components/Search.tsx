@@ -4,6 +4,7 @@
  */
 
 import { useEffect, useState } from "react";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import type { searchApi } from "../types/searchApi";
 
 export default function Search(majPosition: {
@@ -37,7 +38,13 @@ export default function Search(majPosition: {
           })
             .then((Response) => Response.json())
             .then((data) => setResultsApi(data.features))
-            .catch((error) => console.error(error));
+
+            .catch((error) => {
+              toast.error(
+                "Oups ! Le moteur de recherche est indisponible pour le moment..",
+              );
+              console.info(error);
+            });
         }, 500);
         return () => {
           // clean timer count
@@ -109,6 +116,19 @@ export default function Search(majPosition: {
             ))}
         </ul>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={6000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </>
   );
 }
