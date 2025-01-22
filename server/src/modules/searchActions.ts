@@ -11,7 +11,6 @@ const getApiAdressDataGouv: RequestHandler = async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (err) {
-    // Pass any errors to the error-handling middleware
     res.sendStatus(503);
   }
 };

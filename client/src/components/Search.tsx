@@ -70,9 +70,10 @@ export default function Search(majPosition: {
     const value = e.target.value;
 
     if (searchDone) {
-      setSearchDone(false); //
+      setSearchDone(false);
     } else {
       setQuery(value);
+      //the call to the "codes postaux" API starts when the user enters at least 3 characters
       if (value.length > 2) {
         setResultsApi(value.trim() === "" ? [] : filterData(value));
       }
@@ -103,11 +104,10 @@ export default function Search(majPosition: {
 
         <ul className="max-h-[75vh] overflow-y-auto list-none p-0 m-0 absolute">
           {query.length > 2 &&
-            resultsApi?.map((item, index) => (
+            resultsApi?.map((item) => (
               <li
                 className="py-2.5 w-[260px] lg:w-[478px] border-b-solid border-b-gray-300 cursor-pointer relative z-[1000] bg-white hover:bg-[#E5E9E7] border-b last:border-b-0"
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                key={index}
+                key={item.toString()}
                 onClick={() => handleElementClick(item)}
                 onKeyUp={handleKeyUp}
               >

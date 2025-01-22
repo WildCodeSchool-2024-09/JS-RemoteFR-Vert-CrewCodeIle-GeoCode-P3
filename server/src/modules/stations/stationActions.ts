@@ -4,7 +4,7 @@ import type { RequestHandler } from "express";
 import stationRepository from "./stationRepository";
 
 // The B of BREAD - Browse (Read All) operation
-const browse: RequestHandler = async (req, res, next) => {
+const browse: RequestHandler = async (req, res) => {
   try {
     // Fetch all stations
     const rows = await stationRepository.readAll();
@@ -12,8 +12,7 @@ const browse: RequestHandler = async (req, res, next) => {
     // Respond with the items in JSON format
     res.json(rows);
   } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
+    res.send("error read database station...");
   }
 };
 export default { browse };

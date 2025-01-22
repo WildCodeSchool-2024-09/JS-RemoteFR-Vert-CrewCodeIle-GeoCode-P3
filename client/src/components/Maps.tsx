@@ -44,7 +44,7 @@ export default function Maps({
           setStations(data);
         } else {
           toast.warning(
-            "Oups ! Impossible d'afficher les stations de charge...",
+            "Oups ! Impossible d'afficher les stations de recharge...",
           );
         }
       })
