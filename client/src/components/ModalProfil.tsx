@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { UserProps } from "../assets/definition/lib";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
 export default function ModalProfil({
   closeModal,
@@ -15,10 +16,25 @@ export default function ModalProfil({
       .then((data) => setUserInfo(data));
   }, []);
 
-  console.info(userInfo);
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
   const handleClickMenu = () => setOpenBurgerMenu(!openBurgerMenu);
 
+  const { register, handleSubmit } = useForm<UserProps>();
+
+  const [editForm, setEditForm] = useState(true);
+  const handleClickEdit = () => setEditForm(!editForm);
+
+  const onSubmit: SubmitHandler<UserProps> = (userData) => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/profil/${id}`, {
+      method: "put",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(userData),
+    })
+      .then((response) => response.json())
+      .catch((err) => console.error(err))
+      .then(() => setEditForm(true));
+    console.info(typeof userData.photo);
+  };
   return (
     <>
       {userInfo && (
@@ -30,7 +46,8 @@ export default function ModalProfil({
             onClick={closeModal}
             className="fixed inset-0  backdrop-blur-sm"
           />
-          <article className=" w-fit">
+
+          <nav className=" w-fit">
             <button
               onClick={handleClickMenu}
               type="button"
@@ -54,19 +71,22 @@ export default function ModalProfil({
               <ul
                 className={`${openBurgerMenu ? "animate-openMenu" : "animate-closeMenu"} absolute left-4 font-paragraph z-[1300]  mt-1 rounded-lg`}
               >
-                <li className="border border-lightColor bg-interestColor px-4 rounded-lg py-2 text-white">
-                  Modifier mon profil
+                <li className=" border border-lightColor bg-interestColor px-4 rounded-lg py-2 text-white hover:bg-interestColor active:bg-interestColor/50  focus:bg-interestColor/70">
+                  <button onClick={handleClickEdit} type="button">
+                    Modifier mon profil
+                  </button>
                 </li>
                 <li className="border border-lightColor  bg-interestColor px-4 rounded-lg py-2 text-white">
                   Mes réservations
                 </li>
               </ul>
             )}
-          </article>
+          </nav>
+
           <article className=" w-fit mx-auto relative bottom-32 flex-col justify-center">
             <figure className="border-white border-8 rounded-full  w-36 h-36 mx-auto  ">
               <img
-                className="rounded-full bg-lightColor "
+                className="rounded-full h-32 w-auto bg-lightColor "
                 src={userInfo[0].photo}
                 alt="profil utilisateur"
               />
@@ -75,22 +95,87 @@ export default function ModalProfil({
               Bonjour {userInfo[0].firstName}
             </h2>
           </article>
-          <article className="ml-4 font-paragraph relative bottom-20 text-xl grid grid-cols-2">
-            <h2 className="mb-4  text-interestColor">Nom</h2>
-            <h3 className="ml-8">{userInfo[0].lastName}</h3>
+          <article>
+            <form
+              className="ml-4 font-paragraph relative bottom-20 text-xl grid grid-cols-2"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              {!editForm && (
+                <input
+                  className="absolute bottom-[65vh] w-20 text-xs left-32"
+                  type="file"
+                  {...register("photo")}
+                />
+              )}
+              <label htmlFor="firstName" className="mb-4  text-interestColor">
+                Prénom
+              </label>
+              <input
+                className={`text-black ml-8 bg-lightColor h-6 ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
+                type="text"
+                readOnly={editForm}
+                disabled={editForm}
+                defaultValue={userInfo[0].firstName}
+                {...register("firstName")}
+              />
 
-            <h2 className="mb-4  text-interestColor">Prénom</h2>
-            <h3 className="ml-8">{userInfo[0].firstName}</h3>
+              <label htmlFor="lastName" className="mb-4  text-interestColor">
+                Nom
+              </label>
+              <input
+                className={`text-black ml-8 bg-lightColor h-6 ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
+                type="text"
+                readOnly={editForm}
+                disabled={editForm}
+                defaultValue={userInfo[0].lastName}
+                {...register("lastName")}
+              />
 
-            <h2 className="mb-4  text-interestColor">Date de naissance</h2>
-            <h3 className="ml-8">""</h3>
+              <label htmlFor="birthday" className="mb-4  text-interestColor">
+                birthday
+              </label>
+              <input
+                className={`text-black ml-8 bg-lightColor h-6 ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
+                type="text"
+                readOnly={editForm}
+                disabled={editForm}
+                defaultValue={userInfo[0].birthday.toString()}
+                {...register("birthday")}
+              />
 
-            <h2 className="mb-4  text-interestColor">Ville</h2>
+              <label htmlFor="city" className="mb-4  text-interestColor">
+                city
+              </label>
+              <input
+                className={`text-black ml-8 bg-lightColor h-6 ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
+                type="text"
+                readOnly={editForm}
+                disabled={editForm}
+                defaultValue={userInfo[0].city}
+                {...register("city")}
+              />
 
-            <h3 className="ml-8">{userInfo[0].city}</h3>
+              <label htmlFor="zipCode" className="mb-4  text-interestColor">
+                zipCode
+              </label>
+              <input
+                className={`text-black ml-8 bg-lightColor h-6 ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
+                type="text"
+                readOnly={editForm}
+                disabled={editForm}
+                defaultValue={userInfo[0].zipCode}
+                {...register("zipCode")}
+              />
 
-            <h2 className="mb-4  text-interestColor">Code postal</h2>
-            <h3 className="ml-8">{userInfo[0].zipCode}</h3>
+              {!editForm && (
+                <button
+                  className="border-interestColor absolute -bottom-8 translate-x-3/4 mx-auto border px-6  rounded-3xl bg-interestColor text-white py-1 mt-4"
+                  type="submit"
+                >
+                  Modifier
+                </button>
+              )}
+            </form>
           </article>
         </section>
       )}

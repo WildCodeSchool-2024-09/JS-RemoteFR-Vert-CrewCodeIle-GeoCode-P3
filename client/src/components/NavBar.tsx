@@ -1,11 +1,11 @@
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import data from "../assets/data/navbar.json";
 import carIcon from "../assets/images/car.png";
 import contactIcon from "../assets/images/contact.png";
 import logo from "../assets/images/logo.png";
 import mapIcon from "../assets/images/map.png";
 import userIcon from "../assets/images/user.png";
-import { useState } from "react";
-import { createPortal } from "react-dom";
-import data from "../assets/data/navbar.json";
 
 import ModalProfil from "./ModalProfil";
 
