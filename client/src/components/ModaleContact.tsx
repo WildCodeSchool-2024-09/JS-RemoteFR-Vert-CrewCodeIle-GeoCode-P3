@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import data from "../assets/data/dropdownmenucontact.json";
 import errorMessage from "../assets/data/errorMessage.json";
@@ -27,6 +27,10 @@ export default function ({
       message: "",
     },
   });
+  // Use a ref to reference all inputs
+  const inputRef = useRef<
+    (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)[]
+  >([]);
 
   // Use a callback for save the handle focus
   const handleFocus = useCallback((e: FocusEvent) => {
@@ -42,9 +46,7 @@ export default function ({
   }, []);
 
   useEffect(() => {
-    // I select all the input of the modale
-    const inputs = document.querySelectorAll("input, select, textarea");
-
+    const inputs = inputRef.current;
     // I add an event listener
     for (const input of inputs) {
       input.addEventListener("focus", handleFocus as EventListener);
@@ -80,6 +82,22 @@ export default function ({
       });
   };
 
+  // All references
+  const lastNameRef = (e: HTMLInputElement) => {
+    if (e) inputRef.current[0] = e;
+  };
+  const firstNameRef = (e: HTMLInputElement) => {
+    if (e) inputRef.current[1] = e;
+  };
+  const emailRef = (e: HTMLInputElement) => {
+    if (e) inputRef.current[2] = e;
+  };
+  const subjectRef = (e: HTMLSelectElement) => {
+    if (e) inputRef.current[3] = e;
+  };
+  const messageRef = (e: HTMLTextAreaElement) => {
+    if (e) inputRef.current[4] = e;
+  };
   return (
     <section
       id="contact-header"
@@ -121,6 +139,7 @@ export default function ({
               message: errorMessage.lastName,
             },
           })}
+          ref={lastNameRef}
           placeholder="Doe"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.lastname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -150,6 +169,7 @@ export default function ({
               message: errorMessage.firstName,
             },
           })}
+          ref={firstNameRef}
           placeholder="John"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 border ${errors.firstname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -179,6 +199,7 @@ export default function ({
               message: errorMessage.email,
             },
           })}
+          ref={emailRef}
           placeholder="john-doe@mail.com"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.email ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -201,6 +222,7 @@ export default function ({
               }
             },
           })}
+          ref={subjectRef}
           className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 text-darkColor"
         >
           {data.map((e) => (
@@ -238,6 +260,7 @@ export default function ({
               message: errorMessage.message,
             },
           })}
+          ref={messageRef}
           placeholder="Entrez votre message ici"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor resize-none row-span-9 h-24 col-span-3 vsm:row-span-10 vsm:h-36 vmd:h-44 sm:row-span-12 sm:h-72 lg:h-32 lg:row-span-9 xl:h-36 2xl:h-40 2xl:row-span-7 ${errors.message ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
