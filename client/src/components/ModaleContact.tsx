@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import data from "../assets/data/dropdownmenucontact.json";
 import errorMessage from "../assets/data/errorMessage.json";
@@ -33,7 +33,7 @@ export default function ({
   >([]);
 
   // Use a callback for save the handle focus
-  const handleFocus = useCallback((e: FocusEvent) => {
+  const handleFocus = useCallback((e: React.FocusEvent) => {
     // The element I focus, all input in this case
     const inputField = e.target as HTMLElement;
     // The treatment I want to execute: a scroll in this case, with smooth behavior, and on the center of the input
@@ -44,21 +44,6 @@ export default function ({
       });
     }, 150);
   }, []);
-
-  useEffect(() => {
-    const inputs = inputRef.current;
-    // I add an event listener
-    for (const input of inputs) {
-      input.addEventListener("focus", handleFocus as EventListener);
-    }
-
-    // I remove the listener when the component dismount
-    return () => {
-      for (const input of inputs) {
-        input.removeEventListener("focus", handleFocus as EventListener);
-      }
-    };
-  }, [handleFocus]);
 
   // Use a state for open the modal of confirmation
   const [showConfirmationContactModale, setShowConfirmationContactModale] =
@@ -140,6 +125,7 @@ export default function ({
             },
           })}
           ref={lastNameRef}
+          onFocus={handleFocus}
           placeholder="Doe"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.lastname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -170,6 +156,7 @@ export default function ({
             },
           })}
           ref={firstNameRef}
+          onFocus={handleFocus}
           placeholder="John"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 border ${errors.firstname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -200,6 +187,7 @@ export default function ({
             },
           })}
           ref={emailRef}
+          onFocus={handleFocus}
           placeholder="john-doe@mail.com"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.email ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -223,6 +211,7 @@ export default function ({
             },
           })}
           ref={subjectRef}
+          onFocus={handleFocus}
           className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 text-darkColor"
         >
           {data.map((e) => (
@@ -261,6 +250,7 @@ export default function ({
             },
           })}
           ref={messageRef}
+          onFocus={handleFocus}
           placeholder="Entrez votre message ici"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor resize-none row-span-9 h-24 col-span-3 vsm:row-span-10 vsm:h-36 vmd:h-44 sm:row-span-12 sm:h-72 lg:h-32 lg:row-span-9 xl:h-36 2xl:h-40 2xl:row-span-7 ${errors.message ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
