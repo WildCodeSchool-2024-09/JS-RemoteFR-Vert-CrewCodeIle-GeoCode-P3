@@ -28,19 +28,24 @@ export default function ({
     },
   });
   // Use a ref to reference all inputs
-  const inputsRef = useRef(null);
+  const inputsRef = useRef<
+    (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)[]
+  >([]);
 
   // Use a callback for save the handle focus
-  const handleFocus = useCallback((e: React.FocusEvent) => {
+  const handleFocus = useCallback((i: number) => {
     // The element I focus, all input in this case
-    const inputField = e.target as HTMLElement;
-    // The treatment I want to execute: a scroll in this case, with smooth behavior, and on the center of the input
-    setTimeout(() => {
-      inputField.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }, 100);
+    if (inputsRef.current.length > 0) {
+      const inputField = inputsRef.current[i];
+
+      // The treatment I want to execute: a scroll in this case, with smooth behavior, and on the center of the input
+      setTimeout(() => {
+        inputField.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 150);
+    }
   }, []);
 
   // Use a state for open the modal of confirmation
@@ -106,8 +111,8 @@ export default function ({
               message: errorMessage.lastName,
             },
           })}
-          ref={inputsRef}
-          onFocus={handleFocus}
+          ref={(e) => e && inputsRef.current.push(e)}
+          onFocus={() => handleFocus(0)}
           placeholder="Doe"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.lastname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -137,8 +142,8 @@ export default function ({
               message: errorMessage.firstName,
             },
           })}
-          ref={inputsRef}
-          onFocus={handleFocus}
+          ref={(e) => e && inputsRef.current.push(e)}
+          onFocus={() => handleFocus(1)}
           placeholder="John"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 border ${errors.firstname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -168,8 +173,8 @@ export default function ({
               message: errorMessage.email,
             },
           })}
-          ref={inputsRef}
-          onFocus={handleFocus}
+          ref={(e) => e && inputsRef.current.push(e)}
+          onFocus={() => handleFocus(2)}
           placeholder="john-doe@mail.com"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.email ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -192,8 +197,8 @@ export default function ({
               }
             },
           })}
-          ref={inputsRef}
-          onFocus={handleFocus}
+          ref={(e) => e && inputsRef.current.push(e)}
+          onFocus={() => handleFocus(3)}
           className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 text-darkColor"
         >
           {data.map((e) => (
@@ -231,8 +236,8 @@ export default function ({
               message: errorMessage.message,
             },
           })}
-          ref={inputsRef}
-          onFocus={handleFocus}
+          ref={(e) => e && inputsRef.current.push(e)}
+          onFocus={() => handleFocus(4)}
           placeholder="Entrez votre message ici"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor resize-none row-span-9 h-24 col-span-3 vsm:row-span-10 vsm:h-36 vmd:h-44 sm:row-span-12 sm:h-72 lg:h-32 lg:row-span-9 xl:h-36 2xl:h-40 2xl:row-span-7 ${errors.message ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
