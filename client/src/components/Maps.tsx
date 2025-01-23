@@ -18,6 +18,8 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import type { searchApi } from "../types/searchApi";
 import LocationUser from "./LocationUser";
+import ModaleContact from "./ModaleContact";
+import type { ContactModaleProps } from "../assets/definition/lib";
 
 // table station structure
 type Station = {
@@ -29,13 +31,31 @@ type Station = {
   longitude: number;
 };
 
+/**
+ *
+ * @param {object} selectedPosition:
+ * coordinates ​​of the user selected position or the default position at map startup
+ * @param {boolean} showContactModale and @param {function}setShowContactModale:
+ * - values and function to child element "ModalContact"
+ * @returns
+ *
+ * --
+ */
 export default function Maps({
+  showContactModale,
+  setShowContactModale,
   selectedPosition,
-}: { selectedPosition: searchApi }) {
+}: {
+  showContactModale: boolean;
+  selectedPosition: searchApi;
+
+  setShowContactModale: ContactModaleProps["setShowContactModale"];
+}) {
+  // default map centering position
   const position = { lat: 48.8566, lng: 2.3522 };
   const [stations, setStations] = useState<Station[]>();
 
-  // call server database
+  // loading stations from database
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/station`)
       .then((response) => response.json())
@@ -84,6 +104,10 @@ export default function Maps({
           transition={Bounce}
         />
       </MapContainer>
+      <ModaleContact
+        showContactModale={showContactModale}
+        setShowContactModale={setShowContactModale}
+      />
     </>
   );
 }
