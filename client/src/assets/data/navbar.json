@@ -1,6 +1,16 @@
 [
   { "id": 1, "name": "Carte", "url": "/home" },
-  { "id": 2, "name": "Profil", "url": "/user" },
+  {
+    "id": 2,
+    "name": "Profil",
+    "url": "/user",
+    "onClick": "() =>e.name === navBarData[1].name && setShowProfilModal(!showProfilModal)"
+  },
   { "id": 3, "name": "Véhicule", "url": "/cars" },
-  { "id": 4, "name": "Contact", "url": "/contact" }
+  {
+    "id": 4,
+    "name": "Contact",
+    "url": "/contact",
+    "onClick": "() =>e.name === navBarData[3].name && setShowContactModale(!showContactModale)"
+  }
 ]

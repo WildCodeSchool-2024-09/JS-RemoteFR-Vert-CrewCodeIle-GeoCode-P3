@@ -8,15 +8,21 @@ import mapIcon from "../assets/images/map.png";
 import userIcon from "../assets/images/user.png";
 
 import ModalProfil from "./ModalProfil";
+import type { ContactModaleProps } from "../assets/definition/lib";
 
-export default function NavBar() {
+export default function NavBar({
+  showContactModale,
+  setShowContactModale,
+}: ContactModaleProps) {
+  // Data of the navbar
   const navBarData = data;
   const navBarIcons = [mapIcon, userIcon, carIcon, contactIcon];
   const [showProfilModal, setShowProfilModal] = useState<boolean>(false);
   const handleClickModalProfil = () => setShowProfilModal(false);
+
   return (
     <>
-      <nav className="flex h-10 justify-center z-[9000] absolute bottom-4 w-full lg:top-0 lg:bottom-auto lg:justify-between lg:bg-accentColor lg:h-28">
+      <nav className="flex h-10 justify-center z-[1000] fixed bottom-4 w-full lg:top-0 lg:bottom-auto lg:justify-between lg:bg-accentColor lg:h-28 lg:z-[1020]">
         <img src={logo} alt="logo" className="hidden lg:inline" />
         <ul className="h-full flex items-center justify-around w-11/12 rounded-full shadow-md shadow-darkColor bg-darkColor lg:bg-transparent lg:shadow-none lg:w-1/2">
           {navBarData.map((e, i) => (
@@ -28,10 +34,13 @@ export default function NavBar() {
                     ? "flex lg:hidden"
                     : "flex lg:justify-center lg:bg-interestColor lg:py-3 lg:min-w-28 lg:max-w-28 lg:rounded-full lg:shadow-md lg:shadow-darkColor lg:font-title lg:text-lightColor lg:active:bg-darkColor"
                 }
-                onClick={() =>
-                  e.name === navBarData[1].name &&
-                  setShowProfilModal(!showProfilModal)
-                }
+                onClick={() => {
+                  if (e.name === navBarData[1].name) {
+                    setShowProfilModal(!showProfilModal);
+                  } else if (e.name === navBarData[3].name) {
+                    setShowContactModale(!showContactModale);
+                  }
+                }}
               >
                 <img
                   alt={e.name}

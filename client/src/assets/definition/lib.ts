@@ -3,7 +3,6 @@ export type PresentationProps = {
   link: string;
   buttonText: string;
 };
-
 export type VehiculeProps = {
   brand: number;
   model: number;
@@ -57,6 +56,25 @@ export type ErrorMessageProps = {
   brand: string;
   model: string;
   socket: string;
+  minChar: string;
+  minCharEmail: string;
+  minCharMessage: string;
+  maxChar: string;
+  select: string;
+  message: string;
+};
+
+export type ContactModaleProps = {
+  showContactModale: boolean;
+  setShowContactModale: (boolean: boolean) => void;
+};
+
+export type ContactFormProps = {
+  lastname: string;
+  firstname: string;
+  email: string;
+  subject: string;
+  message: string;
 };
 
 export type ProfilModalProps = {

@@ -13,8 +13,14 @@
 import "../index.css";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer } from "react-leaflet";
+import ModaleContact from "./ModaleContact";
 
-export default function Maps() {
+import type { ContactModaleProps } from "../assets/definition/lib";
+
+export default function Maps({
+  showContactModale,
+  setShowContactModale,
+}: ContactModaleProps) {
   // default location
   const position = { lat: 48.8566, lng: 2.3522 };
 
@@ -26,6 +32,10 @@ export default function Maps() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
       </MapContainer>
+      <ModaleContact
+        showContactModale={showContactModale}
+        setShowContactModale={setShowContactModale}
+      />
     </>
   );
 }
