@@ -23,12 +23,6 @@ export default function HomePage() {
   const { showContactModale, setShowContactModale }: ContactModaleProps =
     useOutletContext();
 
-  /*     type ContactModalProps = {
-      children: (string | boolean | searchApi | ((boolean: boolean) => void))[];
-      showContactModal: boolean;
-      setShowContactModal: (show: boolean) => void;
-    } */
-
   return (
     <>
       <Search setSelectedPosition={setSelectedPosition} />
