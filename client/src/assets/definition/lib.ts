@@ -21,6 +21,11 @@ export type UserProps = {
   confirm: string;
 };
 
+export type PhotoProps = {
+  id: number;
+  photo: string | undefined;
+};
+
 export type BrandProps = {
   id: number;
   label: string;

@@ -1,4 +1,7 @@
-import type { UserProps } from "../../../../client/src/assets/definition/lib";
+import type {
+  PhotoProps,
+  UserProps,
+} from "../../../../client/src/assets/definition/lib";
 import databaseClient, { type Result } from "../../../database/client";
 
 class ProfilRepository {
@@ -13,16 +16,15 @@ class ProfilRepository {
   }
 
   async UpdateUserInfo(
-    user: Omit<UserProps, "email" | "password" | "confirm">,
+    user: Omit<UserProps, "email" | "password" | "confirm" | "photo">,
   ) {
     const [result] = await databaseClient.query<Result>(
       `UPDATE user
-      SET firstName = ?, lastName = ?, photo = ?, birthday = ?, city = ?, zipCode = ?
+      SET firstName = ?, lastName = ?,  birthday = ?, city = ?, zipCode = ?
       WHERE id = ?`,
       [
         user.firstName,
         user.lastName,
-        user.photo,
         user.birthday,
         user.city,
         user.zipCode,
@@ -30,6 +32,16 @@ class ProfilRepository {
       ],
     );
 
+    return result.affectedRows;
+  }
+
+  async UpdatePhoto(user: PhotoProps) {
+    const [result] = await databaseClient.query<Result>(
+      `UPDATE user
+      SET photo = ?
+      WHERE id = ?`,
+      [user.photo, user.id],
+    );
     return result.affectedRows;
   }
 }

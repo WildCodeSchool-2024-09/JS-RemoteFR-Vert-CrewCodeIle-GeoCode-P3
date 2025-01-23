@@ -1,6 +1,6 @@
 import { userInfo } from "node:os";
 import type { RequestHandler } from "express";
-import profilRepository from "./profilRepository";
+import profilRepository from "./ProfilRepository";
 
 const readUserInfo: RequestHandler = async (req, res, next) => {
   try {
@@ -23,13 +23,12 @@ const EditProfil: RequestHandler = async (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       birthday: req.body.birthday,
-      photo: req.body.photo,
       city: req.body.city,
       zipCode: Number(req.body.zipCode),
     };
 
     const affectedRows = await profilRepository.UpdateUserInfo(UserInfo);
-    console.info(req.body.photo);
+
     if (affectedRows === 0) {
       res.sendStatus(404);
     } else {
@@ -39,4 +38,21 @@ const EditProfil: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-export default { readUserInfo, EditProfil };
+
+const EditPhoto: RequestHandler = async (req, res, next) => {
+  try {
+    const userPhoto = {
+      photo: req.file?.filename,
+      id: Number(req.params.id),
+    };
+    const affectedRows = await profilRepository.UpdatePhoto(userPhoto);
+    if (affectedRows === 0) {
+      res.sendStatus(404);
+    } else {
+      res.sendStatus(201);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+export default { readUserInfo, EditProfil, EditPhoto };

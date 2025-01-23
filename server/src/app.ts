@@ -57,6 +57,7 @@ app.use(express.json());
 // app.use(express.text());
 // app.use(express.raw());
 app.use(express.static("public"));
+app.use(express.static("../public/uploads"));
 
 /* ************************************************************************* */
 

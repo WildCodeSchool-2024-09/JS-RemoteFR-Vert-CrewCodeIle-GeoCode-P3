@@ -17,14 +17,18 @@ export default function ModalProfil({
   }, []);
 
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
+
   const handleClickMenu = () => setOpenBurgerMenu(!openBurgerMenu);
 
-  const { register, handleSubmit } = useForm<UserProps>();
-
   const [editForm, setEditForm] = useState(true);
+
   const handleClickEdit = () => setEditForm(!editForm);
 
-  const onSubmit: SubmitHandler<UserProps> = (userData) => {
+  const { register, handleSubmit } = useForm<UserProps>();
+  const { register: registerPhoto, handleSubmit: handleSubmitPhoto } =
+    useForm<UserProps>();
+
+  const onSubmitEditUserInfo: SubmitHandler<UserProps> = (userData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/profile/${id}`, {
       method: "put",
       headers: { "Content-type": "application/json" },
@@ -33,8 +37,20 @@ export default function ModalProfil({
       .then((response) => response.json())
       .catch((err) => console.error(err))
       .then(() => setEditForm(true));
-    console.info(userData.photo[0]);
   };
+
+  const onSubmitUploadPhoto: SubmitHandler<UserProps> = (userPhoto) => {
+    const { photo } = userPhoto;
+    const formData = new FormData();
+    formData.append("photo", photo[0]);
+    fetch(`${import.meta.env.VITE_API_URL}/api/profile/upload/${id}`, {
+      method: "put",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .catch((err) => console.error(err));
+  };
+
   return (
     <>
       {userInfo && (
@@ -47,6 +63,7 @@ export default function ModalProfil({
             className="fixed inset-0  backdrop-blur-sm"
           />
 
+          {/* Menu burger */}
           <nav className=" w-fit">
             <button
               onClick={handleClickMenu}
@@ -83,7 +100,20 @@ export default function ModalProfil({
             )}
           </nav>
 
+          {/* photo utilisateur et modification photo */}
           <article className=" w-fit mx-auto relative bottom-32 flex-col justify-center">
+            <form onSubmit={handleSubmitPhoto(onSubmitUploadPhoto)}>
+              {!editForm && (
+                <>
+                  <input
+                    className="absolute  w-20 text-xs left-32"
+                    type="file"
+                    {...registerPhoto("photo")}
+                  />
+                  <button type="submit">Envoi</button>
+                </>
+              )}
+            </form>
             <figure className="border-white border-8 rounded-full  w-36 h-36 mx-auto  ">
               <img
                 className="rounded-full h-32 w-auto bg-lightColor "
@@ -95,19 +125,12 @@ export default function ModalProfil({
               Bonjour {userInfo[0].firstName}
             </h2>
           </article>
+
           <article>
             <form
               className="ml-4 font-paragraph relative bottom-20 text-xl grid grid-cols-2"
-              onSubmit={handleSubmit(onSubmit)}
-              encType="multipart/form-data"
+              onSubmit={handleSubmit(onSubmitEditUserInfo)}
             >
-              {!editForm && (
-                <input
-                  className="absolute bottom-[65vh] w-20 text-xs left-32"
-                  type="file"
-                  {...register("photo")}
-                />
-              )}
               <label htmlFor="firstName" className="mb-4  text-interestColor">
                 Prénom
               </label>
@@ -133,7 +156,7 @@ export default function ModalProfil({
               />
 
               <label htmlFor="birthday" className="mb-4  text-interestColor">
-                birthday
+                Date de naissance
               </label>
               <input
                 className={`text-black ml-8 bg-lightColor h-6 ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
@@ -145,7 +168,7 @@ export default function ModalProfil({
               />
 
               <label htmlFor="city" className="mb-4  text-interestColor">
-                city
+                Ville
               </label>
               <input
                 className={`text-black ml-8 bg-lightColor h-6 ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
@@ -157,7 +180,7 @@ export default function ModalProfil({
               />
 
               <label htmlFor="zipCode" className="mb-4  text-interestColor">
-                zipCode
+                Code postal
               </label>
               <input
                 className={`text-black ml-8 bg-lightColor h-6 ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}

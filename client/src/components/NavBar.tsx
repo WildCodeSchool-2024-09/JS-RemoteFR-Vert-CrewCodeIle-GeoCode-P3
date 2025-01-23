@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import data from "../assets/data/navbar.json";
+import type { ContactModaleProps } from "../assets/definition/lib";
 import carIcon from "../assets/images/car.png";
 import contactIcon from "../assets/images/contact.png";
 import logo from "../assets/images/logo.png";
 import mapIcon from "../assets/images/map.png";
 import userIcon from "../assets/images/user.png";
-
 import ModalProfil from "./ModalProfil";
-import type { ContactModaleProps } from "../assets/definition/lib";
 
 export default function NavBar({
   showContactModale,
