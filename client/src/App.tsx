@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { Bounce, ToastContainer } from "react-toastify";
 import NavBar from "./components/NavBar";
 
 export default function App() {
@@ -13,6 +14,19 @@ export default function App() {
         setShowContactModale={setShowContactModale}
       />
       <Outlet context={{ showContactModale, setShowContactModale }} />
+      <ToastContainer
+        position="top-center"
+        autoClose={6000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </>
   );
 }

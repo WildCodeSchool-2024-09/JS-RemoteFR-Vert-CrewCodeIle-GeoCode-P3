@@ -1,7 +1,7 @@
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import { CircleMarker, Marker, Tooltip, useMap } from "react-leaflet";
-import type { searchApi } from "../types/searchApi";
+import type { searchApi } from "../assets/definition/lib";
 
 export default function LocationUser({
   selectedPosition,
@@ -15,14 +15,15 @@ export default function LocationUser({
       label: "",
     },
   };
-
+  // zoom level default to map.flyTo()
+  const ZOOM_LEVEL_DEFAULT = 14;
   const [position, setPosition] = useState<searchApi>(defaultPosition);
 
   const map = useMap();
 
   const LeafIcon = L.Icon.extend({
     options: {
-      iconUrl: "../icons8-voiture-64.png",
+      iconUrl: "./src/assets/images/icons8-voiture-64.png",
       iconSize: [64, 64],
       iconAnchor: [32, 64],
       popupAnchor: [0, -42],
@@ -31,11 +32,10 @@ export default function LocationUser({
   const carIcon = new LeafIcon();
 
   // GPS or automatic position of the web browser
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     map.locate({
       setView: true,
-      maxZoom: 13,
+      maxZoom: ZOOM_LEVEL_DEFAULT,
     });
     map.on("locationfound", (e) => {
       const positionFound: searchApi = {
@@ -48,9 +48,8 @@ export default function LocationUser({
       };
       setPosition(positionFound);
     });
-  }, []);
+  }, [map.locate, map.on]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (selectedPosition !== null) {
       map.flyTo(
@@ -58,7 +57,7 @@ export default function LocationUser({
           selectedPosition.geometry.coordinates[1],
           selectedPosition.geometry.coordinates[0],
         ],
-        14,
+        ZOOM_LEVEL_DEFAULT,
       );
       const positionPut: searchApi = {
         geometry: {
@@ -73,7 +72,7 @@ export default function LocationUser({
       };
       setPosition(positionPut);
     }
-  }, [selectedPosition]);
+  }, [selectedPosition, map.flyTo]);
 
   return (
     <Marker

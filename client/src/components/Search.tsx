@@ -4,8 +4,8 @@
  */
 
 import { useEffect, useState } from "react";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import type { searchApi } from "../types/searchApi";
+import { toast } from "react-toastify";
+import type { searchApi } from "../assets/definition/lib";
 
 export default function Search(majPosition: {
   setSelectedPosition: (value: searchApi) => void;
@@ -39,11 +39,10 @@ export default function Search(majPosition: {
             .then((Response) => Response.json())
             .then((data) => setResultsApi(data.features))
 
-            .catch((error) => {
+            .catch(() => {
               toast.error(
                 "Oups ! Le moteur de recherche est indisponible pour le moment..",
               );
-              console.info(error);
             });
         }, 500);
         return () => {
@@ -97,7 +96,7 @@ export default function Search(majPosition: {
         <input
           type="search"
           value={query}
-          className="bg-[url('../../public/icon-loupe.svg')] bg-[center length:20px_20px] bg-no-repeat px-3 py-2 pl-7 w-full h-8 text-lg border-none rounded-md shadow-sm"
+          className="bg-[url('../../src/assets/images/icon-loupe.svg')] bg-[center length:20px_20px] bg-no-repeat px-3 py-2 pl-7 w-full h-8 text-lg border-none rounded-md shadow-sm"
           onChange={handleSearch}
           placeholder="Rechercher un lieu..."
         />
@@ -116,19 +115,6 @@ export default function Search(majPosition: {
             ))}
         </ul>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={6000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </>
   );
 }

@@ -15,21 +15,12 @@ import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import type { ContactModaleProps } from "../assets/definition/lib";
-import type { searchApi } from "../types/searchApi";
+import type { searchApi } from "../assets/definition/lib";
+import type { Station } from "../assets/definition/lib";
 import LocationUser from "./LocationUser";
 import ModaleContact from "./ModaleContact";
-
-// table station structure
-type Station = {
-  id: number;
-  id_station: string;
-  name: string;
-  adress: string;
-  latitude: number;
-  longitude: number;
-};
 
 /**
  *
@@ -57,7 +48,7 @@ export default function Maps({
 
   // loading stations from database
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/station`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/stations`)
       .then((response) => response.json())
       .then((data: Station[]) => {
         if (data.length > 0) {
@@ -68,7 +59,7 @@ export default function Maps({
           );
         }
       })
-      .catch(Error);
+      .catch((error) => toast.error("Oups ! Une erreur s'est produite", error));
   }, []);
 
   return (
@@ -90,19 +81,6 @@ export default function Maps({
           ))}
         </MarkerClusterGroup>
         <LocationUser selectedPosition={selectedPosition} />
-        <ToastContainer
-          position="top-center"
-          autoClose={6000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition={Bounce}
-        />
       </MapContainer>
       <ModaleContact
         showContactModale={showContactModale}

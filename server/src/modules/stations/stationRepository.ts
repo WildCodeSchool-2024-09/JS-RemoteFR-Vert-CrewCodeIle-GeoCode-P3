@@ -13,7 +13,7 @@ type Station = {
 class StationRepository {
   async readAll() {
     // Execute the SQL SELECT query to retrieve all items from the "station" table
-    const [rows] = await databaseClient.query<Rows>("select * from station");
+    const [rows] = await databaseClient.query<Rows>("SELECT * FROM station");
 
     // Return the array of items
     return rows as Station[];

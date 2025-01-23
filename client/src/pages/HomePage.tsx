@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import Maps from "../components/Maps";
-
 import type { ContactModaleProps } from "../assets/definition/lib";
-
+import type { searchApi } from "../assets/definition/lib";
+import Maps from "../components/Maps";
 import Search from "../components/Search";
-import type { searchApi } from "../types/searchApi";
 
 export default function HomePage() {
   const defaultPosition: searchApi = {

@@ -12,7 +12,7 @@ const browse: RequestHandler = async (req, res) => {
     // Respond with the items in JSON format
     res.json(rows);
   } catch (err) {
-    res.send("error read database station...");
+    res.send(err);
   }
 };
 export default { browse };
