@@ -1,6 +1,6 @@
+import { userInfo } from "node:os";
 import type { RequestHandler } from "express";
 import profilRepository from "./profilRepository";
-import { userInfo } from "node:os";
 
 const readUserInfo: RequestHandler = async (req, res, next) => {
   try {
@@ -29,7 +29,7 @@ const EditProfil: RequestHandler = async (req, res, next) => {
     };
 
     const affectedRows = await profilRepository.UpdateUserInfo(UserInfo);
-
+    console.info(req.body.photo);
     if (affectedRows === 0) {
       res.sendStatus(404);
     } else {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { UserProps } from "../assets/definition/lib";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import type { UserProps } from "../assets/definition/lib";
 
 export default function ModalProfil({
   closeModal,
@@ -11,7 +11,7 @@ export default function ModalProfil({
   const id = 1;
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/profil/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/profile/${id}`)
       .then((res) => res.json())
       .then((data) => setUserInfo(data));
   }, []);
@@ -25,7 +25,7 @@ export default function ModalProfil({
   const handleClickEdit = () => setEditForm(!editForm);
 
   const onSubmit: SubmitHandler<UserProps> = (userData) => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/profil/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/profile/${id}`, {
       method: "put",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(userData),
@@ -33,7 +33,7 @@ export default function ModalProfil({
       .then((response) => response.json())
       .catch((err) => console.error(err))
       .then(() => setEditForm(true));
-    console.info(typeof userData.photo);
+    console.info(userData.photo[0]);
   };
   return (
     <>
@@ -99,6 +99,7 @@ export default function ModalProfil({
             <form
               className="ml-4 font-paragraph relative bottom-20 text-xl grid grid-cols-2"
               onSubmit={handleSubmit(onSubmit)}
+              encType="multipart/form-data"
             >
               {!editForm && (
                 <input

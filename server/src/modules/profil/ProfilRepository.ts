@@ -29,7 +29,7 @@ class ProfilRepository {
         user.id,
       ],
     );
-    console.info(user.city);
+
     return result.affectedRows;
   }
 }
