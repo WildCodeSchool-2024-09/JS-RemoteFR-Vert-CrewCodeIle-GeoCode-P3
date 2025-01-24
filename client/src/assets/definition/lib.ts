@@ -75,3 +75,22 @@ export type ContactFormProps = {
   subject: string;
   message: string;
 };
+
+export type searchApi = {
+  geometry: {
+    coordinates: [number, number];
+  };
+
+  properties: {
+    label: string;
+  };
+};
+
+export type Station = {
+  id: number;
+  id_station: string;
+  name: string;
+  adress: string;
+  latitude: number;
+  longitude: number;
+};
