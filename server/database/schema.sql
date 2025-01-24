@@ -47,8 +47,7 @@ CREATE TABLE user_car (
 );
 
 CREATE TABLE IF NOT EXISTS station (
-  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  id_station VARCHAR(100),
+  id VARCHAR(100) PRIMARY KEY NOT NULL,
   name VARCHAR(100),
   address VARCHAR(255),
   latitude FLOAT NOT NULL,
@@ -66,7 +65,7 @@ CREATE TABLE IF NOT EXISTS terminal (
   is_type_other BOOLEAN,
   is_available BOOLEAN,
   station_id VARCHAR(100) NOT NULL,
-  CONSTRAINT FOREIGN KEY(station_id) REFERENCES station(id_station)
+  CONSTRAINT FOREIGN KEY(station_id) REFERENCES station(id)
 );
 
 CREATE TABLE book_cost (
