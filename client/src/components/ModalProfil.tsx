@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type { UserProps } from "../assets/definition/lib";
+import { Pencil } from "lucide-react";
+import { SendHorizontal } from "lucide-react";
 
 export default function ModalProfil({
   closeModal,
@@ -48,15 +50,26 @@ export default function ModalProfil({
       body: formData,
     })
       .then((response) => response.json())
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .then(() => setEditForm(true));
   };
+
+  function formatedDAte(birthdate: Date) {
+    const getDate = new Date(birthdate);
+    const getYears = getDate.getFullYear();
+    const getMonth = getDate.getMonth();
+    const getDay = getDate.getDay();
+
+    return `${getYears} - ${getMonth} - ${getDay}`;
+  }
 
   return (
     <>
       {userInfo && (
         <section
-          className={`${showProfilModal ? "animate-openModal" : "animate-closeModal"} absolute bottom-0 bg-lightColor w-full z-[1005]`}
+          className={`${showProfilModal ? "animate-openModal" : "animate-closeModal"} absolute bottom-0 bg-lightColor w-full z-[999]`}
         >
+          {/* button to close modale when I clic out of the modal */}
           <button
             type="button"
             onClick={closeModal}
@@ -102,25 +115,38 @@ export default function ModalProfil({
 
           {/* photo utilisateur et modification photo */}
           <article className=" w-fit mx-auto relative bottom-32 flex-col justify-center">
-            <form onSubmit={handleSubmitPhoto(onSubmitUploadPhoto)}>
-              {!editForm && (
-                <>
-                  <input
-                    className="absolute  w-20 text-xs left-32"
-                    type="file"
-                    {...registerPhoto("photo")}
-                  />
-                  <button type="submit">Envoi</button>
-                </>
-              )}
-            </form>
             <figure className="border-white border-8 rounded-full  w-36 h-36 mx-auto  ">
               <img
-                className="rounded-full h-32 w-auto bg-lightColor "
-                src={userInfo[0].photo}
+                className={`${editForm ? "opacity-100 " : "  opacity-50  "} rounded-full h-32 w-auto `}
+                src={`${import.meta.env.VITE_API_URL}/upload/${userInfo[0].photo}`}
                 alt="profil utilisateur"
               />
+              <form onSubmit={handleSubmitPhoto(onSubmitUploadPhoto)}>
+                {!editForm && (
+                  <>
+                    <label
+                      htmlFor="photo"
+                      className="relative bottom-24 left-12"
+                    >
+                      <Pencil color="black" stroke-width={3} size={36} />
+                    </label>
+                    <input
+                      id="photo"
+                      className="hidden "
+                      type="file"
+                      {...registerPhoto("photo")}
+                    />
+                    <button
+                      className="relative bottom-24 left-7 border-interestColor w- border px-6  rounded-3xl bg-interestColor text-white py-1 mt-4"
+                      type="submit"
+                    >
+                      <SendHorizontal />
+                    </button>
+                  </>
+                )}
+              </form>
             </figure>
+
             <h2 className="mt-4  text-4xl w-72 border text-center font-title ">
               Bonjour {userInfo[0].firstName}
             </h2>
@@ -163,7 +189,7 @@ export default function ModalProfil({
                 type="text"
                 readOnly={editForm}
                 disabled={editForm}
-                defaultValue={userInfo[0].birthday.toString()}
+                defaultValue={formatedDAte(userInfo[0].birthday)}
                 {...register("birthday")}
               />
 
@@ -193,7 +219,7 @@ export default function ModalProfil({
 
               {!editForm && (
                 <button
-                  className="border-interestColor absolute -bottom-8 translate-x-3/4 mx-auto border px-6  rounded-3xl bg-interestColor text-white py-1 mt-4"
+                  className="border-interestColor absolute -bottom-8 translate-x-3/4 mx-auto border px-6  rounded-3xl bg-interestColor text-white py-1 mt-4 "
                   type="submit"
                 >
                   Modifier

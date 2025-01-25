@@ -4,7 +4,7 @@ CREATE TABLE user (
   lastName VARCHAR(255) NOT NULL,
   birthday DATE NOT NULL,
   email VARCHAR(255) NOT NULL unique,
-  photo VARCHAR(255) DEFAULT "/images/user_profil.png",
+  photo VARCHAR(255) DEFAULT "user_profil.png",
   city VARCHAR(255) NOT NULL,
   zipCode INT NOT NULL,
   password VARCHAR(255) NOT NULL
