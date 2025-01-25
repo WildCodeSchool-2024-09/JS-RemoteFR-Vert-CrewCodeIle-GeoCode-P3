@@ -15,6 +15,22 @@ const readUserInfo: RequestHandler = async (req, res, next) => {
   }
 };
 
+const readReservation: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.id);
+
+    const bookInfo = await profilRepository.ReadBooking(userId);
+
+    if (bookInfo === null) {
+      res.status(404).json({ message: "Aucune réservation" });
+    } else {
+      res.json(bookInfo);
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
 const EditProfil: RequestHandler = async (req, res, next) => {
   try {
     const UserInfo = {
@@ -54,4 +70,4 @@ const EditPhoto: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-export default { readUserInfo, EditProfil, EditPhoto };
+export default { readUserInfo, EditProfil, EditPhoto, readReservation };

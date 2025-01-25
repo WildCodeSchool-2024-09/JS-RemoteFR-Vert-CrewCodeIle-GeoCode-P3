@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS terminal (
   CONSTRAINT FOREIGN KEY(station_id) REFERENCES station(id_station)
 );
 
+
 CREATE TABLE book_cost (
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   price FLOAT NOT NULL
@@ -80,7 +81,7 @@ CREATE TABLE book (
   user_id INT NOT NULL,
   terminal_id INT NOT NULL,
   book_cost_id INT NOT NULL,
-  star_book DATETIME DEFAULT CURRENT_TIMESTAMP,
+  start_book DATETIME DEFAULT CURRENT_TIMESTAMP,
   end_book DATETIME,
   cost FLOAT NOT NULL,
   CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(id),

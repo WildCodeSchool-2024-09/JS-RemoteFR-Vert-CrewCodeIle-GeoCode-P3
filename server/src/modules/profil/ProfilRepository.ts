@@ -15,6 +15,16 @@ class ProfilRepository {
     return rows as UserProps[];
   }
 
+  async ReadBooking(id: number) {
+    const [rows] = await databaseClient.query(
+      `SELECT start_book, end_book, terminal_id 
+      FROM book
+      WHERE user = ?`,
+      [id],
+    );
+    return rows;
+  }
+
   async UpdateUserInfo(
     user: Omit<UserProps, "email" | "password" | "confirm" | "photo">,
   ) {

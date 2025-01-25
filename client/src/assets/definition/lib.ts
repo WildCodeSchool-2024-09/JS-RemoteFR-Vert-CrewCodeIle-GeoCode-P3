@@ -105,3 +105,10 @@ export type Station = {
   latitude: number;
   longitude: number;
 };
+
+export type BookingProps = {
+  id: number;
+  start_book: Date;
+  end_book: Date;
+  terminal_id: number;
+};

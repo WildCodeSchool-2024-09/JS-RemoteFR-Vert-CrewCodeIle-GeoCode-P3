@@ -15,6 +15,7 @@ const upload = multer({ storage: storage });
 const router = express.Router();
 
 router.get("/api/profile/:id", profilAction.readUserInfo);
+router.get("/api/profile/book/:id", profilAction.readReservation);
 router.put("/api/profile/:id", profilAction.EditProfil);
 router.put(
   "/api/profile/upload/:id",

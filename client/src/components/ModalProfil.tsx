@@ -2,13 +2,14 @@ import { Pencil } from "lucide-react";
 import { SendHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import type { UserProps } from "../assets/definition/lib";
+import type { BookingProps, UserProps } from "../assets/definition/lib";
 
 export default function ModalProfil({
   closeModal,
   showProfilModal,
 }: { closeModal: () => void; showProfilModal: boolean }) {
   const [userInfo, setUserInfo] = useState<UserProps[]>();
+  const [booking, setBooking] = useState<BookingProps>();
 
   const id = 1;
 
@@ -17,6 +18,14 @@ export default function ModalProfil({
       .then((res) => res.json())
       .then((data) => setUserInfo(data));
   }, []);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/profile/book/${id}`)
+      .then((res) => res.json())
+      .then((data) => setBooking(data));
+  }, []);
+
+  console.info(booking);
 
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
 
@@ -186,7 +195,7 @@ export default function ModalProfil({
               </label>
               <input
                 className={`text-black ml-8 bg-lightColor h-6 ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
-                type="text"
+                type="date"
                 readOnly={editForm}
                 disabled={editForm}
                 defaultValue={formatedDAte(userInfo[0].birthday)}
