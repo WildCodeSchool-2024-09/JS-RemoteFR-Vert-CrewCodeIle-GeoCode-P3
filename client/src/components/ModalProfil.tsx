@@ -1,8 +1,8 @@
+import { Pencil } from "lucide-react";
+import { SendHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type { UserProps } from "../assets/definition/lib";
-import { Pencil } from "lucide-react";
-import { SendHorizontal } from "lucide-react";
 
 export default function ModalProfil({
   closeModal,
