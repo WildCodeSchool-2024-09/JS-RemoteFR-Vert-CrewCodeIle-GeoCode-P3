@@ -1,4 +1,3 @@
-import { userInfo } from "node:os";
 import type { RequestHandler } from "express";
 import profilRepository from "./ProfilRepository";
 
