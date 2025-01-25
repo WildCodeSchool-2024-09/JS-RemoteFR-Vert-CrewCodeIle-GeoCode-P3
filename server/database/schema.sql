@@ -66,8 +66,8 @@ CREATE TABLE IF NOT EXISTS terminal (
   is_type_chademo BOOLEAN,
   is_type_other BOOLEAN,
   is_available BOOLEAN,
-  station_id INT,
-  CONSTRAINT FOREIGN KEY(station_id) REFERENCES station(id)
+  station_id VARCHAR(100) NOT NULL,
+  CONSTRAINT FOREIGN KEY(station_id) REFERENCES station(id_station)
 );
 
 CREATE TABLE book_cost (
