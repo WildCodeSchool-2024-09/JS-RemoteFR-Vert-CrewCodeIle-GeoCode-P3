@@ -1,6 +1,6 @@
 import databaseClient from "../../../database/client";
 
-import type { Result } from "../../../database/client";
+import type { Result, Rows } from "../../../database/client";
 
 type ContactForm = {
   id: number;
@@ -9,6 +9,11 @@ type ContactForm = {
   email: string;
   subject: string;
   message: string;
+};
+
+type IsTreatedMessage = {
+  id: number;
+  is_treated: number;
 };
 
 class contactFormRepository {
@@ -25,6 +30,19 @@ class contactFormRepository {
     );
 
     return result.insertId;
+  }
+
+  async readAll() {
+    const [rows] = await databaseClient.query<Rows>("SELECT * FROM contact");
+    return rows;
+  }
+
+  async updateIsTreated(message: IsTreatedMessage) {
+    const [result] = await databaseClient.query<Result>(
+      "UPDATE contact SET is_treated = ? WHERE id = ?",
+      [message.id, message.is_treated],
+    );
+    return result.affectedRows;
   }
 }
 

@@ -69,11 +69,14 @@ export type ContactModaleProps = {
 };
 
 export type ContactFormProps = {
-  lastname: string;
-  firstname: string;
+  date: Date;
   email: string;
-  subject: string;
+  firstname: string;
+  id: number;
+  is_treated: number;
+  lastname: string;
   message: string;
+  subject: string;
 };
 
 export type searchApi = {

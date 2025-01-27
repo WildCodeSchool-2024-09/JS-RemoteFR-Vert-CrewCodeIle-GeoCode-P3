@@ -25,3 +25,7 @@
   font-size: 1.2rem;
   box-shadow: 0 0 0px 5px #fff;
 }
+
+* {
+  outline: red solid;
+}
