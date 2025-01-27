@@ -1,5 +1,39 @@
 import type { RequestHandler } from "express";
 import profilRepository from "./ProfilRepository";
+import joi from "joi";
+
+const now = Date.now();
+const minLegalAge = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
+const userRegisterSchema = joi.object({
+  firstName: joi
+    .string()
+    .pattern(/^[A-Za-z\é\è\ê\ï-]+$/)
+    .required(),
+  lastName: joi
+    .string()
+    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
+    .required(),
+  birthday: joi.date().max(minLegalAge).required(),
+  city: joi
+    .string()
+    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
+    .required(),
+  zipCode: joi.number().integer().required(),
+});
+
+// Vehicule validation Schema with Joi
+
+//Validation for register submission
+const validateUser: RequestHandler = (req, res, next) => {
+  const { error } = userRegisterSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  if (error == null) {
+    next();
+  } else {
+    res.status(400).json({ valdationErrors: error.details });
+  }
+};
 
 const readUserInfo: RequestHandler = async (req, res, next) => {
   try {
@@ -80,10 +114,12 @@ const deleteBooking: RequestHandler = async (req, res, next) => {
     res.sendStatus(204).json({ message: "La réservation a bien été annulée" });
   } catch (e) {}
 };
+
 export default {
   readUserInfo,
   EditProfil,
   EditPhoto,
   readReservation,
   deleteBooking,
+  validateUser,
 };

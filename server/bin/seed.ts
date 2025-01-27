@@ -23,7 +23,7 @@ const seed = async () => {
 
     for (const filePath of filePaths) {
       const { default: SeederClass } = await import(
-        path.join(fixturesPath, filePath)
+        pathToFileURL(path.join(fixturesPath, filePath)).href
       );
 
       const seeder = new SeederClass() as AbstractSeeder;

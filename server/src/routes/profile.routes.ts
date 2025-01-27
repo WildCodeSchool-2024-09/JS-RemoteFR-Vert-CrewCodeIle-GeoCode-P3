@@ -11,7 +11,21 @@ const storage = multer.diskStorage({
     cb(null, file.originalname.split(" ").join("_"));
   },
 });
-const upload = multer({ storage: storage });
+
+const MAX_SIZE = 10000000;
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: MAX_SIZE },
+  fileFilter: (req, file, cb) => {
+    const MIME_TYPE = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+    const fileType = MIME_TYPE.includes(file.mimetype);
+    if (fileType) {
+      cb(null, true); // Accepte le fichier
+    } else {
+      cb(new Error("Format non accepté")); // Rejette le fichier
+    }
+  },
+});
 
 const router = express.Router();
 
@@ -19,7 +33,7 @@ router.get("/api/profile/:id", profilAction.readUserInfo);
 router.get("/api/profile/book/:id", profilAction.readReservation);
 router.put(
   "/api/profile/:id",
-
+  profilAction.validateUser,
   profilAction.EditProfil,
 );
 router.put(
