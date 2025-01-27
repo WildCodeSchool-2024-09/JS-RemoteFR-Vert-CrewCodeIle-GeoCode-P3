@@ -49,7 +49,7 @@ CREATE TABLE user_car (
 
 CREATE TABLE IF NOT EXISTS station (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  id_station VARCHAR(100),
+  id_station VARCHAR(100) UNIQUE,
   name VARCHAR(100),
   address VARCHAR(255),
   latitude FLOAT NOT NULL,

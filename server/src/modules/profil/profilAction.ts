@@ -70,4 +70,20 @@ const EditPhoto: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-export default { readUserInfo, EditProfil, EditPhoto, readReservation };
+
+const deleteBooking: RequestHandler = async (req, res, next) => {
+  try {
+    const bookId = Number(req.params.id);
+
+    const affectedRows = await profilRepository.DestroyBooking(bookId);
+
+    res.sendStatus(204).json({ message: "La réservation a bien été annulée" });
+  } catch (e) {}
+};
+export default {
+  readUserInfo,
+  EditProfil,
+  EditPhoto,
+  readReservation,
+  deleteBooking,
+};

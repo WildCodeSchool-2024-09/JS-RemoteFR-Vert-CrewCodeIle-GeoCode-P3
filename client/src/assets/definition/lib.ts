@@ -110,5 +110,6 @@ export type BookingProps = {
   id: number;
   start_book: Date;
   end_book: Date;
-  terminal_id: number;
+  name: string;
+  adress: string;
 };
