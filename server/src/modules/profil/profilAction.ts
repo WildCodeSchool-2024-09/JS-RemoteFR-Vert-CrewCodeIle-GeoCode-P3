@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
-import profilRepository from "./ProfilRepository";
 import joi from "joi";
+import profilRepository from "./ProfilRepository";
 
 const now = Date.now();
 const minLegalAge = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
@@ -96,9 +96,11 @@ const EditPhoto: RequestHandler = async (req, res, next) => {
     };
     const affectedRows = await profilRepository.UpdatePhoto(userPhoto);
     if (affectedRows === 0) {
-      res.sendStatus(404);
+      res.status(404).json({
+        Message: "Format non valide ou taille maximale atteinte (10mo)",
+      });
     } else {
-      res.sendStatus(201);
+      res.status(201).json({ message: "Photo mise à jour" });
     }
   } catch (err) {
     next(err);

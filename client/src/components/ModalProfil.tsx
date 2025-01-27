@@ -6,6 +6,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import type { UserProps } from "../assets/definition/lib";
 import { formatedDAte } from "../assets/helpers/FormatedDate";
 import ModalBooking from "./ModalBooking";
+import { toast } from "react-toastify";
 
 export default function ModalProfil({
   closeModal,
@@ -54,7 +55,15 @@ export default function ModalProfil({
       },
       body: JSON.stringify(userData),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 201) {
+          toast.success("Profil mis à jour");
+        } else {
+          toast.warning(
+            "Une erreur est survenue, veuillez rééssayer ultérieurement",
+          );
+        }
+      })
       .catch((err) => console.error(err))
       .then(() => setEditForm(true));
   };
@@ -64,12 +73,20 @@ export default function ModalProfil({
     const { photo } = userPhoto;
     const formData = new FormData();
     formData.append("photo", photo[0]);
+
+    console.info(formData);
     fetch(`${import.meta.env.VITE_API_URL}/api/profile/upload/${id}`, {
       method: "put",
       // headers: { Authorization: `Bearer ${auth.token}` },
       body: formData,
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 201) {
+          toast.success("Photo modifiée, actualisez la page");
+        } else {
+          toast.warning("Format non valide ou taille maximale atteinte (10mo)");
+        }
+      })
       .catch((err) => console.error(err))
       .then(() => setEditForm(true));
   };
