@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import data from "../assets/data/dropdownmenucontact.json";
 import errorMessage from "../assets/data/errorMessage.json";
@@ -27,26 +27,6 @@ export default function ({
       message: "",
     },
   });
-  // Use a ref to reference all inputs
-  const inputsRef = useRef<
-    (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)[]
-  >([]);
-
-  // Use a callback for save the handle focus
-  const handleFocus = useCallback((i: number) => {
-    // The element I focus, all input in this case
-    if (inputsRef.current.length > 0) {
-      const inputField = inputsRef.current[i];
-
-      // The treatment I want to execute: a scroll in this case, with smooth behavior, and on the center of the input
-      setTimeout(() => {
-        inputField.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }, 150);
-    }
-  }, []);
 
   // Use a state for open the modal of confirmation
   const [showConfirmationContactModale, setShowConfirmationContactModale] =
@@ -111,8 +91,6 @@ export default function ({
               message: errorMessage.lastName,
             },
           })}
-          ref={(e) => e && inputsRef.current.push(e)}
-          onFocus={() => handleFocus(0)}
           placeholder="Doe"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.lastname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -142,8 +120,6 @@ export default function ({
               message: errorMessage.firstName,
             },
           })}
-          ref={(e) => e && inputsRef.current.push(e)}
-          onFocus={() => handleFocus(1)}
           placeholder="John"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 border ${errors.firstname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -173,8 +149,6 @@ export default function ({
               message: errorMessage.email,
             },
           })}
-          ref={(e) => e && inputsRef.current.push(e)}
-          onFocus={() => handleFocus(2)}
           placeholder="john-doe@mail.com"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.email ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -197,8 +171,6 @@ export default function ({
               }
             },
           })}
-          ref={(e) => e && inputsRef.current.push(e)}
-          onFocus={() => handleFocus(3)}
           className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 text-darkColor"
         >
           {data.map((e) => (
@@ -216,7 +188,7 @@ export default function ({
         </p>
         <label
           htmlFor="message"
-          className="text-l font-paragraph col-span-3 row-span-3 text-darkColor vsm:row-span-2 md:text-xl lg:row-span-3"
+          className="text-l font-paragraph col-span-3 row-span-3 text-darkColor vsm:row-span-2 md:text-xl lg:row-span-3 xl:row-span-2"
         >
           Message:
         </label>
@@ -236,10 +208,8 @@ export default function ({
               message: errorMessage.message,
             },
           })}
-          ref={(e) => e && inputsRef.current.push(e)}
-          onFocus={() => handleFocus(4)}
           placeholder="Entrez votre message ici"
-          className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor resize-none row-span-9 h-24 col-span-3 vsm:row-span-10 vsm:h-36 vmd:h-44 sm:row-span-12 sm:h-72 lg:h-32 lg:row-span-9 xl:h-36 2xl:h-40 2xl:row-span-7 ${errors.message ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
+          className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor resize-none row-span-9 h-24 col-span-3 vsm:row-span-10 vsm:h-36 vmd:h-44 sm:row-span-12 sm:h-72 lg:h-32 lg:row-span-9 xl:h-36 2xl:h-40 2xl:row-span-8 ${errors.message ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
         <p className="pointer-events-none text-center col-span-3 pt-3 row-span-4 text-sm text-red-800 font-paragraph vsm:pt-5 vmd:row-span-3 sm:pt-8 sm:row-span-4 lg:pt-5 xl:text-lg 2xl:pt-7">
           {errors.message?.message}
