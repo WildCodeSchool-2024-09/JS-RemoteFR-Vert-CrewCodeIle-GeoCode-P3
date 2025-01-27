@@ -3,10 +3,10 @@ import { SendHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import type { UserProps } from "../assets/definition/lib";
 import { formatedDAte } from "../assets/helpers/FormatedDate";
 import ModalBooking from "./ModalBooking";
-import { toast } from "react-toastify";
 
 export default function ModalProfil({
   closeModal,
