@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import data from "../assets/data/dropdownmenucontact.json";
 import errorMessage from "../assets/data/errorMessage.json";
@@ -27,26 +27,6 @@ export default function ({
       message: "",
     },
   });
-  // Use a ref to reference all inputs
-  const inputsRef = useRef<
-    (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)[]
-  >([]);
-
-  // Use a callback for save the handle focus
-  const handleFocus = useCallback((i: number) => {
-    // The element I focus, all input in this case
-    if (inputsRef.current.length > 0) {
-      const inputField = inputsRef.current[i];
-
-      // The treatment I want to execute: a scroll in this case, with smooth behavior, and on the center of the input
-      setTimeout(() => {
-        inputField.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }, 150);
-    }
-  }, []);
 
   // Use a state for open the modal of confirmation
   const [showConfirmationContactModale, setShowConfirmationContactModale] =
@@ -69,81 +49,6 @@ export default function ({
         console.error("Erreur", error);
       });
   };
-
-  // All React-hook-form references
-  const { ref: lastnameRef, ...lastnameRest } = register("lastname", {
-    required: errorMessage.required,
-    minLength: {
-      value: 3,
-      message: errorMessage.minChar,
-    },
-    maxLength: {
-      value: 20,
-      message: errorMessage.maxChar,
-    },
-    pattern: {
-      value: /^[a-zA-ZàÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç-\s]+$/g,
-      message: errorMessage.lastName,
-    },
-  });
-
-  const { ref: firstnameRef, ...firstnameRest } = register("firstname", {
-    required: errorMessage.required,
-    minLength: {
-      value: 3,
-      message: errorMessage.minChar,
-    },
-    maxLength: {
-      value: 20,
-      message: errorMessage.maxChar,
-    },
-    pattern: {
-      value: /^[a-zA-ZàÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç-]+$/g,
-      message: errorMessage.firstName,
-    },
-  });
-
-  const { ref: emailRef, ...emailRest } = register("email", {
-    required: errorMessage.required,
-    minLength: {
-      value: 7,
-      message: errorMessage.minCharEmail,
-    },
-    maxLength: {
-      value: 50,
-      message: errorMessage.maxChar,
-    },
-    pattern: {
-      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g,
-      message: errorMessage.email,
-    },
-  });
-
-  const { ref: subjectRef, ...subjectRest } = register("subject", {
-    required: errorMessage.required,
-    validate: (value) => {
-      const validSubjects = data.map((e) => e.name);
-      if (!validSubjects.includes(value)) {
-        return errorMessage.select;
-      }
-    },
-  });
-
-  const { ref: messageRef, ...messageRest } = register("message", {
-    required: errorMessage.required,
-    minLength: {
-      value: 30,
-      message: errorMessage.minCharMessage,
-    },
-    maxLength: {
-      value: 1000,
-      message: errorMessage.maxChar,
-    },
-    pattern: {
-      value: /^[a-zA-Z0-9àÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç-\s\.\,?!:;]+$/g,
-      message: errorMessage.message,
-    },
-  });
 
   return (
     <section
@@ -171,12 +76,21 @@ export default function ({
         </label>
         <input
           type="text"
-          {...lastnameRest}
-          ref={(e) => {
-            lastnameRef(e);
-            e && inputsRef.current.push(e);
-          }}
-          onFocus={() => handleFocus(0)}
+          {...register("lastname", {
+            required: errorMessage.required,
+            minLength: {
+              value: 3,
+              message: errorMessage.minChar,
+            },
+            maxLength: {
+              value: 20,
+              message: errorMessage.maxChar,
+            },
+            pattern: {
+              value: /^[a-zA-ZàÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç-\s]+$/g,
+              message: errorMessage.lastName,
+            },
+          })}
           placeholder="Doe"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.lastname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -191,12 +105,21 @@ export default function ({
         </label>
         <input
           type="text"
-          {...firstnameRest}
-          ref={(e) => {
-            firstnameRef(e);
-            e && inputsRef.current.push(e);
-          }}
-          onFocus={() => handleFocus(1)}
+          {...register("firstname", {
+            required: errorMessage.required,
+            minLength: {
+              value: 3,
+              message: errorMessage.minChar,
+            },
+            maxLength: {
+              value: 20,
+              message: errorMessage.maxChar,
+            },
+            pattern: {
+              value: /^[a-zA-ZàÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç-]+$/g,
+              message: errorMessage.firstName,
+            },
+          })}
           placeholder="John"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 border ${errors.firstname ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -211,12 +134,21 @@ export default function ({
         </label>
         <input
           type="email"
-          {...emailRest}
-          ref={(e) => {
-            emailRef(e);
-            e && inputsRef.current.push(e);
-          }}
-          onFocus={() => handleFocus(2)}
+          {...register("email", {
+            required: errorMessage.required,
+            minLength: {
+              value: 7,
+              message: errorMessage.minCharEmail,
+            },
+            maxLength: {
+              value: 50,
+              message: errorMessage.maxChar,
+            },
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g,
+              message: errorMessage.email,
+            },
+          })}
           placeholder="john-doe@mail.com"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit col-span-2 w-full border ${errors.email ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
@@ -230,12 +162,15 @@ export default function ({
           Sujet:
         </label>
         <select
-          {...subjectRest}
-          ref={(e) => {
-            subjectRef(e);
-            e && inputsRef.current.push(e);
-          }}
-          onFocus={() => handleFocus(3)}
+          {...register("subject", {
+            required: errorMessage.required,
+            validate: (value) => {
+              const validSubjects = data.map((e) => e.name);
+              if (!validSubjects.includes(value)) {
+                return errorMessage.select;
+              }
+            },
+          })}
           className="focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor h-fit w-full col-span-2 text-darkColor"
         >
           {data.map((e) => (
@@ -258,12 +193,21 @@ export default function ({
           Message:
         </label>
         <textarea
-          {...messageRest}
-          ref={(e) => {
-            messageRef(e);
-            e && inputsRef.current.push(e);
-          }}
-          onFocus={() => handleFocus(4)}
+          {...register("message", {
+            required: errorMessage.required,
+            minLength: {
+              value: 30,
+              message: errorMessage.minCharMessage,
+            },
+            maxLength: {
+              value: 1000,
+              message: errorMessage.maxChar,
+            },
+            pattern: {
+              value: /^[a-zA-Z0-9àÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç-\s\.\,?!:;]+$/g,
+              message: errorMessage.message,
+            },
+          })}
           placeholder="Entrez votre message ici"
           className={`focus-visible:outline-dashed focus-visible:outline-4 focus-visible:outline-interestColor resize-none row-span-9 h-24 col-span-3 vsm:row-span-10 vsm:h-36 vmd:h-44 sm:row-span-12 sm:h-72 lg:h-32 lg:row-span-9 xl:h-36 2xl:h-40 2xl:row-span-8 ${errors.message ? "border-red-800 border-2 2xl:border-4" : "border-gray-300"} rounded`}
         />
