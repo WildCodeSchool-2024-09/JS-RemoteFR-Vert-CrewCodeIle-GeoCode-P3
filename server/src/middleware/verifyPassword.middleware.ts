@@ -9,10 +9,11 @@ export const verifyPassword: RequestHandler = async (req, res, next) => {
 
     if (checkPassword) {
       res.status(201);
-      console.info("ok2");
     } else {
       res.status(403).json({ message: "Password ou email incorrect" });
     }
+
+    console.info("ok2");
     next();
   } catch (e) {
     next(e);

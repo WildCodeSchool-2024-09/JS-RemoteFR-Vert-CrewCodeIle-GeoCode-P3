@@ -20,7 +20,7 @@ router.use("/", RegisterRouter);
 
 // Define login to follow
 import loginRouter from "./routes/login.routes";
-router.use("/", loginRouter);
+router.use(loginRouter);
 
 // Defin form-contact routes
 import contactRouter from "./routes/formContact.routes";

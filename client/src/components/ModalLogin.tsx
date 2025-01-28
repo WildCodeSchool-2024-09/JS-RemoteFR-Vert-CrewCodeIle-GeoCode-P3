@@ -2,6 +2,10 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import errorMessage from "../assets/data/errorMessage.json";
 import type { UserProps } from "../assets/definition/lib";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import ModalRegistration from "./ModalRegistration";
 
 export default function ModalLogin() {
   const {
@@ -10,6 +14,10 @@ export default function ModalLogin() {
 
     formState: { errors },
   } = useForm<UserProps>();
+
+  const navigate = useNavigate();
+  const [openRegisterModal, setOpenRegisterModal] = useState(false);
+  const handleClickRegister = () => setOpenRegisterModal(!openRegisterModal);
 
   const onSubmit: SubmitHandler<UserProps> = (userData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
@@ -24,6 +32,7 @@ export default function ModalLogin() {
           toast.warning("Erreur connexion");
         }
       })
+      .then(() => navigate("/home"))
       .catch((errors) => console.error(errors));
   };
 
@@ -67,6 +76,20 @@ export default function ModalLogin() {
             />
             <p className="text-red-800">{errors.password?.message}</p>
           </label>
+          <button
+            onClick={handleClickRegister}
+            type="button"
+            className="font-normal text-sm w-[80vw]"
+          >
+            Vous n'avez pas encore de compte ?
+          </button>
+          {openRegisterModal &&
+            createPortal(
+              <ModalRegistration
+                closeModal={() => setOpenRegisterModal(false)}
+              />,
+              document.body,
+            )}
           <button
             className="border-interestColor mx-16 border px-6   rounded-3xl bg-interestColor text-white py-1"
             type="submit"

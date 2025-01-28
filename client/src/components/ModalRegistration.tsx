@@ -9,7 +9,9 @@ import type {
 } from "../assets/definition/lib";
 import ModalVehiculeRegistration from "./ModalVehiculeRegistration";
 
-export default function ModalRegistration() {
+export default function ModalRegistration({
+  closeModal,
+}: { closeModal: () => void }) {
   //Json error message form
   const errorMessage: ErrorMessageProps = messageError;
 
@@ -49,6 +51,11 @@ export default function ModalRegistration() {
     <>
       {showVehiculeModal &&
         createPortal(<ModalVehiculeRegistration />, document.body)}
+      <button
+        type="button"
+        onClick={closeModal}
+        className="fixed inset-0 backdrop-blur-sm"
+      />
       <fieldset
         className={`${showVehiculeModal ? "opacity-0" : "opacity-100"} text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[9500] lg:w-36 lg:top-40`}
       >
