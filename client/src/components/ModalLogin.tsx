@@ -1,10 +1,10 @@
+import { useState } from "react";
+import { createPortal } from "react-dom";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import errorMessage from "../assets/data/errorMessage.json";
 import type { UserProps } from "../assets/definition/lib";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { createPortal } from "react-dom";
 import ModalRegistration from "./ModalRegistration";
 
 export default function ModalLogin() {
