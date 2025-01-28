@@ -120,16 +120,8 @@ const readSocket: RequestHandler = async (req, res, next) => {
 // Add user information from ModalRegistration in DB, table user
 const addUserInfo: RequestHandler = async (req, res, next) => {
   try {
-    const newRegister = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      birthday: req.body.birthday,
-      city: req.body.city,
-      zipCode: req.body.zipCode,
-      password: req.body.password,
-      confirm: req.body.confirm,
-    };
+    const newRegister = req.body;
+
     const insertId = await registerRepository.createUserInfo(newRegister);
 
     res.status(201).json({ insertId });

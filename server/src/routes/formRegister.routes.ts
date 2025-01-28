@@ -1,5 +1,5 @@
 import express from "express";
-
+import { hashedPaswword } from "../middleware/hashpassword";
 import registerAction from "../modules/register/registerAction";
 
 const router = express.Router();
@@ -11,6 +11,7 @@ router.get("/api/register/socket/:id", registerAction.readSocket);
 router.post(
   "/api/register",
   registerAction.validateUser,
+  hashedPaswword,
   registerAction.addUserInfo,
 );
 router.post(
