@@ -37,6 +37,16 @@ class RegisterRepository {
     return result.insertId;
   }
 
+  async readUserEmail(email: string) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT email, password 
+      FROM user
+      WHERE email = ?`,
+      [email],
+    );
+    return rows[0] as UserProps;
+  }
+
   async readAll() {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT label, id 

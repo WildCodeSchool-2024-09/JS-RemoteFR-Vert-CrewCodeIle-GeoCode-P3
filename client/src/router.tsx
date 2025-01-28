@@ -6,6 +6,7 @@ import ModalRegistration from "./components/ModalRegistration";
 import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
 import PresentationPage from "./pages/PresentationPage";
+import ModalLogin from "./components/ModalLogin";
 
 export const mainRouter = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const mainRouter = createBrowserRouter([
       {
         path: "/admin",
         element: <AdminPage />,
+      },
+      {
+        path: "/login",
+        element: <ModalLogin />,
       },
     ],
   },
