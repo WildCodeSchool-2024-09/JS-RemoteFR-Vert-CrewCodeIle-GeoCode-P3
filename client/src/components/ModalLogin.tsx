@@ -20,8 +20,15 @@ export default function ModalLogin() {
   const [openLoginModal, setOpenLoginModal] = useState(true);
   const handleClickRegister = () => {
     setOpenRegisterModal(!openRegisterModal);
-    setOpenLoginModal(!openRegisterModal);
+    setOpenLoginModal(openRegisterModal);
   };
+
+  const handleClickLogin = () => {
+    setOpenRegisterModal(false);
+    setOpenLoginModal(true);
+  };
+  console.info(openRegisterModal);
+  console.info(openLoginModal);
 
   const onSubmit: SubmitHandler<UserProps> = (userData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
@@ -45,16 +52,16 @@ export default function ModalLogin() {
       {openRegisterModal &&
         createPortal(
           <ModalRegistration
-            closeModal={() => setOpenRegisterModal(false)}
+            closeModalRegister={handleClickLogin}
             openRegisterModal={openRegisterModal}
           />,
           document.body,
         )}
       {openLoginModal && (
-        <fieldset
-          className={`text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[9500] lg:w-36 lg:top-40 ${openRegisterModal ? "opacity-0" : "opacity-100"} `}
-        >
-          <h2 className="pt-4 text-interestColor font-bold text-2xl">Login</h2>
+        <fieldset className="text-center font-paragraph  bg-lightColor w-64 mx-auto my-12 rounded-2xl relative z-[9500] md:w-56 lg:w-36 lg:top-40 ] ">
+          <h2 className="pt-4 text-interestColor font-bold text-2xl  border border-red-700">
+            Login
+          </h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className=" text-left space-y-3 border  font-bold p-3 rounded-xl z-[10000] "
@@ -100,7 +107,7 @@ export default function ModalLogin() {
             </button>
 
             <button
-              className="border-interestColor mx-20 border px-6   rounded-3xl bg-interestColor text-white py-1"
+              className="border-interestColor translate-x-1/2 border px-6  rounded-3xl bg-interestColor text-white py-1"
               type="submit"
             >
               Se connecter

@@ -28,7 +28,7 @@ export default {
         openModal: {
           "0%": { bottom: "-70vh" },
 
-          "100%": { bottom: "50vh" },
+          "100%": { bottom: "0" },
         },
 
         closeModal: {

@@ -25,7 +25,7 @@ export const mainRouter = createBrowserRouter([
         element: <AdminPage />,
       },
       {
-        path: "/login",
+        path: "/home/login",
         element: <ModalLogin />,
       },
     ],
