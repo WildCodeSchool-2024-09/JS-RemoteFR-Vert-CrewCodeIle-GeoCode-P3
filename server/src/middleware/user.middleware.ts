@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
-import registerRepository from "../modules/register/registerRepository";
 import type { UserProps } from "../../../client/src/assets/definition/lib";
+import registerRepository from "../modules/register/registerRepository";
 
 export const checkUserMail: RequestHandler = async (req, res, next) => {
   try {

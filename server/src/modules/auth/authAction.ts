@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 
-import { tokenJWT } from "../../helpers/jwt.helpers";
 import type { UserProps } from "../../../../client/src/assets/definition/lib";
+import { tokenJWT } from "../../helpers/jwt.helpers";
 
 const login: RequestHandler = async (req, res, next) => {
   const user: UserProps = req.body;

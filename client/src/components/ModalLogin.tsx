@@ -1,7 +1,7 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import errorMessage from "../assets/data/errorMessage.json";
 import type { UserProps } from "../assets/definition/lib";
-import { toast } from "react-toastify";
 
 export default function ModalLogin() {
   const {
