@@ -44,6 +44,14 @@ class contactFormRepository {
     );
     return result.affectedRows;
   }
+
+  async deleteMessage(id: number) {
+    const [result] = await databaseClient.query<Result>(
+      "DELETE from contact WHERE id = ?",
+      [id],
+    );
+    return result.affectedRows;
+  }
 }
 
 export default new contactFormRepository();

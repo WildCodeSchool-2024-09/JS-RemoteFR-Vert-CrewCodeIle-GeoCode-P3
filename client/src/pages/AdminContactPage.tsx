@@ -4,19 +4,23 @@ import { Link } from "react-router-dom";
 import data from "../assets/data/adminContact.json";
 import AdminContactMessages from "../components/AdminContactMessage";
 import AdminMessagesList from "../components/AdminMessagesList";
+import ConfirmDelete from "../components/ConfirmDelete";
 
 import type { ContactFormProps } from "../assets/definition/lib";
 
 export default function AdminContact() {
+  // State of modale AdminContactMessage
+  const [isContactMessagesModale, setIsContactMessagesModale] = useState(false);
+
+  // State of modale ConfirmDelete
+  const [isConfirmDeleteModale, setIsConfirmDeleteModale] = useState(false);
+
   // State for store all messages
   const [usersMessages, setUsersMessages] = useState<ContactFormProps[] | []>(
     [],
   );
 
-  // State of detail message page
-  const [isContactMessagesOpen, setIsContactMessagesOpen] = useState(false);
-
-  // State of the selected message
+  // State for store the selected message
   const [actualMessage, setActualMessage] = useState<ContactFormProps | null>(
     null,
   );
@@ -30,77 +34,106 @@ export default function AdminContact() {
       });
   }, []);
 
-  const handleSwitchIsTreated = async (
-    currentIndex: number,
-    currentId: number,
-  ) => {
-    // Get the current message
-    const currentMessage = usersMessages[currentIndex];
-    // Change the value of is_treated property
+  // Button for switch is treated / is not treated
+  const handleSwitchIsTreated = async (currentId: number) => {
+    const currentMessage = usersMessages.find((e) => e.id === currentId);
+    if (!currentMessage) return;
+
+    // Switch treated / not treated
     currentMessage.is_treated = currentMessage.is_treated === 0 ? 1 : 0;
+
     const { id, is_treated } = currentMessage;
-    // Create a object with only two property for express
     const newStatus = { id, is_treated };
 
     try {
+      // Add to database
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/contact/${currentId}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // Give the new status to express
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ newStatus }),
         },
       );
-
+      // Change states
       if (response.ok) {
-        // Update the local state
         setUsersMessages((prevState) =>
-          prevState.map((item) =>
-            item.id === currentId
-              ? { ...item, is_treated: currentMessage.is_treated }
-              : item,
-          ),
+          prevState.map((e) => (e.id === currentId ? { ...e, is_treated } : e)),
         );
+        setActualMessage({ ...currentMessage });
       }
     } catch (err) {
-      console.error("Erreur de communication avec le serveur :", err);
+      console.error("Erreur:", err);
     }
+  };
+
+  // Button for delete the current message
+  const handleDeleteMessage = (id: number) => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/contact/${actualMessage?.id}`, {
+      method: "DELETE",
+    }).then((res) => {
+      if (res.status === 204) {
+        setUsersMessages((prevMessages) =>
+          prevMessages.filter((e) => e.id !== id),
+        );
+        setIsContactMessagesModale(false);
+        setIsConfirmDeleteModale(false);
+      }
+    });
   };
 
   return (
     <>
-      <article className="absolute gap-2 items-center z-[1040] bg-lightColor top-0 left-1/2 -translate-x-1/2 h-full w-full p-2">
-        <Link
-          to="/admin"
-          className="inline-block mr-2 p-1 font-paragraph border-solid border-2 text-darkColor border-darkColor rounded-lg hover:scale-105 active:bg-darkColor active:text-lightColor"
-        >
-          {data.adminHomeButton}
-        </Link>
-        <button
-          type="button"
-          onClick={() => setIsContactMessagesOpen(false)}
-          className={`p-1 font-paragraph border-solid border-2 text-darkColor border-darkColor rounded-lg hover:scale-105 active:bg-darkColor active:text-lightColor ${isContactMessagesOpen ? "inline" : "hidden"}`}
-        >
-          {data.returnButton}
-        </button>
-        <AdminMessagesList
-          handleSwitchIsTreated={handleSwitchIsTreated}
-          usersMessages={usersMessages}
-          isContactMessagesOpen={isContactMessagesOpen}
-          setIsContactMessagesOpen={setIsContactMessagesOpen}
-          setActualMessage={setActualMessage}
-        />
-        <p className={`${usersMessages.length > 0 && "hidden"}`}>
-          {data.noMessage}
-        </p>
-        <AdminContactMessages
-          isContactMessagesOpen={isContactMessagesOpen}
-          actualMessage={actualMessage && actualMessage}
-        />
-      </article>
+      <main
+        className={`overflow-scroll items-center h-[100vh] w-full p-2 ${
+          !isConfirmDeleteModale
+            ? "opacity-100 bg-lightColor "
+            : "bg-opacity-30 pointer-events-none bg-black"
+        }`}
+      >
+        <nav>
+          <Link
+            to="/admin"
+            className="inline-block mr-2 mb-2 p-1 font-paragraph border-solid border-2 text-darkColor border-darkColor rounded-lg hover:scale-105 active:bg-darkColor active:text-lightColor vsm:text-xl vsm:border-2"
+          >
+            {data.adminHomeButton}
+          </Link>
+          <button
+            type="button"
+            onClick={() => setIsContactMessagesModale(false)}
+            className={`p-1 font-paragraph border-solid border-2 text-darkColor border-darkColor rounded-lg hover:scale-105 active:bg-darkColor active:text-lightColor vsm:text-xl vsm:border-2 ${isContactMessagesModale ? "inline" : "hidden"}`}
+          >
+            {data.returnButton}
+          </button>
+        </nav>
+        <article className="flex gap-8">
+          <AdminMessagesList
+            handleSwitchIsTreated={handleSwitchIsTreated}
+            isContactMessagesModale={isContactMessagesModale}
+            setIsContactMessagesModale={setIsContactMessagesModale}
+            setActualMessage={setActualMessage}
+            usersMessages={usersMessages}
+          />
+          {usersMessages.length === 0 && (
+            <p className="text-center pt-4 font-paragraph text-darkColor text-xl">
+              {data.noMessage}
+            </p>
+          )}
+          <AdminContactMessages
+            handleSwitchIsTreated={handleSwitchIsTreated}
+            isContactMessagesModale={isContactMessagesModale}
+            isConfirmDeleteModale={isConfirmDeleteModale}
+            setIsConfirmDeleteModale={setIsConfirmDeleteModale}
+            actualMessage={actualMessage && actualMessage}
+          />
+        </article>
+      </main>
+      <ConfirmDelete
+        handleDeleteMessage={handleDeleteMessage}
+        isConfirmDeleteModale={isConfirmDeleteModale}
+        setIsConfirmDeleteModale={setIsConfirmDeleteModale}
+        actualMessage={actualMessage && actualMessage}
+      />
     </>
   );
 }

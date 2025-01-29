@@ -24,14 +24,14 @@ export const mainRouter = createBrowserRouter([
         path: "/home/formulaire",
         element: <ModalRegistration />,
       },
-      {
-        path: "/admin",
-        element: <AdminPage />,
-      },
-      {
-        path: "/admin/messages",
-        element: <AdminContactPage />,
-      },
     ],
+  },
+  {
+    path: "/admin",
+    element: <AdminPage />,
+  },
+  {
+    path: "/admin/messages",
+    element: <AdminContactPage />,
   },
 ]);

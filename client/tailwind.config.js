@@ -21,10 +21,6 @@ export default {
       gridTemplateRows: {
         40: "repeat(40, minmax(0, 1fr))",
       },
-      backgroundImage: {
-        treated: "url('./assets/images/validate.png')",
-        notTreated: "url('./assets/images/denied.png')",
-      },
     },
   },
   plugins: [],

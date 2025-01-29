@@ -52,6 +52,17 @@ const editIsTreated: RequestHandler = async (req, res, next) => {
   }
 };
 
+const destroyMessage: RequestHandler = async (req, res, next) => {
+  try {
+    const messageId = Number.parseInt(req.params.id);
+
+    await contactFormRepository.deleteMessage(messageId);
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const formSchema = joi.object({
   lastname: joi.string().min(3).max(20).required(),
   firstname: joi.string().min(3).max(20).required(),
@@ -70,4 +81,4 @@ const validate: RequestHandler = (req, res, next) => {
   next();
 };
 
-export default { add, browse, editIsTreated, validate };
+export default { add, browse, editIsTreated, destroyMessage, validate };

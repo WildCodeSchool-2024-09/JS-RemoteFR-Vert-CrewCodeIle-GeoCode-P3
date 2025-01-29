@@ -4,11 +4,16 @@
   "userName": "Utilisateurs",
   "date": "Date",
   "isTreated": "Status",
+  "treated": "Traité",
+  "notTreated": "En cours",
   "adminHomeButton": "Accueil",
   "returnButton": "Retour",
+  "deleteButton": "Supprimer",
   "sendAt": "Envoyé le ",
-  "user": "Expéditeur: ",
-  "userEmail": "Mail:",
-  "userSubject": "Sujet:",
-  "userMessage": "Message:"
+  "user": "Expéditeur : ",
+  "userEmail": "Mail :",
+  "userSubject": "Sujet :",
+  "userMessage": "Message :",
+  "confirmationMessage": "Êtes vous sur de vouloir suprimer le message?",
+  "detailMessage": "Détails du message"
 }

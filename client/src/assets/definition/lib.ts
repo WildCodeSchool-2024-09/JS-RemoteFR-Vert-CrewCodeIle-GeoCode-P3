@@ -97,3 +97,11 @@ export type Station = {
   latitude: number;
   longitude: number;
 };
+
+export type AdminMessagesListProps = {
+  handleSwitchIsTreated: (id: number) => void;
+  isContactMessagesModale: boolean;
+  setIsContactMessagesModale: (bool: boolean) => void;
+  setActualMessage: (e: ContactFormProps) => void;
+  usersMessages: ContactFormProps[] | null;
+};
