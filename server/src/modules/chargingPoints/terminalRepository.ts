@@ -36,7 +36,6 @@ class StationRepository {
       }
     }
     await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
-    console.info("Debut mise à jour table TERMINAL");
   }
 } // end
 

@@ -8,8 +8,6 @@ import type { stationTableType } from "../lib/definitions";
 import type { terminalTableType } from "../lib/definitions";
 
 export const downloadAndParse: RequestHandler = async (req, res, next) => {
-  console.info("Début traitement du fichier téléchargé");
-
   try {
     if (req.file) {
       // parsing file ...
