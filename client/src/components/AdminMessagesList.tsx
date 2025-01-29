@@ -12,7 +12,7 @@ export default function AdminMessagesList({
   if (isContactMessagesModale) return;
 
   return (
-    <section className="w-full h-fit lg:border-darkColor pb-6 lg:border-4 lg:flex lg:flex-col lg:w-1/2 lg:items-center">
+    <section className="w-full h-fit lg:border-darkColor pb-6 lg:border-4 lg:flex lg:flex-col lg:w-1/2 lg:items-center xl:h-fit">
       <h2
         className={
           "text-2xl text-center mb-2 font-title text-darkColor mt-4 lg:text-4xl"

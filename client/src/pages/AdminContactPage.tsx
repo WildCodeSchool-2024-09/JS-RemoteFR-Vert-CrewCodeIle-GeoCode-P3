@@ -55,7 +55,7 @@ export default function AdminContact() {
           body: JSON.stringify({ newStatus }),
         },
       );
-      // Change states
+      // Change states if database receive the status
       if (response.ok) {
         setUsersMessages((prevState) =>
           prevState.map((e) => (e.id === currentId ? { ...e, is_treated } : e)),
@@ -85,7 +85,7 @@ export default function AdminContact() {
   return (
     <>
       <main
-        className={`overflow-scroll items-center h-[100vh] w-full p-2 ${
+        className={`overflow-scroll items-center h-[100vh] w-full p-2 xl:p-4 ${
           !isConfirmDeleteModale
             ? "opacity-100 bg-lightColor "
             : "bg-opacity-30 pointer-events-none bg-black"

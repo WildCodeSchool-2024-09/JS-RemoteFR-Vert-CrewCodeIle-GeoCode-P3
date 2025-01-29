@@ -16,8 +16,8 @@ export default function ConfirmDelete({
   if (!isConfirmDeleteModale) return;
 
   return (
-    <section className="flex flex-col items-center justify-around p-5 absolute top-1/2 -translate-y-2/3 -translate-x-1/2 left-1/2 bg-lightColor w-9/12 h-1/2 rounded-lg">
-      <h3 className="text-xl font-paragraph text-darkColor text-center">
+    <section className="flex flex-col items-center justify-around p-5 absolute top-1/2 -translate-y-2/3 -translate-x-1/2 left-1/2 bg-lightColor w-9/12 h-1/2 rounded-lg vsm:h-1/3 lg:w-1/3 xl:justify-center xl:gap-4 2xl:w-1/5">
+      <h3 className="text-xl font-paragraph text-darkColor text-center xl:mb-8">
         {data.confirmationMessage}
       </h3>
       <button
