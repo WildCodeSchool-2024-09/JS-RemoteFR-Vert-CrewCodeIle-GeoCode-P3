@@ -34,8 +34,6 @@ const browse: RequestHandler = async (req, res, next) => {
 
 const editIsTreated: RequestHandler = async (req, res, next) => {
   try {
-    const messages = req.body;
-
     const message = {
       id: Number.parseInt(req.params.id),
       is_treated: req.body.newStatus.is_treated,
