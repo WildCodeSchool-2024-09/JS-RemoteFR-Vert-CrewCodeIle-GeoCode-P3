@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import NavBar from "./components/NavBar";
+import { AuthProvider } from "./context/userContext";
 
 export default function App() {
   // Use a state: if the state is true, the modale is open then its false the modale is close
@@ -9,11 +10,14 @@ export default function App() {
 
   return (
     <>
-      <NavBar
-        showContactModale={showContactModale}
-        setShowContactModale={setShowContactModale}
-      />
-      <Outlet context={{ showContactModale, setShowContactModale }} />
+      <AuthProvider>
+        <NavBar
+          showContactModale={showContactModale}
+          setShowContactModale={setShowContactModale}
+        />
+        <Outlet context={{ showContactModale, setShowContactModale }} />
+      </AuthProvider>
+
       <ToastContainer
         position="top-center"
         autoClose={6000}

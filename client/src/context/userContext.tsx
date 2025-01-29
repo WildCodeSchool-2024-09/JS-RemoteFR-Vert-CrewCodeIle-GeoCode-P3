@@ -1,16 +1,88 @@
-// import { createContext,  useState, type ReactNode } from "react";
-// import Cookies from "js-cookie"
+import Cookies from "js-cookie";
+import {
+  type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useNavigate } from "react-router-dom";
 
-// const UserContext = createContext(null);
+type userContextProps = {
+  token: string | undefined;
+  setToken: (s: string | undefined) => void;
+  isLoggedIn: boolean;
+  setIsLoggedIn: (s: boolean) => void;
+  login: (s: string | undefined) => void;
+  logout: () => void;
+  authenticate: () => void;
+};
 
-// export const UserProvider = ({ Children }: { Children: ReactNode }) => {
+export const AuthContext = createContext<userContextProps>({
+  token: undefined,
+  setToken: () => undefined,
+  isLoggedIn: false,
+  setIsLoggedIn: () => undefined,
+  login: () => undefined,
+  logout: () => undefined,
+  authenticate: () => undefined,
+});
 
-//     const [token, setAuthState] = useState<string | null>(null)
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [token, setToken] = useState<string | undefined>();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-//     const userToken = Cookies.get("auth_token")
-//     const tokenFromCookie = ()=> setAuthState(userToken)
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/login`)
+      .then((response) => response.json())
+      .then((data) => Cookies.set("authToken", data.token));
+    // .then(() => setToken(Cookies.get("authToken")));
 
-//     console.info(userToken)
+    // .then((data) => setToken(data.token));
+  }, []);
 
-//     return <UserContext.Provider value={}>{Children}</UserContext.Provider>
-// };
+  useEffect(() => {
+    setToken(Cookies.get("authToken"));
+  }, []);
+
+  const login = (jwtToken: string | undefined) => {
+    if (jwtToken !== undefined) {
+      setToken(jwtToken);
+      setIsLoggedIn(true);
+    }
+  };
+  const logout = () => {
+    Cookies.remove("authToken");
+    setIsLoggedIn(false);
+    setToken(undefined);
+  };
+
+  const authenticate = () => {
+    !isLoggedIn && navigate("/home/login");
+  };
+
+  // useEffect(() => {
+  //   !isLoggedIn && navigate("/home/login");
+  // }, [isLoggedIn, navigate]);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        token,
+        isLoggedIn,
+        logout,
+        login,
+        setIsLoggedIn,
+        setToken,
+        authenticate,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};

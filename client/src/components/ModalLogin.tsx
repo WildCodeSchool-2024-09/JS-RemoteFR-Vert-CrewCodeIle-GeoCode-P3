@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import errorMessage from "../assets/data/errorMessage.json";
 import type { UserProps } from "../assets/definition/lib";
+import { useAuth } from "../context/userContext";
 import ModalRegistration from "./ModalRegistration";
+// import Cookies from "js-cookie";
 
 export default function ModalLogin() {
   const {
@@ -29,22 +31,32 @@ export default function ModalLogin() {
   };
   console.info(openRegisterModal);
   console.info(openLoginModal);
+  const { login } = useAuth();
 
   const onSubmit: SubmitHandler<UserProps> = (userData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(userData),
     })
-      .then((response) => {
-        if (response.status === 201) {
-          toast.success("Bienvenu sur Geocode ");
+      .then((response) => response.json())
+      .then((data) => {
+        login(data.token);
+        if (data.token) {
+          toast.success(data.message);
         } else {
           toast.warning("Erreur connexion");
         }
       })
-      .then(() => navigate("/home"))
-      .catch((errors) => console.error(errors));
+      //   if (response.status === 201) {
+      //     toast.success("Bienvenu sur Geocode ");
+      //   } else {
+      //     toast.warning("Erreur connexion");
+      //   }
+      // })
+
+      .then(() => navigate("/home"));
   };
 
   return (
