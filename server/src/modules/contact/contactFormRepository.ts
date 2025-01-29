@@ -40,7 +40,7 @@ class contactFormRepository {
   async updateIsTreated(message: IsTreatedMessage) {
     const [result] = await databaseClient.query<Result>(
       "UPDATE contact SET is_treated = ? WHERE id = ?",
-      [message.id, message.is_treated],
+      [message.is_treated, message.id],
     );
     return result.affectedRows;
   }

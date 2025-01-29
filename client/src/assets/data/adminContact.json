@@ -1,14 +1,14 @@
 {
-  "title": "Liste des messages envoyés par les utilisateurs:",
-  "notTreatedMessages": "Messages en attentes:",
-  "treatedMessages": "Messages traités:",
+  "title": "Messages reçus:",
   "noMessage": "Aucun Message.",
-  "userName": "Nom des utilisateurs",
+  "userName": "Utilisateurs",
+  "date": "Date",
   "isTreated": "Status",
-  "returnButton": "Retour",
   "adminHomeButton": "Accueil",
-  "user": "Message de ",
-  "userEmail": "Recontacter à cet email:",
+  "returnButton": "Retour",
+  "sendAt": "Envoyé le ",
+  "user": "Expéditeur: ",
+  "userEmail": "Mail:",
   "userSubject": "Sujet:",
   "userMessage": "Message:"
 }

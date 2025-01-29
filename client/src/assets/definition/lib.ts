@@ -69,7 +69,7 @@ export type ContactModaleProps = {
 };
 
 export type ContactFormProps = {
-  date: Date;
+  date: string;
   email: string;
   firstname: string;
   id: number;

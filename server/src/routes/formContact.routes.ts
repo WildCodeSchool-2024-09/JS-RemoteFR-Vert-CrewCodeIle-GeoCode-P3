@@ -11,6 +11,6 @@ router.post(
 );
 
 router.get("/api/contact", contactFormActions.browse);
-router.put("/api/contact/id", contactFormActions.editIsTreated);
+router.put("/api/contact/:id", contactFormActions.editIsTreated);
 
 export default router;

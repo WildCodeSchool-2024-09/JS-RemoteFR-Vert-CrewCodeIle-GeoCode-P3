@@ -34,16 +34,18 @@ const browse: RequestHandler = async (req, res, next) => {
 
 const editIsTreated: RequestHandler = async (req, res, next) => {
   try {
+    const messages = req.body;
+
     const message = {
       id: Number.parseInt(req.params.id),
-      is_treated: req.body.is_treated,
+      is_treated: req.body.newStatus.is_treated,
     };
 
     const affectedRows = await contactFormRepository.updateIsTreated(message);
     if (affectedRows > 0) {
-      res.send(204).json("Modification effectué.");
+      res.sendStatus(204);
     } else {
-      res.send(404).json("Une erreur est survenue lors de la modification.");
+      res.status(404).json("Une erreur est survenue lors de la modification.");
     }
   } catch (err) {
     next(err);
