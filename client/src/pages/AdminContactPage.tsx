@@ -73,9 +73,7 @@ export default function AdminContact() {
       method: "DELETE",
     }).then((res) => {
       if (res.status === 204) {
-        setUsersMessages((prevMessages) =>
-          prevMessages.filter((e) => e.id !== id),
-        );
+        setUsersMessages((prevState) => prevState.filter((e) => e.id !== id));
         setIsContactMessagesModale(false);
         setIsConfirmDeleteModale(false);
       }
