@@ -39,7 +39,7 @@ class RegisterRepository {
 
   async readUserEmail(email: string) {
     const [rows] = await databaseClient.query<Rows>(
-      `SELECT email, password 
+      `SELECT *
       FROM user
       WHERE email = ?`,
       [email],

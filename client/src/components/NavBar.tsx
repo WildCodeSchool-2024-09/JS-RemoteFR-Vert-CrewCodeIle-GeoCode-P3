@@ -7,8 +7,6 @@ import userIcon from "../assets/images/user.png";
 import data from "../assets/data/navbar.json";
 import type { ContactModaleProps } from "../assets/definition/lib";
 
-import { useAuth } from "../context/userContext";
-
 export default function NavBar({
   showContactModale,
   setShowContactModale,
@@ -16,14 +14,6 @@ export default function NavBar({
   // Data of the navbar
   const navBarData = data;
   const navBarIcons = [mapIcon, userIcon, carIcon, contactIcon];
-
-  const { authenticate } = useAuth();
-
-  // const tokentest = Cookies.get("authToken");
-
-  // console.info(token);
-  // console.info(isLoggedIn);
-  // console.info(tokentest);
 
   return (
     <nav className="flex h-10 justify-center z-[1000] fixed bottom-4 w-full lg:top-0 lg:bottom-auto lg:justify-between lg:bg-accentColor lg:h-28 lg:z-[1020]">
@@ -40,7 +30,6 @@ export default function NavBar({
               }
               onClick={() => {
                 if (e.name === navBarData[3].name) {
-                  authenticate();
                   setShowContactModale(!showContactModale);
                 }
               }}

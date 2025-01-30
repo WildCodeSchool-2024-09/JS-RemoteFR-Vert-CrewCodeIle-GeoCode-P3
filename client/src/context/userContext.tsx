@@ -1,87 +1,32 @@
-import Cookies from "js-cookie";
-import {
-  type ReactNode,
-  createContext,
-  useContext,
-  // useEffect,
-  useState,
-} from "react";
-import { useNavigate } from "react-router-dom";
+import { type ReactNode, createContext, useContext, useState } from "react";
+
+import type { UserProps } from "../assets/definition/lib";
 
 type userContextProps = {
-  token: string | undefined;
-  setToken: (s: string | undefined) => void;
-  isLoggedIn: boolean;
-  setIsLoggedIn: (s: boolean) => void;
-  login: (s: string | undefined) => void;
+  user: UserProps | null;
+  login: (s: UserProps) => void;
   logout: () => void;
-  authenticate: () => void;
 };
 
 export const AuthContext = createContext<userContextProps>({
-  token: undefined,
-  setToken: () => undefined,
-  isLoggedIn: false,
-  setIsLoggedIn: () => undefined,
+  user: null,
   login: () => undefined,
   logout: () => undefined,
-  authenticate: () => undefined,
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | undefined>();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
+  const [user, setUser] = useState<UserProps | null>(null);
 
-  // useEffect(() => {
-  //   fetch(`${import.meta.env.VITE_API_URL}/login`, {
-  //     credentials: "include",
-  //   });
-  // .then((response) => response.json());
-
-  // .then((data) => Cookies.set("authToken", data.token));
-  // .then(() => setToken(Cookies.get("authToken")));
-
-  // .then((data) => setToken(data.token));
-  // }, []);
-
-  // useEffect(() => {
-  //   setToken(Cookies.get("authToken"));
-  // }, []);
-
-  const login = (jwtToken: string | undefined) => {
-    if (jwtToken !== undefined) {
-      setToken(jwtToken);
-      setIsLoggedIn(true);
-    }
+  const login = (userData: UserProps) => {
+    setUser(userData);
   };
+  console.info(user);
   const logout = () => {
-    Cookies.remove("authToken");
-    setIsLoggedIn(false);
-    setToken(undefined);
-    navigate("/home");
+    setUser(null);
   };
-
-  const authenticate = () => {
-    !isLoggedIn && navigate("/home/login");
-  };
-
-  // useEffect(() => {
-  //   !isLoggedIn && navigate("/home/login");
-  // }, [isLoggedIn, navigate]);
 
   return (
-    <AuthContext.Provider
-      value={{
-        token,
-        isLoggedIn,
-        logout,
-        login,
-        setIsLoggedIn,
-        setToken,
-        authenticate,
-      }}
-    >
+    <AuthContext.Provider value={{ login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );
