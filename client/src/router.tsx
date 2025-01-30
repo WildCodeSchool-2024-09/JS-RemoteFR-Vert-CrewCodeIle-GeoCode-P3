@@ -2,7 +2,7 @@ import App from "./App";
 
 import { createBrowserRouter } from "react-router-dom";
 
-import ModalLogin from "./components/ModalLogin";
+import AdminContactPage from "./pages/AdminContactPage";
 
 import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
@@ -20,14 +20,14 @@ export const mainRouter = createBrowserRouter([
         path: "/home",
         element: <HomePage />,
       },
-      {
-        path: "/admin",
-        element: <AdminPage />,
-      },
-      {
-        path: "/home/login",
-        element: <ModalLogin />,
-      },
     ],
+  },
+  {
+    path: "/admin",
+    element: <AdminPage />,
+  },
+  {
+    path: "/admin/messages",
+    element: <AdminContactPage />,
   },
 ]);
