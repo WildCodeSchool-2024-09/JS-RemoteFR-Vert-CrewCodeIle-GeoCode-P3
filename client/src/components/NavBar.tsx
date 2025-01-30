@@ -29,9 +29,8 @@ export default function NavBar({
                   : "flex lg:justify-center lg:bg-interestColor lg:py-3 lg:min-w-28 lg:max-w-28 lg:rounded-full lg:shadow-md lg:shadow-darkColor lg:font-title lg:text-lightColor lg:active:bg-darkColor"
               }
               onClick={() => {
-                if (e.name === navBarData[3].name) {
+                e.name === navBarData[3].name &&
                   setShowContactModale(!showContactModale);
-                }
               }}
             >
               <img
