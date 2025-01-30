@@ -28,10 +28,10 @@ export default function NavBar({
                   ? "flex lg:hidden"
                   : "flex lg:justify-center lg:bg-interestColor lg:py-3 lg:min-w-28 lg:max-w-28 lg:rounded-full lg:shadow-md lg:shadow-darkColor lg:font-title lg:text-lightColor lg:active:bg-darkColor"
               }
-              onClick={() => {
+              onClick={() =>
                 e.name === navBarData[3].name &&
-                  setShowContactModale(!showContactModale);
-              }}
+                setShowContactModale(!showContactModale)
+              }
             >
               <img
                 alt={e.name}
