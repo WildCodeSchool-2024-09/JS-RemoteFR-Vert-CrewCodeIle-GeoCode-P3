@@ -10,7 +10,10 @@ export default function Logbutton() {
   const [openLogin, setOpenLogin] = useState(false);
   const [openModalLogin, setOpenModalLogin] = useState(false);
   const handleClickLog = () => setOpenLogin(!openLogin);
-  const handleClickModalLogin = () => setOpenModalLogin(!openModalLogin);
+  const handleClickModalLogin = () => {
+    setOpenModalLogin(!openModalLogin);
+    setOpenLogin(false);
+  };
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
