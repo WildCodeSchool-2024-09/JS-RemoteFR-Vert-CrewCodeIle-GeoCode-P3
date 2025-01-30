@@ -69,11 +69,14 @@ export type ContactModaleProps = {
 };
 
 export type ContactFormProps = {
-  lastname: string;
-  firstname: string;
+  date: string;
   email: string;
-  subject: string;
+  firstname: string;
+  id: number;
+  is_treated: number;
+  lastname: string;
   message: string;
+  subject: string;
 };
 
 export type searchApi = {
@@ -93,4 +96,12 @@ export type Station = {
   adress: string;
   latitude: number;
   longitude: number;
+};
+
+export type AdminMessagesListProps = {
+  handleSwitchIsTreated: (id: number) => void;
+  isContactMessagesModale: boolean;
+  setIsContactMessagesModale: (bool: boolean) => void;
+  setActualMessage: (e: ContactFormProps) => void;
+  usersMessages: ContactFormProps[] | null;
 };
