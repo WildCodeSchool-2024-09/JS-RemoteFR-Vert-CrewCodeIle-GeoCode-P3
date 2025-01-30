@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import ModalRegistration from "./components/ModalRegistration";
 import AdminPage from "./pages/AdminPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
 import HomePage from "./pages/HomePage";
 import PresentationPage from "./pages/PresentationPage";
 
@@ -23,10 +24,14 @@ export const mainRouter = createBrowserRouter([
         path: "/home/formulaire",
         element: <ModalRegistration />,
       },
-      {
-        path: "/admin",
-        element: <AdminPage />,
-      },
     ],
+  },
+  {
+    path: "/admin",
+    element: <AdminPage />,
+  },
+  {
+    path: "/admin/users",
+    element: <AdminUsersPage />,
   },
 ]);

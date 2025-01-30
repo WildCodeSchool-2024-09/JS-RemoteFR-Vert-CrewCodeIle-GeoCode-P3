@@ -20,4 +20,12 @@ router.post(
   registerAction.addVehicleInfo,
 );
 
+//
+// Admin only allowed to do this
+import userAction from "../modules/user/userAction";
+
+router.get("api/user", userAction.browse);
+
+//
+
 export default router;
