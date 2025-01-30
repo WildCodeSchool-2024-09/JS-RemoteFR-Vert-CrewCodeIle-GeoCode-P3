@@ -7,6 +7,6 @@ import authAction from "../modules/auth/authAction";
 const router = express.Router();
 
 router.post("/api/login", checkUserMail, verifyPassword, authAction.login);
-router.get("/login", authAction.login);
+// router.get("/login", authAction.login);
 
 export default router;

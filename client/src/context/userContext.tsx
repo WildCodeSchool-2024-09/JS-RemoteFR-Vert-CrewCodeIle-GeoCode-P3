@@ -3,7 +3,7 @@ import {
   type ReactNode,
   createContext,
   useContext,
-  useEffect,
+  // useEffect,
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,18 +33,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/login`)
-      .then((response) => response.json())
-      .then((data) => Cookies.set("authToken", data.token));
-    // .then(() => setToken(Cookies.get("authToken")));
+  // useEffect(() => {
+  //   fetch(`${import.meta.env.VITE_API_URL}/login`, {
+  //     credentials: "include",
+  //   });
+  // .then((response) => response.json());
 
-    // .then((data) => setToken(data.token));
-  }, []);
+  // .then((data) => Cookies.set("authToken", data.token));
+  // .then(() => setToken(Cookies.get("authToken")));
 
-  useEffect(() => {
-    setToken(Cookies.get("authToken"));
-  }, []);
+  // .then((data) => setToken(data.token));
+  // }, []);
+
+  // useEffect(() => {
+  //   setToken(Cookies.get("authToken"));
+  // }, []);
 
   const login = (jwtToken: string | undefined) => {
     if (jwtToken !== undefined) {
@@ -56,6 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     Cookies.remove("authToken");
     setIsLoggedIn(false);
     setToken(undefined);
+    navigate("/home");
   };
 
   const authenticate = () => {

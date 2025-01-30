@@ -10,7 +10,7 @@ export const tokenJWT = async (payload: UserProps) => {
   const { email, firstName } = payload;
 
   const token = jwt.sign(payload, process.env.APP_SECRET as string, {
-    expiresIn: "24h",
+    expiresIn: "30s",
   });
 
   return token;

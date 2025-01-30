@@ -29,15 +29,14 @@ export default function ModalLogin() {
     setOpenRegisterModal(false);
     setOpenLoginModal(true);
   };
-  console.info(openRegisterModal);
-  console.info(openLoginModal);
+
   const { login } = useAuth();
 
   const onSubmit: SubmitHandler<UserProps> = (userData) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      credentials: "include",
+
       body: JSON.stringify(userData),
     })
       .then((response) => response.json())

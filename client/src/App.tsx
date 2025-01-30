@@ -16,21 +16,21 @@ export default function App() {
           setShowContactModale={setShowContactModale}
         />
         <Outlet context={{ showContactModale, setShowContactModale }} />
-      </AuthProvider>
 
-      <ToastContainer
-        position="top-center"
-        autoClose={6000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
+        <ToastContainer
+          position="top-center"
+          autoClose={6000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
+      </AuthProvider>
     </>
   );
 }

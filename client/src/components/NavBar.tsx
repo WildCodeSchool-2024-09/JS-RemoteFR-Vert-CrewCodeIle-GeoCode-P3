@@ -17,14 +17,13 @@ export default function NavBar({
   const navBarData = data;
   const navBarIcons = [mapIcon, userIcon, carIcon, contactIcon];
 
-  const { token, login, isLoggedIn, authenticate } = useAuth();
+  const { authenticate } = useAuth();
 
   // const tokentest = Cookies.get("authToken");
-  login(token);
 
-  console.info(token);
+  // console.info(token);
+  // console.info(isLoggedIn);
   // console.info(tokentest);
-  console.info(isLoggedIn);
 
   return (
     <nav className="flex h-10 justify-center z-[1000] fixed bottom-4 w-full lg:top-0 lg:bottom-auto lg:justify-between lg:bg-accentColor lg:h-28 lg:z-[1020]">

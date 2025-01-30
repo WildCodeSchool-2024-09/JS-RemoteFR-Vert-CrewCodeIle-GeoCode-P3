@@ -17,7 +17,6 @@ const login: RequestHandler = async (req, res, next) => {
         maxAge: 3600000,
       })
       .json({ message: `Bienvenu sur Geocode ${req.body.email}`, token });
-    console.info(req.body);
   } catch (e) {
     next(e);
   }
