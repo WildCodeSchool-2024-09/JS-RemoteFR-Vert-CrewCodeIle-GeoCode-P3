@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
+import LogButton from "./components/LogButton";
 import NavBar from "./components/NavBar";
 import { AuthProvider } from "./context/userContext";
-import LogButton from "./components/LogButton";
 
 export default function App() {
   // Use a state: if the state is true, the modale is open then its false the modale is close

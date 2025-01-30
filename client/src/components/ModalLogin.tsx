@@ -5,9 +5,9 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import errorMessage from "../assets/data/errorMessage.json";
 import type { UserProps } from "../assets/definition/lib";
 
-import ModalRegistration from "./ModalRegistration";
-import { useAuth } from "../context/userContext";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/userContext";
+import ModalRegistration from "./ModalRegistration";
 
 export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
   const {
