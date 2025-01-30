@@ -28,4 +28,8 @@ router.use("/", contactRouter);
 
 /* ************************************************************************* */
 
+// Define database station-related route
+import updateStations from "./routes/updateStations.routes";
+router.use("/", updateStations);
+
 export default router;

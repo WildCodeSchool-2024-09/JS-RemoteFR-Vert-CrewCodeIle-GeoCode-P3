@@ -48,11 +48,13 @@ export default function Maps({
 
   // loading stations from database
   useEffect(() => {
+    toast.loading("Chargement des points de charge...");
     fetch(`${import.meta.env.VITE_API_URL}/api/stations`)
       .then((response) => response.json())
       .then((data: Station[]) => {
         if (data.length > 0) {
           setStations(data);
+          toast.dismiss();
         } else {
           toast.warning(
             "Oups ! Impossible d'afficher les stations de recharge...",
@@ -75,7 +77,7 @@ export default function Maps({
               <Popup>
                 Station : {s.name}
                 <br />
-                Adresse : {s.adress}
+                Adresse : {s.address}
               </Popup>
             </Marker>
           ))}
