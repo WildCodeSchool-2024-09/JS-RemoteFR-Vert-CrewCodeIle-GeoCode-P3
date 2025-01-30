@@ -25,4 +25,8 @@ router.use("/", adressDataGouvRouter);
 import showStationsMap from "./routes/showStationsMap.routes";
 router.use("/", showStationsMap);
 
+// Define database station-related route
+import updateStations from "./routes/updateStations.routes";
+router.use("/", updateStations);
+
 export default router;
