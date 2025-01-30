@@ -157,5 +157,3 @@ VALUES
   ( "Q4 e-tron 50 quattro", 2 , 7),
   ( "Q4 e-tron Sportback 45 quattro", 2 , 7),
   ( "e-tron GT GT quattro RS", 3 , 7);
-
-

@@ -69,11 +69,14 @@ export type ContactModaleProps = {
 };
 
 export type ContactFormProps = {
-  lastname: string;
-  firstname: string;
+  date: string;
   email: string;
-  subject: string;
+  firstname: string;
+  id: number;
+  is_treated: number;
+  lastname: string;
   message: string;
+  subject: string;
 };
 
 export type searchApi = {
@@ -141,4 +144,12 @@ export type terminalTableType = {
   type_combo_ccs: boolean;
   type_chademo: boolean;
   type_autre: boolean;
+};
+
+export type AdminMessagesListProps = {
+  handleSwitchIsTreated: (id: number) => void;
+  isContactMessagesModale: boolean;
+  setIsContactMessagesModale: (bool: boolean) => void;
+  setActualMessage: (e: ContactFormProps) => void;
+  usersMessages: ContactFormProps[] | null;
 };
