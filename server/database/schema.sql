@@ -48,18 +48,17 @@ CREATE TABLE user_car (
 );
 
 CREATE TABLE IF NOT EXISTS station (
-  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  id_station VARCHAR(100) UNIQUE,
-  name VARCHAR(100),
+  id_station VARCHAR(100) PRIMARY KEY,
+  name VARCHAR(255),
   address VARCHAR(255),
   latitude FLOAT NOT NULL,
   longitude FLOAT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS terminal (
-  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  power INT NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   id_terminal VARCHAR(100) NOT NULL,
+  power INT NOT NULL,
   is_type_ef BOOLEAN,
   is_type_2 BOOLEAN,
   is_type_combo_ccs BOOLEAN,
@@ -67,7 +66,7 @@ CREATE TABLE IF NOT EXISTS terminal (
   is_type_other BOOLEAN,
   is_available BOOLEAN,
   station_id VARCHAR(100) NOT NULL,
-  CONSTRAINT FOREIGN KEY(station_id) REFERENCES station(id_station)
+  FOREIGN KEY(station_id) REFERENCES station(id_station)
 );
 
 
@@ -160,5 +159,3 @@ VALUES
   ( "Q4 e-tron 50 quattro", 2 , 7),
   ( "Q4 e-tron Sportback 45 quattro", 2 , 7),
   ( "e-tron GT GT quattro RS", 3 , 7);
-
-

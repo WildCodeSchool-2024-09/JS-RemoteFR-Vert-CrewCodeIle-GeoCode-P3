@@ -10,11 +10,15 @@
     "test": "jest --verbose"
   },
   "dependencies": {
+    "argon2": "^0.41.1",
     "cors": "^2.8.5",
+    "csv-parser": "^3.1.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "joi": "^17.13.3",
-    "mysql2": "^3.11.3"
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.11.3",
+    "react-spinners": "^0.15.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.0.3",
