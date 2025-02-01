@@ -19,6 +19,7 @@ export default function ModalProfil({
   const [userInfo, setUserInfo] = useState<UserProps[]>();
 
   const id = 1;
+  const { register, handleSubmit } = useForm<UserProps>();
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/profile/${id}`, {
@@ -44,7 +45,6 @@ export default function ModalProfil({
   };
 
   //useForm from react hook form : register to take modification user information & register photo about profile photo
-  const { register, handleSubmit } = useForm<UserProps>();
 
   useForm<UserProps>();
 
@@ -62,16 +62,13 @@ export default function ModalProfil({
 
   //Update user modification to the database
   const onSubmitEditUserInfo: SubmitHandler<UserProps> = async (userData) => {
-    const { photo, firstName, lastName, city, birthday, zipCode } = userData;
+    const { photo, ...rest } = userData;
     const formData = new FormData();
     if (photo) {
       formData.append("photo", photo[0]);
     }
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("city", city);
-    formData.append("birthday", birthday.toString());
-    formData.append("zipCode", zipCode.toString());
+
+    formData.append("user", JSON.stringify(rest));
 
     fetch(`${import.meta.env.VITE_API_URL}/api/profile/${id}`, {
       method: "put",
@@ -181,13 +178,13 @@ export default function ModalProfil({
                   <>
                     <label
                       htmlFor="photo"
-                      className="absolute -top-52 right-40"
+                      className="absolute overflow-hidden -top-52 right-40"
                     >
                       <Pencil color="black" strokeWidth={3} size={36} />
                     </label>
                     <input
                       id="photo"
-                      className={`absolute text-black ml-8 bg-lightColor opacity-0  pointer-events-none  h-6 lg:h-fit${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
+                      className={`absolute overflow-hidden text-black ml-8 bg-lightColor opacity-0  pointer-events-none  h-6 lg:h-fit${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
                       type="file"
                       {...register("photo", {
                         onChange: (e) => {
@@ -224,20 +221,14 @@ export default function ModalProfil({
                 <label htmlFor="birthday" className="mb-4  text-interestColor">
                   Date de naissance
                 </label>
-                <div className="relative mb-0 overflow-hidden h-12">
-                  <input
-                    className={`text-black w-32 absolute ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
-                    type="text"
-                    defaultValue={formatedDAte(new Date(userInfo[0].birthday))}
-                  />
-                  {!editForm && (
-                    <input
-                      className={`text-black w-32  absolute ml-8 a bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
-                      type="date"
-                      {...register("birthday")}
-                    />
-                  )}
-                </div>
+                <input
+                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4 "}`}
+                  type="text"
+                  readOnly={editForm}
+                  disabled={editForm}
+                  defaultValue={formatedDAte(new Date(userInfo[0].birthday))}
+                  {...register("birthday")}
+                />
 
                 <label htmlFor="city" className="mb-4  text-interestColor">
                   Ville

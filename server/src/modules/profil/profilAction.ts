@@ -2,6 +2,7 @@ import { userInfo } from "node:os";
 import type { RequestHandler } from "express";
 import joi from "joi";
 import profilRepository from "./ProfilRepository";
+import { json } from "node:stream/consumers";
 
 const now = Date.now();
 const YEARS_18_MILLISECONDE = 1000 * 60 * 60 * 24 * 365 * 18;
@@ -15,7 +16,7 @@ const userRegisterSchema = joi.object({
     .string()
     .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
     .required(),
-  birthday: joi.date().max(minLegalAge).required(),
+  birthday: joi.string(),
   city: joi
     .string()
     .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
@@ -28,13 +29,15 @@ const userRegisterSchema = joi.object({
 
 //Validation for register submission
 const validateUser: RequestHandler = (req, res, next) => {
-  const { error } = userRegisterSchema.validate(req.body, {
+  const user = JSON.parse(req.body.user);
+  const { error } = userRegisterSchema.validate(user, {
     abortEarly: false,
   });
   if (error == null) {
     next();
   } else {
     res.status(400).json({ valdationErrors: error.details });
+    console.info(error);
   }
 };
 
@@ -70,14 +73,16 @@ const readReservation: RequestHandler = async (req, res, next) => {
 
 const EditProfil: RequestHandler = async (req, res, next) => {
   try {
+    const user = JSON.parse(req.body.user);
+
     const UserInfo = {
       id: Number(req.params.id),
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      birthday: req.body.birthday,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      birthday: user.birthday,
       photo: req.file?.filename,
-      city: req.body.city,
-      zipCode: Number(req.body.zipCode),
+      city: user.city,
+      zipCode: Number(user.zipCode),
     };
 
     const affectedRows = await profilRepository.UpdateUserInfo(UserInfo);

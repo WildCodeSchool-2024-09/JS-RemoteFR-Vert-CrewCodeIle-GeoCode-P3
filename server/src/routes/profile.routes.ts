@@ -34,7 +34,7 @@ router.get("/api/profile/book/:id", profilAction.readReservation);
 router.put(
   "/api/profile/:id",
   upload.single("photo"),
-
+  profilAction.validateUser,
   profilAction.EditProfil,
 );
 

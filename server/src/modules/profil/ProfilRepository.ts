@@ -32,7 +32,7 @@ class ProfilRepository {
   ) {
     const [result] = await databaseClient.query<Result>(
       `UPDATE user
-      SET firstName = ?, lastName = ?,  birthday = ?,photo = ?, city = ?, zipCode = ?
+      SET firstName = ?, lastName = ?,  birthday =  DATE_FORMAT(STR_TO_DATE(?, '%d/%m/%Y'), '%Y/%m/%d') ,photo = ?, city = ?, zipCode = ?
       WHERE id = ?`,
       [
         user.firstName,
