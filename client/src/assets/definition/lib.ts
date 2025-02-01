@@ -14,16 +14,11 @@ export type UserProps = {
   lastName: string;
   email: string;
   birthday: Date;
-  photo: string;
+  photo: string | undefined;
   city: string;
   zipCode: number;
   password: string;
   confirm: string;
-};
-
-export type PhotoProps = {
-  id: number;
-  photo: string | undefined;
 };
 
 export type BrandProps = {

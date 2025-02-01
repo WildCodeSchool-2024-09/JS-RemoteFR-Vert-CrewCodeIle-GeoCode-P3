@@ -33,14 +33,11 @@ router.get("/api/profile/:id", profilAction.readUserInfo);
 router.get("/api/profile/book/:id", profilAction.readReservation);
 router.put(
   "/api/profile/:id",
-  profilAction.validateUser,
+  upload.single("photo"),
+
   profilAction.EditProfil,
 );
-router.put(
-  "/api/profile/upload/:id",
-  upload.single("photo"),
-  profilAction.EditPhoto,
-);
+
 router.delete("/api/profile/book/:id", profilAction.deleteBooking);
 
 export default router;

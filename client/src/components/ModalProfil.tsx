@@ -1,5 +1,5 @@
 import { Pencil } from "lucide-react";
-import { SendHorizontal } from "lucide-react";
+
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { type SubmitHandler, useForm } from "react-hook-form";
@@ -38,22 +38,44 @@ export default function ModalProfil({
 
   //state to modify form, readOnly switch true to false
   const [editForm, setEditForm] = useState(true);
-  const handleClickEdit = () => setEditForm(!editForm);
+  const handleClickEdit = () => {
+    setEditForm(!editForm);
+    setOpenBurgerMenu(false);
+  };
 
   //useForm from react hook form : register to take modification user information & register photo about profile photo
   const { register, handleSubmit } = useForm<UserProps>();
-  const { register: registerPhoto, handleSubmit: handleSubmitPhoto } =
-    useForm<UserProps>();
+
+  useForm<UserProps>();
+
+  const [preview, setPreview] = useState<File[]>([]);
+  const [urlImage, setUrlImage] = useState<string>();
+
+  useEffect(() => {
+    if (preview[0]) {
+      const objectUrl = URL.createObjectURL(preview[0]);
+      setUrlImage(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [preview[0]]);
 
   //Update user modification to the database
-  const onSubmitEditUserInfo: SubmitHandler<UserProps> = (userData) => {
+  const onSubmitEditUserInfo: SubmitHandler<UserProps> = async (userData) => {
+    const { photo, firstName, lastName, city, birthday, zipCode } = userData;
+    const formData = new FormData();
+    if (photo) {
+      formData.append("photo", photo[0]);
+    }
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("city", city);
+    formData.append("birthday", birthday.toString());
+    formData.append("zipCode", zipCode.toString());
+
     fetch(`${import.meta.env.VITE_API_URL}/api/profile/${id}`, {
       method: "put",
-      headers: {
-        "Content-type": "application/json",
-        // Authorization: `Bearer ${auth.token}`,
-      },
-      body: JSON.stringify(userData),
+      body: formData,
     })
       .then((response) => {
         if (response.status === 201) {
@@ -62,29 +84,6 @@ export default function ModalProfil({
           toast.warning(
             "Une erreur est survenue, veuillez rééssayer ultérieurement",
           );
-        }
-      })
-      .catch((err) => console.error(err))
-      .then(() => setEditForm(true));
-  };
-
-  //Update user photo to the database
-  const onSubmitUploadPhoto: SubmitHandler<UserProps> = (userPhoto) => {
-    const { photo } = userPhoto;
-    const formData = new FormData();
-    formData.append("photo", photo[0]);
-
-    console.info(formData);
-    fetch(`${import.meta.env.VITE_API_URL}/api/profile/upload/${id}`, {
-      method: "put",
-      // headers: { Authorization: `Bearer ${auth.token}` },
-      body: formData,
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          toast.success("Photo modifiée, actualisez la page");
-        } else {
-          toast.warning("Format non valide ou taille maximale atteinte (10mo)");
         }
       })
       .catch((err) => console.error(err))
@@ -102,7 +101,9 @@ export default function ModalProfil({
             className="fixed inset-0 z-[990] backdrop-blur-sm "
           />
           <section
-            className={` rounded-lg vsm:pb-8  sm:w-4/6 vsm:h-3/4  md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4 ${showProfilModal ? "animate-openModal" : "animate-closeModal"} absolute bottom-0 bg-lightColor w-full z-[999]`}
+            className={`rounded-lg sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4 ${
+              showProfilModal ? "animate-openModal" : "animate-closeModal"
+            } absolute bottom-0 bg-lightColor w-full z-[999]`}
           >
             {/* Menu burger */}
             <nav className=" w-fit">
@@ -127,7 +128,7 @@ export default function ModalProfil({
               </button>
               {openBurgerMenu && (
                 <ul
-                  className={`${openBurgerMenu ? "animate-openMenu" : "animate-closeMenu"} absolute left-4 font-paragraph z-[1300]  mt-1 rounded-lg lg:text-3xl xl:text-2xl`}
+                  className={`absolute left-4 font-paragraph z-[1300]  mt-1 rounded-lg lg:text-3xl xl:text-2xl${openBurgerMenu ? "animate-openMenu" : "animate-closeMenu"} `}
                 >
                   <li className=" border border-lightColor bg-interestColor px-4 rounded-lg py-2 text-white hover:bg-interestColor active:bg-interestColor/50  focus:bg-interestColor/70">
                     <button onClick={handleClickEdit} type="button">
@@ -143,61 +144,64 @@ export default function ModalProfil({
               )}
             </nav>
 
-            {/* User photo & upload new photo */}
-            <article className=" w-fit mx-auto relative bottom-32 flex-col justify-center lg:bottom-64 xl:bottom-36  xl:w-48 xl:h-96">
-              <figure className="border-white border-8 rounded-full  w-36 h-36 mx-auto lg:w-64 lg:h-64 xl:w-44 xl:h-44">
-                <img
-                  className={`lg:w-auto lg:h-60 xl:w-40 xl:h-40  ${editForm ? "opacity-100 " : "  opacity-50  "} rounded-full h-32 w-auto `}
-                  src={`${import.meta.env.VITE_API_URL}/upload/${userInfo[0].photo}`}
-                  alt="profil utilisateur"
-                />
-                <form onSubmit={handleSubmitPhoto(onSubmitUploadPhoto)}>
-                  {!editForm && (
-                    <>
-                      <label
-                        htmlFor="photo"
-                        className="relative bottom-24 left-12 lg:bottom-40 lg:left-24 xl:bottom-24 xl:left-16 "
-                      >
-                        <Pencil
-                          color="black"
-                          strokeWidth={3}
-                          size={36}
-                          className="lg:size-16 xl:size-10"
-                        />
-                      </label>
-                      <input
-                        id="photo"
-                        className="hidden "
-                        type="file"
-                        {...registerPhoto("photo")}
-                      />
-                      <button
-                        className="relative bottom-24 left-7 border-interestColor w- border px-6  rounded-3xl bg-interestColor text-white py-1 mt-4 lg:bottom-36 lg:left-16 xl:bottom-24 xl:left-10 "
-                        type="submit"
-                      >
-                        <SendHorizontal className="lg:size-12 xl:size-6" />
-                      </button>
-                    </>
-                  )}
-                </form>
-              </figure>
+            {/* User photo */}
 
-              <h2 className="mt-4  text-4xl w-72  text-center font-title lg:text-6xl lg:w-[50vw] lg:mt-16 xl:text-4xl xl:-translate-x-[5vw] xl:w-[20vw] border">
-                Bonjour {userInfo[0].firstName}
-              </h2>
-            </article>
-
-            {/* display user info & modify them  */}
             <article>
+              <article className="w-fit mx-auto relative bottom-32 flex-col justify-center lg:bottom-64 xl:bottom-36 xl:w-48 xl:h-96">
+                <figure className="border-white border-8 rounded-full  w-36 h-36 mx-auto lg:w-64 lg:h-64 xl:w-44 xl:h-44">
+                  <img
+                    className={`lg:w-auto lg:h-60 xl:w-40 xl:h-40  ${
+                      editForm ? "opacity-100 " : "opacity-50"
+                    } rounded-full h-32 w-auto `}
+                    src={`${import.meta.env.VITE_API_URL}/upload/${userInfo[0].photo}`}
+                    alt="profil utilisateur"
+                  />
+                  {urlImage && (
+                    <img
+                      className="relative bottom-32 lg:w-auto lg:h-60 xl:w-40 xl:h-40 rounded-full h-32 w-auto "
+                      src={urlImage}
+                      alt="profil utilisateur"
+                    />
+                  )}
+                </figure>
+
+                <article>
+                  <h2 className="mt-4 text-4xl w-72 text-center font-title lg:text-6xl lg:w-[50vw] lg:mt-16 xl:text-4xl xl:-translate-x-[5vw] xl:w-[20vw] border">
+                    Bonjour {userInfo[0].firstName}
+                  </h2>
+                </article>
+              </article>
+
+              {/* display user info & modify them  */}
               <form
-                className="ml-4 pl-2 font-paragraph relative bottom-20 text-xl grid grid-cols-2 md:pl-10 lg:text-4xl lg:bottom-44 xl:text-2xl xl:pl-8"
+                className="ml-4 pl-2 font-paragraph relative bottom-20 text-xl grid grid-cols-2 md:pl-10 lg:text-4xl lg:bottom-44 xl:text-2xl xl:pl-8 "
                 onSubmit={handleSubmit(onSubmitEditUserInfo)}
               >
+                {!editForm && (
+                  <>
+                    <label
+                      htmlFor="photo"
+                      className="absolute -top-52 right-40"
+                    >
+                      <Pencil color="black" strokeWidth={3} size={36} />
+                    </label>
+                    <input
+                      id="photo"
+                      className={`absolute text-black ml-8 bg-lightColor opacity-0  pointer-events-none  h-6 lg:h-fit${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
+                      type="file"
+                      {...register("photo", {
+                        onChange: (e) => {
+                          setPreview(e.target.files);
+                        },
+                      })}
+                    />
+                  </>
+                )}
                 <label htmlFor="firstName" className="mb-4  text-interestColor">
                   Prénom
                 </label>
                 <input
-                  className={`text-black ml-8 bg-lightColor  h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
+                  className={`text-black ml-8 bg-lightColor  h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
                   type="text"
                   readOnly={editForm}
                   disabled={editForm}
@@ -209,7 +213,7 @@ export default function ModalProfil({
                   Nom
                 </label>
                 <input
-                  className={`text-black ml-8 bg-lightColor h-6  lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2"}`}
+                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
                   type="text"
                   readOnly={editForm}
                   disabled={editForm}
@@ -220,20 +224,26 @@ export default function ModalProfil({
                 <label htmlFor="birthday" className="mb-4  text-interestColor">
                   Date de naissance
                 </label>
-                <input
-                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
-                  type="text"
-                  readOnly={editForm}
-                  disabled={editForm}
-                  defaultValue={formatedDAte(new Date(userInfo[0].birthday))}
-                  {...register("birthday")}
-                />
+                <div className="relative mb-0 overflow-hidden h-12">
+                  <input
+                    className={`text-black w-32 absolute ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
+                    type="text"
+                    defaultValue={formatedDAte(new Date(userInfo[0].birthday))}
+                  />
+                  {!editForm && (
+                    <input
+                      className={`text-black w-32  absolute ml-8 a bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
+                      type="date"
+                      {...register("birthday")}
+                    />
+                  )}
+                </div>
 
                 <label htmlFor="city" className="mb-4  text-interestColor">
                   Ville
                 </label>
                 <input
-                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
+                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
                   type="text"
                   readOnly={editForm}
                   disabled={editForm}
@@ -245,7 +255,7 @@ export default function ModalProfil({
                   Code postal
                 </label>
                 <input
-                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 "}`}
+                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
                   type="text"
                   readOnly={editForm}
                   disabled={editForm}

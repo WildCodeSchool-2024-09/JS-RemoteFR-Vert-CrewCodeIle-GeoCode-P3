@@ -1,9 +1,11 @@
+import { userInfo } from "node:os";
 import type { RequestHandler } from "express";
 import joi from "joi";
 import profilRepository from "./ProfilRepository";
 
 const now = Date.now();
-const minLegalAge = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
+const YEARS_18_MILLISECONDE = 1000 * 60 * 60 * 24 * 365 * 18;
+const minLegalAge = new Date(now - YEARS_18_MILLISECONDE);
 const userRegisterSchema = joi.object({
   firstName: joi
     .string()
@@ -19,6 +21,7 @@ const userRegisterSchema = joi.object({
     .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
     .required(),
   zipCode: joi.number().integer().required(),
+  photo: joi.string(),
 });
 
 // Vehicule validation Schema with Joi
@@ -72,35 +75,17 @@ const EditProfil: RequestHandler = async (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       birthday: req.body.birthday,
+      photo: req.file?.filename,
       city: req.body.city,
       zipCode: Number(req.body.zipCode),
     };
 
     const affectedRows = await profilRepository.UpdateUserInfo(UserInfo);
-
     if (affectedRows === 0) {
       res.sendStatus(404);
     } else {
       res.sendStatus(201);
-    }
-  } catch (err) {
-    next(err);
-  }
-};
-
-const EditPhoto: RequestHandler = async (req, res, next) => {
-  try {
-    const userPhoto = {
-      photo: req.file?.filename,
-      id: Number(req.params.id),
-    };
-    const affectedRows = await profilRepository.UpdatePhoto(userPhoto);
-    if (affectedRows === 0) {
-      res.status(404).json({
-        Message: "Format non valide ou taille maximale atteinte (10mo)",
-      });
-    } else {
-      res.status(201).json({ message: "Photo mise à jour" });
+      console.info(userInfo);
     }
   } catch (err) {
     next(err);
@@ -120,7 +105,7 @@ const deleteBooking: RequestHandler = async (req, res, next) => {
 export default {
   readUserInfo,
   EditProfil,
-  EditPhoto,
+
   readReservation,
   deleteBooking,
   validateUser,

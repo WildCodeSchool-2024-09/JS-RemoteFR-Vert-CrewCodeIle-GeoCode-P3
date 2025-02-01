@@ -5,7 +5,9 @@ import type { Station } from "../../lib/definitions";
 
 class StationRepository {
   async readAll() {
-    const [rows] = await databaseClient.query<Rows>("SELECT * FROM station");
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT * FROM station LIMIT 2500",
+    );
 
     return rows as Station[];
   }
