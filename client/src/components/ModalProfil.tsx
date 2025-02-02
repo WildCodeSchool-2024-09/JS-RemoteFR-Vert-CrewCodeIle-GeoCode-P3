@@ -6,6 +6,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import type { UserProps } from "../assets/definition/lib";
 import { formatedDAte } from "../assets/helpers/FormatedDate";
+import { formatedName } from "../assets/helpers/FormatedName";
 import ModalBooking from "./ModalBooking";
 
 export default function ModalProfil({
@@ -202,7 +203,7 @@ export default function ModalProfil({
                       type="text"
                       readOnly={editForm}
                       disabled={editForm}
-                      defaultValue={userInfo[0].firstName}
+                      defaultValue={formatedName(userInfo[0].firstName)}
                       {...register("firstName")}
                     />
                     <input
@@ -210,7 +211,7 @@ export default function ModalProfil({
                       type="text"
                       readOnly={editForm}
                       disabled={editForm}
-                      defaultValue={userInfo[0].lastName}
+                      defaultValue={userInfo[0].lastName.toUpperCase()}
                       {...register("lastName")}
                     />
                   </div>
