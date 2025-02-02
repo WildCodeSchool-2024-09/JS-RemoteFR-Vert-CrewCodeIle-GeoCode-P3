@@ -1,37 +1,84 @@
-export default function AdminUsersList() {
+import data from "../assets/data/adminUsersList.json";
+
+import type {
+  AdminUserProps,
+  AdminUsersListProps,
+} from "../assets/definition/lib";
+
+export default function AdminUsersList({
+  usersList,
+  setIsUsersDetailsModale,
+  isUsersDetailsModale,
+  setAcualUser,
+}: AdminUsersListProps) {
+  if (isUsersDetailsModale) return;
+
   return (
-    <section className="w-full h-fit lg:border-darkColor pb-6 lg:border-4 lg:flex lg:flex-col lg:w-1/2 lg:items-center xl:h-fit">
+    <article className="w-full h-[100vh] lg:border-darkColor pb-6 lg:border-4 lg:flex lg:flex-col lg:w-1/2 lg:items-center xl:h-fit">
       <h2 className="text-2xl text-center mb-2 font-title text-darkColor mt-4 lg:text-4xl">
-        aa
+        {data.usersList}
       </h2>
-      <ul className="overflow-y-auto grid grid-cols-3 border-darkColor border-4 lg:w-11/12">
-        <h3 className="text-center font-title text-darkColor text-lg border-solid border-darkColor border-r-4 lg:text-2xl">
-          aa
+      <ul className="overflow-y-auto border-4 border-darkColor grid grid-cols-4 lg:w-11/12">
+        <h3 className="text-center font-title py-2 text-darkColor text-lg border-solid border-darkColor border-r-4 lg:text-2xl">
+          {data.userLastName}
+        </h3>
+        <h3 className="text-center font-title py-2 text-darkColor text-lg border-r-4 border-darkColor lg:text-2xl">
+          {data.userFirstName}
+        </h3>
+        <h3 className="text-center font-title py-2 text-darkColor border-r-4 text-lg lg:text-2xl">
+          {data.zipcode}
+        </h3>
+        <h3 className="text-center font-title py-2 text-darkColor border-l-4 border-darkColor text-lg lg:text-2xl">
+          {data.birthdate}
         </h3>{" "}
-        <h3 className="text-center font-title text-darkColor text-lg border-r-4 border-darkColor lg:text-2xl">
-          aa
-        </h3>
-        <h3 className="text-center font-title text-darkColor text-lg lg:text-2xl">
-          aa
-        </h3>
-        <li className="h-12 col-span-3 grid grid-cols-3">
-          <button
-            type="button"
-            className="border-solid font-paragraph text-center text-darkColor border-darkColor border-r-4 border-t-4 hover:text-lightColor hover:bg-darkColor active:bg-interestColor"
+        {usersList?.map((e: AdminUserProps) => (
+          <li
+            key={e.id}
+            className="h-12 col-span-4 grid grid-cols-4 text-darkColor hover:text-lightColor hover:bg-darkColor active:bg-interestColor"
           >
-            aa
-          </button>
-          <p className="inline pt-3 border-darkColor border-r-4 border-t-4 text-center text-darkColor text-sm">
-            aa
-          </p>
-          <button
-            type="button"
-            className="border-darkColor border-t-4 bg-center bg-contain bg-no-repeat text-lg hover:bg-darkColor active:bg-interestColor"
-          >
-            <p className="text-green-600 hover:text-lightColor">aa</p>
-          </button>
-        </li>
+            <button
+              type="button"
+              className="border-solid font-paragraph text-center border-darkColor border-r-4 border-t-4"
+              onClick={() => {
+                setAcualUser(e);
+                if (window.innerWidth < 1024) setIsUsersDetailsModale(true);
+              }}
+            >
+              {e.lastname}
+            </button>
+            <button
+              type="button"
+              className="inline border-darkColor border-r-4 border-t-4 text-center"
+              onClick={() => {
+                setAcualUser(e);
+                if (window.innerWidth < 1024) setIsUsersDetailsModale(true);
+              }}
+            >
+              {e.firstname}
+            </button>
+            <button
+              type="button"
+              className="border-darkColor border-t-4"
+              onClick={() => {
+                setAcualUser(e);
+                if (window.innerWidth < 1024) setIsUsersDetailsModale(true);
+              }}
+            >
+              {e.city}
+            </button>
+            <button
+              type="button"
+              className="border-darkColor border-t-4 border-l-4"
+              onClick={() => {
+                setAcualUser(e);
+                if (window.innerWidth < 1024) setIsUsersDetailsModale(true);
+              }}
+            >
+              {e.age}
+            </button>
+          </li>
+        ))}
       </ul>
-    </section>
+    </article>
   );
 }

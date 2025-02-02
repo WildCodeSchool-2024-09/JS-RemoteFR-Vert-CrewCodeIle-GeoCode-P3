@@ -10,8 +10,8 @@ const router = express.Router();
 import RegisterRouter from "./routes/formRegister.routes";
 
 router.use("/", RegisterRouter);
-// Defin form-contact routes
 
+// Defin form-contact routes
 import contactRouter from "./routes/formContact.routes";
 
 router.use("/", contactRouter);
@@ -24,5 +24,9 @@ router.use("/", adressDataGouvRouter);
 // Define database station-related route
 import showStationsMap from "./routes/showStationsMap.routes";
 router.use("/", showStationsMap);
+
+// Define Admin Users route
+import adminUser from "./routes/adminUser.routes";
+router.use("/", adminUser);
 
 export default router;

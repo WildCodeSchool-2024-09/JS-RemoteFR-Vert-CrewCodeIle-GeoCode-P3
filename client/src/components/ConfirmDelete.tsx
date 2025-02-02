@@ -1,6 +1,9 @@
 import data from "../assets/data/adminContact.json";
 
-import type { ContactFormProps } from "../assets/definition/lib";
+import type {
+  AdminUserProps,
+  ContactFormProps,
+} from "../assets/definition/lib";
 
 export default function ConfirmDelete({
   handleDeleteMessage,
@@ -11,7 +14,7 @@ export default function ConfirmDelete({
   handleDeleteMessage: (id: number) => void;
   isConfirmDeleteModale: boolean;
   setIsConfirmDeleteModale: (bool: boolean) => void;
-  actualMessage: ContactFormProps | null;
+  actualMessage: ContactFormProps | AdminUserProps | null;
 }) {
   if (!isConfirmDeleteModale) return;
 
@@ -24,7 +27,7 @@ export default function ConfirmDelete({
         type="button"
         className="font-paragraph border-solid border-2 text-warningColor border-warningColor rounded-lg hover:scale-105 active:bg-darkColor active:text-lightColor w-8/12 h-8"
         onClick={() => {
-          if (actualMessage) {
+          if (typeof actualMessage?.id === "number") {
             handleDeleteMessage(actualMessage?.id);
           }
         }}

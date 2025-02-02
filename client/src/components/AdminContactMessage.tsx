@@ -91,7 +91,7 @@ export default function ContactMessages({
           <strong>{data.userMessage}</strong>
         </p>
         <p
-          className={`overflow-y-auto break-words col-span-3 h-48 font-paragraph text-paragraph text-sm w-full bg-gray-50 p-1 vsm:h-80 vmd:h-96 lg:h-64 2xl:h-[60vh] ${
+          className={`break-words col-span-3 h-48 font-paragraph text-paragraph text-sm w-full bg-gray-50 p-1 vsm:h-80 vmd:h-96 lg:h-64 2xl:h-[60vh] ${
             !isConfirmDeleteModale
               ? "opacity-100 bg-gray-50"
               : "bg-opacity-30 pointer-events-none bg-black"

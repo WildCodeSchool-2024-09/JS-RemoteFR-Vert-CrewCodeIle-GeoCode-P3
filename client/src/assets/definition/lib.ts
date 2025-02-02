@@ -105,3 +105,31 @@ export type AdminMessagesListProps = {
   setActualMessage: (e: ContactFormProps) => void;
   usersMessages: ContactFormProps[] | null;
 };
+
+export type AdminUserProps = {
+  id: number | undefined;
+  age: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  birthday: string;
+  city: string;
+  zipcode: number;
+};
+
+export type AdminUserDetailProps = {
+  actualUser: AdminUserProps | null;
+  usersList: AdminUserProps[];
+  isUsersDetailsModale: boolean;
+  setIsConfirmDeleteModale: (bool: boolean) => void;
+  handleChangeActualUser: (user: AdminUserProps) => void;
+  isDisabled: boolean;
+  setIsDisabled: (bool: boolean) => void;
+};
+
+export type AdminUsersListProps = {
+  usersList: AdminUserProps[];
+  setIsUsersDetailsModale: (bool: boolean) => void;
+  isUsersDetailsModale: boolean;
+  setAcualUser: (e: AdminUserProps) => void;
+};
