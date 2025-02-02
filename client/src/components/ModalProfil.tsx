@@ -1,4 +1,4 @@
-import { Pencil } from "lucide-react";
+import { Calendar1, MapPinHouse, Pencil, User } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -67,24 +67,21 @@ export default function ModalProfil({
     if (photo) {
       formData.append("photo", photo[0]);
     }
-
     formData.append("user", JSON.stringify(rest));
-
-    fetch(`${import.meta.env.VITE_API_URL}/api/profile/${id}`, {
-      method: "put",
-      body: formData,
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          toast.success("Profil mis à jour");
-        } else {
-          toast.warning(
-            "Une erreur est survenue, veuillez rééssayer ultérieurement",
-          );
-        }
-      })
-      .catch((err) => console.error(err))
-      .then(() => setEditForm(true));
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/profile/${id}`,
+      {
+        method: "put",
+        body: formData,
+      },
+    );
+    const data = await response.json();
+    if (response.status === 201) {
+      setEditForm(true);
+      toast.success(data.message);
+    } else {
+      toast.warning(data.message);
+    }
   };
 
   return (
@@ -98,7 +95,7 @@ export default function ModalProfil({
             className="fixed inset-0 z-[990] backdrop-blur-sm "
           />
           <section
-            className={`rounded-lg sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4 ${
+            className={`h-[65vh] rounded-lg sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4 ${
               showProfilModal ? "animate-openModal" : "animate-closeModal"
             } absolute bottom-0 bg-lightColor w-full z-[999]`}
           >
@@ -125,7 +122,7 @@ export default function ModalProfil({
               </button>
               {openBurgerMenu && (
                 <ul
-                  className={`absolute left-4 font-paragraph z-[1300]  mt-1 rounded-lg lg:text-3xl xl:text-2xl${openBurgerMenu ? "animate-openMenu" : "animate-closeMenu"} `}
+                  className={`absolute left-4 font-paragraph z-[1300]  mt-1 rounded-lg lg:text-3xl xl:text-xl ${openBurgerMenu ? "animate-openMenu" : "animate-closeMenu"} `}
                 >
                   <li className=" border border-lightColor bg-interestColor px-4 rounded-lg py-2 text-white hover:bg-interestColor active:bg-interestColor/50  focus:bg-interestColor/70">
                     <button onClick={handleClickEdit} type="button">
@@ -142,9 +139,13 @@ export default function ModalProfil({
             </nav>
 
             {/* User photo */}
-
             <article>
-              <article className="w-fit mx-auto relative bottom-32 flex-col justify-center lg:bottom-64 xl:bottom-36 xl:w-48 xl:h-96">
+              <h2 className="mt-4 text-4xl ml-4 w-72 relative bottom-48 z-[2000] text-center font-title lg:text-6xl lg:w-[50vw] lg:mt-16 xl:text-4xl xl:-translate-x-[5vw] xl:w-[20vw] xl:left-32 ">
+                Bonjour {userInfo[0].firstName}
+              </h2>
+            </article>
+            <article>
+              <article className="w-fit mx-auto relative bottom-44 flex-col justify-center lg:bottom-64 xl:bottom-36 xl:w-48 xl:h-96">
                 <figure className="border-white border-8 rounded-full  w-36 h-36 mx-auto lg:w-64 lg:h-64 xl:w-44 xl:h-44">
                   <img
                     className={`lg:w-auto lg:h-60 xl:w-40 xl:h-40  ${
@@ -155,36 +156,30 @@ export default function ModalProfil({
                   />
                   {urlImage && (
                     <img
-                      className="relative bottom-32 lg:w-auto lg:h-60 xl:w-40 xl:h-40 rounded-full h-32 w-auto "
+                      className="relative bottom-32 lg:w-auto lg:h-60 xl:w-40 xl:h-40 rounded-full h-32 w-auto xl:bottom-40 "
                       src={urlImage}
                       alt="profil utilisateur"
                     />
                   )}
                 </figure>
-
-                <article>
-                  <h2 className="mt-4 text-4xl w-72 text-center font-title lg:text-6xl lg:w-[50vw] lg:mt-16 xl:text-4xl xl:-translate-x-[5vw] xl:w-[20vw] border">
-                    Bonjour {userInfo[0].firstName}
-                  </h2>
-                </article>
               </article>
 
               {/* display user info & modify them  */}
               <form
-                className="ml-4 pl-2 font-paragraph relative bottom-20 text-xl grid grid-cols-2 md:pl-10 lg:text-4xl lg:bottom-44 xl:text-2xl xl:pl-8 "
+                className="ml-4 pl-2 font-paragraph relative bottom-36 text-xl flex flex-col md:pl-10 lg:text-4xl lg:bottom-44 xl:text-2xl xl:pl-8 xl:bottom-72 "
                 onSubmit={handleSubmit(onSubmitEditUserInfo)}
               >
                 {!editForm && (
                   <>
                     <label
                       htmlFor="photo"
-                      className="absolute overflow-hidden -top-52 right-40"
+                      className="absolute overflow-hidden -top-32 right-40 xl:left-52 "
                     >
                       <Pencil color="black" strokeWidth={3} size={36} />
                     </label>
                     <input
                       id="photo"
-                      className={`absolute overflow-hidden text-black ml-8 bg-lightColor opacity-0  pointer-events-none  h-6 lg:h-fit${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
+                      className="absolute overflow-hidden text-black ml-8 bg-lightColor opacity-0  pointer-events-none  h-6 lg:h-fit"
                       type="file"
                       {...register("photo", {
                         onChange: (e) => {
@@ -194,69 +189,77 @@ export default function ModalProfil({
                     />
                   </>
                 )}
-                <label htmlFor="firstName" className="mb-4  text-interestColor">
-                  Prénom
-                </label>
-                <input
-                  className={`text-black ml-8 bg-lightColor  h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
-                  type="text"
-                  readOnly={editForm}
-                  disabled={editForm}
-                  defaultValue={userInfo[0].firstName}
-                  {...register("firstName")}
-                />
-
-                <label htmlFor="lastName" className="mb-4  text-interestColor">
-                  Nom
-                </label>
-                <input
-                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
-                  type="text"
-                  readOnly={editForm}
-                  disabled={editForm}
-                  defaultValue={userInfo[0].lastName}
-                  {...register("lastName")}
-                />
-
-                <label htmlFor="birthday" className="mb-4  text-interestColor">
-                  Date de naissance
-                </label>
-                <input
-                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4 "}`}
-                  type="text"
-                  readOnly={editForm}
-                  disabled={editForm}
-                  defaultValue={formatedDAte(new Date(userInfo[0].birthday))}
-                  {...register("birthday")}
-                />
-
-                <label htmlFor="city" className="mb-4  text-interestColor">
-                  Ville
-                </label>
-                <input
-                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
-                  type="text"
-                  readOnly={editForm}
-                  disabled={editForm}
-                  defaultValue={userInfo[0].city}
-                  {...register("city")}
-                />
-
-                <label htmlFor="zipCode" className="mb-4  text-interestColor">
-                  Code postal
-                </label>
-                <input
-                  className={`text-black ml-8 bg-lightColor h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-orange-500 pl-2 mr-4"}`}
-                  type="text"
-                  readOnly={editForm}
-                  disabled={editForm}
-                  defaultValue={userInfo[0].zipCode}
-                  {...register("zipCode")}
-                />
-
+                <article className="flex justify-center items-center gap-8  border-b-2 border-white w-[85vw] xl:w-[41vh]">
+                  <label
+                    htmlFor="firstName"
+                    className="mb-4  text-interestColor ml-2"
+                  >
+                    <User size={48} />
+                  </label>
+                  <div className=" relative bottom-2">
+                    <input
+                      className={`text-black ml-8 bg-lightColor pl-0  w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
+                      type="text"
+                      readOnly={editForm}
+                      disabled={editForm}
+                      defaultValue={userInfo[0].firstName}
+                      {...register("firstName")}
+                    />
+                    <input
+                      className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
+                      type="text"
+                      readOnly={editForm}
+                      disabled={editForm}
+                      defaultValue={userInfo[0].lastName}
+                      {...register("lastName")}
+                    />
+                  </div>
+                </article>
+                <article className="flex items-center gap-7 mt-2  border-b-2 border-white w-[85vw] xl:w-[41vh]">
+                  <label
+                    htmlFor="birthday"
+                    className="mb-4  text-interestColor ml-2"
+                  >
+                    <Calendar1 size={48} />
+                  </label>
+                  <input
+                    className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4 "}`}
+                    type="text"
+                    readOnly={editForm}
+                    disabled={editForm}
+                    defaultValue={formatedDAte(new Date(userInfo[0].birthday))}
+                    {...register("birthday")}
+                  />
+                </article>
+                <article className="flex  gap-7  border-b-2 mt-2 border-white w-[85vw]  xl:w-[41vh]">
+                  <label
+                    htmlFor="city"
+                    className="mb-4  text-interestColor ml-2"
+                  >
+                    <MapPinHouse size={48} />
+                  </label>
+                  <div>
+                    <input
+                      className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
+                      type="text"
+                      readOnly={editForm}
+                      disabled={editForm}
+                      defaultValue={userInfo[0].city}
+                      {...register("city")}
+                    />
+                    <input
+                      className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
+                      type="text"
+                      readOnly={editForm}
+                      disabled={editForm}
+                      defaultValue={userInfo[0].zipCode}
+                      {...register("zipCode")}
+                    />
+                  </div>
+                </article>
                 {!editForm && (
                   <button
-                    className="border-interestColor absolute -bottom-8 translate-x-[30vw] mx-auto border px-6 md:translate-x-[23vw] md:-bottom-16 rounded-3xl bg-interestColor text-white py-1 mt-4 lg:-bottom-24 xl:translate-x-[8vw]"
+                    className="border-interestColor absolute -bottom-12 translate-x-[27vw] mx-auto border px-6 md:translate-x-[23vw] md:-bottom-16 rounded-3xl bg-interestColor text-white py-1 mt-4 lg:-bottom-24 xl:translate-x-[6vw]"
                     type="submit"
                   >
                     Modifier

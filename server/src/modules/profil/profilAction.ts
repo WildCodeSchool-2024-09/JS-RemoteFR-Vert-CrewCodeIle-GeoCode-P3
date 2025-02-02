@@ -2,7 +2,6 @@ import { userInfo } from "node:os";
 import type { RequestHandler } from "express";
 import joi from "joi";
 import profilRepository from "./ProfilRepository";
-import { json } from "node:stream/consumers";
 
 const now = Date.now();
 const YEARS_18_MILLISECONDE = 1000 * 60 * 60 * 24 * 365 * 18;
@@ -87,13 +86,16 @@ const EditProfil: RequestHandler = async (req, res, next) => {
 
     const affectedRows = await profilRepository.UpdateUserInfo(UserInfo);
     if (affectedRows === 0) {
-      res.sendStatus(404);
+      res
+        .status(404)
+        .json("Une erreur s'est produite, veuillez rééssayer ultérieurement");
     } else {
-      res.sendStatus(201);
-      console.info(userInfo);
+      res.status(201).json({ message: "Profil mis à jour avec succès" });
     }
   } catch (err) {
-    next(err);
+    res.json({
+      message: "Une erreur s'est produite, veuillez rééssayer ultérieurement",
+    });
   }
 };
 
@@ -104,7 +106,9 @@ const deleteBooking: RequestHandler = async (req, res, next) => {
     const affectedRows = await profilRepository.DestroyBooking(bookId);
 
     res.sendStatus(204).json({ message: "La réservation a bien été annulée" });
-  } catch (e) {}
+  } catch (e) {
+    next(e);
+  }
 };
 
 export default {
