@@ -8,6 +8,7 @@ import AdminPage from "./pages/AdminPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
 import HomePage from "./pages/HomePage";
 import PresentationPage from "./pages/PresentationPage";
+import UpdateStationsPage from "./pages/UpdateStationsPage";
 
 export const mainRouter = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const mainRouter = createBrowserRouter([
   {
     path: "/admin/users",
     element: <AdminUsersPage />,
+  },
+  {
+    path: "/admin/update-charging-stations",
+    element: <UpdateStationsPage />,
   },
   {
     path: "/admin/messages",
