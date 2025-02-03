@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import joi from "joi";
+import joi, { number } from "joi";
 import registerRepository from "./registerRepository";
 
 // User validation Schema with Joi
@@ -38,6 +38,7 @@ const userVehiculeSchema = joi.object({
   brand: joi.number().required(),
   model: joi.number().required(),
   socket: joi.number().required(),
+  userId: joi.number(),
 });
 
 //Validation for register submission
@@ -138,9 +139,12 @@ const addVehicleInfo: RequestHandler = async (req, res, next) => {
       model: Number(req.body.model),
       socket: Number(req.body.socket),
     };
+    const userId = Number(req.body.userId);
     const insertId = await registerRepository.createVehicleInfo(newRegister);
-    console.info(req.body.model);
-    res.status(201).json({ insertId });
+
+    const userCarId = await registerRepository.createUserCar(userId, insertId);
+
+    res.status(201).json({ userCarId });
   } catch (err) {
     next(err);
   }

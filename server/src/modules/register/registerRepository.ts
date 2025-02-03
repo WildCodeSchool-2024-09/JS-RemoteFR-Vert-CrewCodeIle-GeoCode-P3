@@ -37,6 +37,14 @@ class RegisterRepository {
     return result.insertId;
   }
 
+  async createUserCar(userId: number, carId: number) {
+    const [result] = await databaseClient.query<Result>(
+      `INSERT INTO user_car (user_id, car_id)
+      VALUES (?,?)`,
+      [userId, carId],
+    );
+  }
+
   async readAll() {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT label, id 

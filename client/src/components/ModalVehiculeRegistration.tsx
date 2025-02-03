@@ -23,12 +23,18 @@ export default function ModalVehiculeRegistration() {
 
   //To recover information vehicule from form & send them to data base
   const onSubmitVehicule: SubmitHandler<VehiculeProps> = (vehiculeData) => {
+    const userId = localStorage.getItem("userId");
+    const userData = { ...vehiculeData, userId };
     fetch(`${import.meta.env.VITE_API_URL}/api/register/vehicule`, {
       method: "post",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(vehiculeData),
+      body: JSON.stringify(userData),
     })
       .then((response) => response.json())
+      .then(() => {
+        localStorage.removeItem("userId");
+        console.info(userData);
+      })
       .catch((err) => console.error(err));
     setShowValidateModal(true);
   };
