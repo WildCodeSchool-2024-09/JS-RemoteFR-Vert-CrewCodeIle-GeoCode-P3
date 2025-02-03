@@ -1,5 +1,5 @@
 import express from "express";
-import { hashedPaswword } from "../middleware/hashpassword";
+import { hashedPaswword } from "../middlewares/hashpassword";
 import registerAction from "../modules/register/registerAction";
 
 const router = express.Router();
