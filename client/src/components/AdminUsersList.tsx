@@ -19,16 +19,16 @@ export default function AdminUsersList({
         {data.usersList}
       </h2>
       <ul className="overflow-y-auto border-4 border-darkColor grid grid-cols-4 lg:w-11/12">
-        <h3 className="text-center font-title py-2 text-darkColor text-lg border-solid border-darkColor border-r-4 lg:text-2xl">
+        <h3 className="text-center font-title py-8 text-darkColor text-lg border-solid border-darkColor border-r-4 md:py-12 lg:text-2xl">
           {data.userLastName}
         </h3>
-        <h3 className="text-center font-title py-2 text-darkColor text-lg border-r-4 border-darkColor lg:text-2xl">
+        <h3 className="text-center font-title py-8 text-darkColor text-lg border-r-4 border-darkColor md:py-12 lg:text-2xl">
           {data.userFirstName}
         </h3>
-        <h3 className="text-center font-title py-2 text-darkColor border-r-4 text-lg lg:text-2xl">
+        <h3 className="text-center font-title py-4 text-darkColor border-r-4 text-lg md:py-8 lg:py-12 lg:text-2xl">
           {data.zipcode}
         </h3>
-        <h3 className="text-center font-title py-2 text-darkColor border-l-4 border-darkColor text-lg lg:text-2xl">
+        <h3 className="text-center font-title py-4 break-words text-darkColor border-l-4 border-darkColor text-lg md:py-8 lg:text-2xl">
           {data.birthdate}
         </h3>{" "}
         {usersList?.map((e: AdminUserProps) => (
