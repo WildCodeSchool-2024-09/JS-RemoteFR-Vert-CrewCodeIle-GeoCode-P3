@@ -14,7 +14,6 @@ export const checkUserMail: RequestHandler = async (req, res, next) => {
       res.status(404);
     }
     req.body.dbpassword = verifMail.password;
-    req.body.firstName = verifMail.firstName;
 
     next();
   } catch (e) {
