@@ -1,32 +1,39 @@
+import { jwtDecode } from "jwt-decode";
 import { type ReactNode, createContext, useContext, useState } from "react";
-
 import type { UserProps } from "../assets/definition/lib";
 
 type userContextProps = {
-  user: UserProps | null;
-  login: (s: UserProps) => void;
+  userToken: string | null;
+  userInfo: UserProps | undefined;
+  login: (s: string | null) => void;
   logout: () => void;
 };
 
 export const AuthContext = createContext<userContextProps>({
-  user: null,
+  userToken: null,
+  userInfo: undefined,
   login: () => undefined,
   logout: () => undefined,
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProps | null>(null);
+  const [userToken, setUserToken] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<UserProps>();
 
-  const login = (userData: UserProps) => {
-    setUser(userData);
+  const login = (token: string | null) => {
+    setUserToken(token);
+    if (token) {
+      setUserInfo(jwtDecode(token));
+    }
   };
-  console.info(user);
+
   const logout = () => {
-    setUser(null);
+    setUserToken(null);
+    setUserInfo(undefined);
   };
 
   return (
-    <AuthContext.Provider value={{ login, logout, user }}>
+    <AuthContext.Provider value={{ login, logout, userToken, userInfo }}>
       {children}
     </AuthContext.Provider>
   );

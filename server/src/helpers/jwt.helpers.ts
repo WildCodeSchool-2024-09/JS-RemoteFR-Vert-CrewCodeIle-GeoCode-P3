@@ -6,8 +6,12 @@ type payloadProps = {
   firstName: string;
 };
 
-export const tokenJWT = async (payload: UserProps) => {
-  const { email, firstName } = payload;
+export const tokenJWT = async (userInfo: UserProps) => {
+  const { email, firstName, ...rest } = userInfo;
+  const payload = {
+    email: email,
+    firstName: firstName,
+  };
 
   const token = jwt.sign(payload, process.env.APP_SECRET as string, {
     expiresIn: "24h",

@@ -20,9 +20,8 @@ const login: RequestHandler = async (req, res, next) => {
       })
       .json({
         message: `Bienvenu sur Geocode ${user.firstName}`,
-        user: userWithoutPassword,
+        token: token,
       });
-    console.info(userWithoutPassword);
   } catch (e) {
     next(e);
   }

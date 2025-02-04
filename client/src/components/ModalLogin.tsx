@@ -34,7 +34,7 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
 
     if (response.status === 201) {
       const data = await response.json();
-      login(data.user);
+      login(data.token);
       closeModal();
       toast.success(data.message);
     } else {

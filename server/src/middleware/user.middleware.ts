@@ -10,7 +10,6 @@ export const checkUserMail: RequestHandler = async (req, res, next) => {
 
     if (verifMail) {
       res.status(201);
-      console.info("ok");
     } else {
       res.status(404);
     }

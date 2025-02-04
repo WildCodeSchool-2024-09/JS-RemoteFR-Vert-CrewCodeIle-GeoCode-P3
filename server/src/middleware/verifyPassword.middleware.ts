@@ -13,7 +13,6 @@ export const verifyPassword: RequestHandler = async (req, res, next) => {
       res.status(403).json({ message: "Password ou email incorrect" });
     }
 
-    console.info("ok2");
     next();
   } catch (e) {
     next(e);
