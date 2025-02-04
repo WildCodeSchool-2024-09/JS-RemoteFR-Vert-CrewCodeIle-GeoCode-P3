@@ -5,6 +5,6 @@ import vehiculeAction from "../modules/vehicule/vehiculeAction";
 const router = express.Router();
 
 router.get("/api/vehicule/:id", vehiculeAction.readVehiculeInfo);
-router.put("/api/update/vehicule/:id");
+router.put("/api/update/vehicule/:id", vehiculeAction.updateUserVehiculeInfo);
 
 export default router;

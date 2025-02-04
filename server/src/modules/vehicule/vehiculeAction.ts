@@ -18,5 +18,19 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
     next(e);
   }
 };
+const updateUserVehiculeInfo: RequestHandler = async (req, res, next) => {
+  try {
+    const vehiculeInfo = req.body;
 
-export default { readVehiculeInfo };
+    const newVehicule =
+      await VehiculeRepository.updateUserVehicule(vehiculeInfo);
+
+    if (newVehicule) {
+      res.status(201).json({ message: "Le véhicule a bien été modifié" });
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default { readVehiculeInfo, updateUserVehiculeInfo };

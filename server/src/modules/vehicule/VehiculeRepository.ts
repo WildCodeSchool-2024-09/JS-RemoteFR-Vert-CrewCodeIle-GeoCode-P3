@@ -1,4 +1,7 @@
-import type { UserVehiculeProps } from "../../../../client/src/assets/definition/lib";
+import type {
+  UserVehiculeProps,
+  VehiculeProps,
+} from "../../../../client/src/assets/definition/lib";
 import databaseClient, { type Rows } from "../../../database/client";
 
 class VehiculeRepository {
@@ -16,6 +19,18 @@ class VehiculeRepository {
       [id],
     );
     return rows as UserVehiculeProps[];
+  }
+
+  async updateUserVehicule(userVehicule: VehiculeProps) {
+    const { brand, model, socket } = userVehicule;
+    const insertId = await databaseClient.query(
+      `UPDATE car
+      JOIN user_car AS u ON u.car_id = car.id
+  SET brand_id = ?, model_id = ?, socket_id = ?
+  WHERE u.user_id = 15;`,
+      [brand, model, socket],
+    );
+    return insertId;
   }
 }
 

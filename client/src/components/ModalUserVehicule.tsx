@@ -1,32 +1,48 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import type {
   BrandProps,
   ModelProps,
   SocketProps,
   UserVehiculeProps,
+  VehiculeProps,
 } from "../assets/definition/lib";
-// import { type SubmitHandler, useForm } from "react-hook-form";
 
 export default function ModalUserVehicule() {
-  const { register, watch } = useForm();
+  const { register, watch, handleSubmit } = useForm<VehiculeProps>();
   const [vehiculeInfo, setVehiculeInfo] = useState<UserVehiculeProps[]>();
 
-  const [editForm, setEditForm] = useState(false);
-  const handleClickEdit = () => setEditForm(!editForm);
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
   const handleClickMenu = () => setOpenBurgerMenu(!openBurgerMenu);
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/update/vehicule`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        //Authorization : `Bearer ${auth.token}
-      },
-    });
-  });
   const id = 15;
+  const onSubmit: SubmitHandler<VehiculeProps> = async (dataVehicule) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/update/vehicule/:${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          //Authorization : `Bearer ${auth.token}
+        },
+        body: JSON.stringify(dataVehicule),
+      },
+    );
+
+    if (response.status === 201) {
+      const data = await response.json();
+      toast.success(data.message);
+      setEditVehicule(!editVehicule);
+    }
+  };
+
+  const [editVehicule, setEditVehicule] = useState(true);
+  const handleClickEdit = () => {
+    setEditVehicule(!editVehicule);
+    setOpenBurgerMenu(!openBurgerMenu);
+  };
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`, {
       method: "GET",
@@ -57,6 +73,7 @@ export default function ModalUserVehicule() {
       );
     }
   }, [idBrand]);
+
   // Fetch model from DB where socket_id = socket(id) & stock socket with state
   const [dataSocket, setDataSocket] = useState<SocketProps>();
   useEffect(() => {
@@ -125,78 +142,95 @@ export default function ModalUserVehicule() {
           <img src="" alt="vehicule" />
         </figure>
         <section className=" border border-red-700 w-5/6 mx-auto my-6">
-          <form className="font-paragraph grid grid-cols-2  ">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="font-paragraph grid grid-cols-2  "
+          >
             <label htmlFor="brand" className="my-4 text-interestColor">
               Marque
             </label>
-            <div>
+            <div className="relative top-4">
               <input
-                className="inline-block bg-inherit"
+                className="inline-block bg-inherit "
                 type="text"
-                readOnly={!editForm}
-                disabled={!editForm}
+                readOnly={editVehicule}
+                disabled={editVehicule}
                 defaultValue={vehiculeInfo ? vehiculeInfo[0].brand : ""}
               />
-              <select
-                className="border  w-full rounded-md font-normal font-paragraph"
-                {...register("brand")}
-              >
-                <option value={0}>Selectionnez un construteur</option>
-                {dataBrand
-                  ? dataBrand.map((a) => (
-                      <option value={a.id} key={a.label}>
-                        {a.label}
-                      </option>
-                    ))
-                  : "-"}
-              </select>
+              {!editVehicule && (
+                <select
+                  className="border  w-full rounded-md font-normal font-paragraph absolute top-0"
+                  {...register("brand")}
+                >
+                  <option value={0}>Selectionnez un construteur</option>
+                  {dataBrand
+                    ? dataBrand.map((a) => (
+                        <option value={a.id} key={a.label}>
+                          {a.label}
+                        </option>
+                      ))
+                    : "-"}
+                </select>
+              )}
             </div>
             <label htmlFor="model" className="my-4 text-interestColor">
               Modèle
             </label>
-            <div>
+            <div className="relative top-4">
               <input
                 className="inline-block bg-inherit "
                 type="text"
-                readOnly={!editForm}
-                disabled={!editForm}
+                readOnly={editVehicule}
+                disabled={editVehicule}
                 defaultValue={vehiculeInfo ? vehiculeInfo[0].model : ""}
               />
-              <select
-                className="border  w-full rounded-md font-normal font-paragraph"
-                {...register("model")}
-              >
-                <option value={0}>Selectionnez un modèle</option>
-                {dataModel
-                  ? dataModel.map((m) => (
-                      <option value={m.socket_id} key={m.id}>
-                        {m.label}
-                      </option>
-                    ))
-                  : "-"}
-              </select>
+              {!editVehicule && (
+                <select
+                  className="border  w-full rounded-md font-normal font-paragraph absolute top-0"
+                  {...register("model")}
+                >
+                  <option value={0}>Selectionnez un modèle</option>
+                  {dataModel
+                    ? dataModel.map((m) => (
+                        <option value={m.socket_id} key={m.id}>
+                          {m.label}
+                        </option>
+                      ))
+                    : "-"}
+                </select>
+              )}
             </div>
             <label htmlFor="socket" className="my-4 text-interestColor">
               Type de prise
             </label>
-            <div>
+            <div className="relative top-4">
               <input
                 className="inline-block bg-inherit"
                 type="text"
-                readOnly={!editForm}
-                disabled={!editForm}
+                readOnly={editVehicule}
+                disabled={editVehicule}
                 defaultValue={vehiculeInfo ? vehiculeInfo[0].socket : ""}
               />
-              <select
-                className="border  w-full rounded-md font-normal font-paragraph"
-                {...register("socket")}
-              >
-                <option value={0}>Selectionnez un type de prise</option>
-                {dataSocket && (
-                  <option value={dataSocket.id}>{dataSocket.label}</option>
-                )}
-              </select>
+              {!editVehicule && (
+                <select
+                  className="border  w-full rounded-md font-normal font-paragraph absolute top-0"
+                  {...register("socket")}
+                >
+                  <option value={0}>Selectionnez un type de prise</option>
+                  {dataSocket && (
+                    <option value={dataSocket.id}>{dataSocket.label}</option>
+                  )}
+                </select>
+              )}
             </div>
+            {!editVehicule && (
+              <button
+                className="border-interestColor mx-20 border px-6  rounded-3xl bg-interestColor text-white py-1"
+                type="submit"
+              >
+                Modifier
+              </button>
+            )}
           </form>
         </section>
       </section>
