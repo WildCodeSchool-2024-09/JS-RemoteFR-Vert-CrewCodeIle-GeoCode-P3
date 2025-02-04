@@ -1,32 +1,85 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { UserVehiculeProps } from "../assets/definition/lib";
+import type {
+  BrandProps,
+  ModelProps,
+  SocketProps,
+  UserVehiculeProps,
+} from "../assets/definition/lib";
 // import { type SubmitHandler, useForm } from "react-hook-form";
 
 export default function ModalUserVehicule() {
-  const { register } = useForm();
-  const [vehiculeInfo, setVehiculeInfo] = useState<UserVehiculeProps>();
+  const { register, watch } = useForm();
+  const [vehiculeInfo, setVehiculeInfo] = useState<UserVehiculeProps[]>();
 
   const [editForm, setEditForm] = useState(false);
   const handleClickEdit = () => setEditForm(!editForm);
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
   const handleClickMenu = () => setOpenBurgerMenu(!openBurgerMenu);
 
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/update/vehicule`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        //Authorization : `Bearer ${auth.token}
+      },
+    });
+  });
   const id = 15;
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
-      //Authorization : `Bearer ${auth.toke}
+      //Authorization : `Bearer ${auth.token}
     })
       .then((res) => res.json())
       .then((data) => setVehiculeInfo(data));
   }, []);
-  console.info(vehiculeInfo);
+
+  const idBrand = watch("brand");
+  const idSocket = watch("model");
+
+  // Fetch brand from DB & stock them with state
+  const [dataBrand, setDatabrand] = useState<BrandProps[]>();
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/register`).then((res) =>
+      res.json().then((data: ModelProps[]) => setDatabrand(data)),
+    );
+  }, []);
+
+  // Fetch model from DB where model_id = brand(id) & stock model with state
+  const [dataModel, setDataModel] = useState<ModelProps[]>();
+  useEffect(() => {
+    if (idBrand) {
+      fetch(`${import.meta.env.VITE_API_URL}/api/register/${idBrand}`).then(
+        (res) => res.json().then((data: ModelProps[]) => setDataModel(data)),
+      );
+    }
+  }, [idBrand]);
+  // Fetch model from DB where socket_id = socket(id) & stock socket with state
+  const [dataSocket, setDataSocket] = useState<SocketProps>();
+  useEffect(() => {
+    if (idSocket) {
+      fetch(
+        `${import.meta.env.VITE_API_URL}/api/register/socket/${idSocket}`,
+      ).then((res) =>
+        res.json().then((data: SocketProps) => setDataSocket(data)),
+      );
+    }
+  }, [idSocket]);
+
+  console.info(dataBrand);
+  console.info(dataModel);
+  console.info(dataSocket);
 
   return (
     <>
-      <section className="z-[2000] absolute">
+      <section
+        className={`h-[65vh] rounded-xl sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4 ${
+          vehiculeInfo ? "animate-openModal" : "animate-closeModal"
+        } absolute bottom-0 bg-lightColor w-full z-[999]`}
+      >
         <nav className=" w-fit">
           <button
             onClick={handleClickMenu}
@@ -53,43 +106,97 @@ export default function ModalUserVehicule() {
             >
               <li className=" border border-lightColor bg-interestColor px-4 rounded-lg py-2 text-white hover:bg-interestColor active:bg-interestColor/50  focus:bg-interestColor/70">
                 <button onClick={handleClickEdit} type="button">
-                  Modifier mon profil
+                  Modifier un véhicule
                 </button>
               </li>
               <li className="border border-lightColor  bg-interestColor px-4 rounded-lg py-2 text-white">
                 <button type="button">Ajouter une véhicule</button>
               </li>
-              <button type="button">Modifier une véhicule</button>
-              <button type="button">Supprimer une véhicule</button>
+              <li className="border border-lightColor  bg-interestColor px-4 rounded-lg py-2 text-white">
+                <button type="button">Supprimer une véhicule</button>
+              </li>
+              <li className="border border-lightColor  bg-interestColor px-4 rounded-lg py-2 text-white">
+                <button type="button">Modifier la photo</button>
+              </li>
             </ul>
           )}
         </nav>
-        <section>
-          <form>
-            <img src="" alt="vehicule" />
-            <label htmlFor="brand">Marque</label>
-            <input
-              type="text"
-              readOnly={editForm}
-              disabled={editForm}
-              defaultValue={vehiculeInfo ? vehiculeInfo.brand : ""}
-            />
-            <label htmlFor="model">Modèle</label>
-            <input
-              type="text"
-              readOnly={editForm}
-              disabled={editForm}
-              defaultValue={vehiculeInfo ? vehiculeInfo.model : ""}
-              {...register("model")}
-            />
-            <label htmlFor="socket">Type de prise</label>
-            <input
-              type="text"
-              readOnly={editForm}
-              disabled={editForm}
-              defaultValue={vehiculeInfo ? vehiculeInfo.socket : ""}
-              {...register("socket")}
-            />
+        <figure className="w-fit mx-auto relative bottom-12">
+          <img src="" alt="vehicule" />
+        </figure>
+        <section className=" border border-red-700 w-5/6 mx-auto my-6">
+          <form className="font-paragraph grid grid-cols-2  ">
+            <label htmlFor="brand" className="my-4 text-interestColor">
+              Marque
+            </label>
+            <div>
+              <input
+                className="inline-block bg-inherit"
+                type="text"
+                readOnly={!editForm}
+                disabled={!editForm}
+                defaultValue={vehiculeInfo ? vehiculeInfo[0].brand : ""}
+              />
+              <select
+                className="border  w-full rounded-md font-normal font-paragraph"
+                {...register("brand")}
+              >
+                <option value={0}>Selectionnez un construteur</option>
+                {dataBrand
+                  ? dataBrand.map((a) => (
+                      <option value={a.id} key={a.label}>
+                        {a.label}
+                      </option>
+                    ))
+                  : "-"}
+              </select>
+            </div>
+            <label htmlFor="model" className="my-4 text-interestColor">
+              Modèle
+            </label>
+            <div>
+              <input
+                className="inline-block bg-inherit "
+                type="text"
+                readOnly={!editForm}
+                disabled={!editForm}
+                defaultValue={vehiculeInfo ? vehiculeInfo[0].model : ""}
+              />
+              <select
+                className="border  w-full rounded-md font-normal font-paragraph"
+                {...register("model")}
+              >
+                <option value={0}>Selectionnez un modèle</option>
+                {dataModel
+                  ? dataModel.map((m) => (
+                      <option value={m.socket_id} key={m.id}>
+                        {m.label}
+                      </option>
+                    ))
+                  : "-"}
+              </select>
+            </div>
+            <label htmlFor="socket" className="my-4 text-interestColor">
+              Type de prise
+            </label>
+            <div>
+              <input
+                className="inline-block bg-inherit"
+                type="text"
+                readOnly={!editForm}
+                disabled={!editForm}
+                defaultValue={vehiculeInfo ? vehiculeInfo[0].socket : ""}
+              />
+              <select
+                className="border  w-full rounded-md font-normal font-paragraph"
+                {...register("socket")}
+              >
+                <option value={0}>Selectionnez un type de prise</option>
+                {dataSocket && (
+                  <option value={dataSocket.id}>{dataSocket.label}</option>
+                )}
+              </select>
+            </div>
           </form>
         </section>
       </section>

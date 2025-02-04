@@ -10,7 +10,7 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
       await VehiculeRepository.readUserVehicule(userId);
     console.info(vehiculeInfo);
     if (vehiculeInfo.length > 0) {
-      res.status(201).json({ vehiculeInfo });
+      res.status(201).json(vehiculeInfo);
     } else {
       res.status(400).json({ message: "Aucun véhicule enregistré" });
     }

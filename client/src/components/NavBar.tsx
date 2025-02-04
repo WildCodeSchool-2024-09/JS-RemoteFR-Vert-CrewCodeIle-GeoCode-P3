@@ -19,8 +19,6 @@ export default function NavBar({
   const navBarIcons = [mapIcon, userIcon, carIcon, contactIcon];
   const [openVehiculeModal, setOpenVehiculeModal] = useState(false);
 
-  console.info(openVehiculeModal);
-
   return (
     <>
       <nav className="flex h-10 justify-center z-[1000] fixed bottom-4 w-full lg:top-0 lg:bottom-auto lg:justify-between lg:bg-accentColor lg:h-28 lg:z-[1020]">

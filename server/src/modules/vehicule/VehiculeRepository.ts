@@ -3,7 +3,7 @@ import databaseClient, { type Rows } from "../../../database/client";
 
 class VehiculeRepository {
   async readUserVehicule(id: number) {
-    const [rows] = await databaseClient.query<Rows>(
+    const [rows] = await databaseClient.query(
       `SELECT b.label AS brand, m.label AS model, s.label AS socket
             FROM user_car AS u
             JOIN car AS c ON c.id = u.car_id
