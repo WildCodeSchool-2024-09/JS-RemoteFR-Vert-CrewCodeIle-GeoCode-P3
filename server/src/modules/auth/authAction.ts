@@ -7,7 +7,6 @@ import { hashedPaswword } from "../../middleware/hashpassword";
 const login: RequestHandler = async (req, res, next) => {
   try {
     const user: UserProps = req.body;
-    const { dbpassword, password, ...userWithoutPassword } = user;
 
     const token = await tokenJWT(user);
 
