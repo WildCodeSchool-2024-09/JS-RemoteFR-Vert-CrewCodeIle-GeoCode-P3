@@ -12,7 +12,10 @@ import type {
 } from "../assets/definition/lib";
 import ModalRegistrationValidate from "./ModalRegistrationValidate";
 
-export default function ModalVehiculeRegistration() {
+export default function ModalVehiculeRegistration({
+  closeModalVehicule,
+  closeModalRegister,
+}: { closeModalVehicule: () => void; closeModalRegister: () => void }) {
   // Method from react-hook-form
   const {
     register,
@@ -75,7 +78,14 @@ export default function ModalVehiculeRegistration() {
   return (
     <>
       {showValidateModal &&
-        createPortal(<ModalRegistrationValidate />, document.body)}
+        createPortal(
+          <ModalRegistrationValidate
+            closeModalValidate={() => setShowValidateModal(false)}
+            closeModalVehicule={closeModalVehicule}
+            closeModalRegister={closeModalRegister}
+          />,
+          document.body,
+        )}
       <div
         className={`${showValidateModal ? "opacity-0" : "opacity-100"} fixed z-[9600] top-1/3 mx-auto -translate-y-1/2 -translate-x1/2 lg:w-36 lg:relative lg:bottom-96 lg:-translate-x-1/2`}
       >

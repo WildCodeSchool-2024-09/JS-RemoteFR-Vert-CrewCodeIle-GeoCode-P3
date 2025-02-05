@@ -106,7 +106,6 @@ const readSocket: RequestHandler = async (req, res, next) => {
     const formItemId = Number(req.params.id);
     const formItemSocket = await registerRepository.readSocket(formItemId);
 
-    console.info(formItemId);
     if (formItemSocket === null) {
       res.sendStatus(404);
     } else {
@@ -139,7 +138,7 @@ const addVehicleInfo: RequestHandler = async (req, res, next) => {
       socket: Number(req.body.socket),
     };
     const insertId = await registerRepository.createVehicleInfo(newRegister);
-    console.info(req.body.model);
+
     res.status(201).json({ insertId });
   } catch (err) {
     next(err);
