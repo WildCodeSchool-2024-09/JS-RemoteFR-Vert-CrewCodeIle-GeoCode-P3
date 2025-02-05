@@ -2,7 +2,6 @@ import App from "./App";
 
 import { createBrowserRouter } from "react-router-dom";
 
-import ModalRegistration from "./components/ModalRegistration";
 import AdminBrandPage from "./pages/AdminBrandPage";
 import AdminCarsPage from "./pages/AdminCarsPage";
 import AdminContactPage from "./pages/AdminContactPage";
@@ -22,10 +21,6 @@ export const mainRouter = createBrowserRouter([
       {
         path: "/home",
         element: <HomePage />,
-      },
-      {
-        path: "/home/formulaire",
-        element: <ModalRegistration />,
       },
     ],
   },

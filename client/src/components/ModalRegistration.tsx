@@ -9,7 +9,10 @@ import type {
 } from "../assets/definition/lib";
 import ModalVehiculeRegistration from "./ModalVehiculeRegistration";
 
-export default function ModalRegistration() {
+export default function ModalRegistration({
+  closeModalRegister,
+  openRegisterModal,
+}: { closeModalRegister: () => void; openRegisterModal: boolean }) {
   //Json error message form
   const errorMessage: ErrorMessageProps = messageError;
 
@@ -48,9 +51,20 @@ export default function ModalRegistration() {
   return (
     <>
       {showVehiculeModal &&
-        createPortal(<ModalVehiculeRegistration />, document.body)}
+        createPortal(
+          <ModalVehiculeRegistration
+            closeModalVehicule={() => setShowVehiculeModal(false)}
+            closeModalRegister={closeModalRegister}
+          />,
+          document.body,
+        )}
+      <button
+        type="button"
+        onClick={closeModalRegister}
+        className="fixed inset-0 backdrop-blur-sm"
+      />
       <fieldset
-        className={`${showVehiculeModal ? "opacity-0" : "opacity-100"} text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl relative z-[9500] lg:w-36 lg:top-40`}
+        className={` text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl absolute top-0 left-7  z-[9500] lg:w-36 lg:top-40 ${openRegisterModal ? "animate-openModal" : "animate-closeModal"} ${showVehiculeModal ? "opacity-0" : "opacity-100"} `}
       >
         <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
 
