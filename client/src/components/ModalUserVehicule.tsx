@@ -79,16 +79,29 @@ export default function ModalUserVehicule() {
       toast.warning(data.message);
     }
   };
+  const [vehiculeId, setVehiculeId] = useState<number>(1);
+
+  // useEffect(() => {
+  //   fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`, {
+  //     method: "GET",
+  //     headers: { "Content-type": "application/json" },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => setVehiculeInfo(data));
+  // }, []);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`, {
-      method: "GET",
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule`, {
+      method: "POST",
       headers: { "Content-type": "application/json" },
-      //Authorization : `Bearer ${auth.token}
+      body: JSON.stringify({
+        userId: id,
+        vehiculeId: vehiculeId,
+      }),
     })
       .then((res) => res.json())
       .then((data) => setVehiculeInfo(data));
-  }, []);
+  }, [vehiculeId]);
 
   const idBrand = watch("brand");
   const idSocket = watch("model");
@@ -124,8 +137,11 @@ export default function ModalUserVehicule() {
   }, [idSocket]);
 
   const [showVehiculeList, setShowVehiculeList] = useState(false);
-  const handleClikTableVehicules = () => setShowVehiculeList(!showVehiculeList);
-
+  const handleClikTableVehicules = () => {
+    setShowVehiculeList(!showVehiculeList);
+    setOpenBurgerMenu(!openBurgerMenu);
+  };
+  console.info(vehiculeId);
   return (
     <>
       <section
@@ -288,11 +304,16 @@ export default function ModalUserVehicule() {
             )}
           </form>
         </article>
-        <article>
-          {showVehiculeList &&
-            createPortal(<ModalListVehicule />, document.body)}
-        </article>
       </section>
+
+      {showVehiculeList &&
+        createPortal(
+          <ModalListVehicule
+            setVehiculeId={(newVehiculeId) => setVehiculeId(newVehiculeId)}
+            closeModal={() => setShowVehiculeList(!showVehiculeList)}
+          />,
+          document.body,
+        )}
     </>
   );
 }

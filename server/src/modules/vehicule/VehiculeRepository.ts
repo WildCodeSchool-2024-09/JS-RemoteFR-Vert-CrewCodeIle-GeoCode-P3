@@ -8,7 +8,7 @@ import databaseClient, {
 } from "../../../database/client";
 
 class VehiculeRepository {
-  async readUserVehicule(id: number) {
+  async readUserVehicule(userId: number, vehiculeId: number) {
     const [rows] = await databaseClient.query(
       `SELECT b.label AS brand, m.label AS model, s.label AS socket
             FROM user_car AS u
@@ -16,10 +16,11 @@ class VehiculeRepository {
             JOIN brand AS b ON b.id = c.brand_id
             JOIN model AS m ON m.id = c.model_id
             JOIN socket AS s ON s.id = c.socket_id
-            WHERE user_id = ?;
+            WHERE user_id = ?
+            AND c.id = ?;
 
         `,
-      [id],
+      [userId, vehiculeId],
     );
     return rows as UserVehiculeProps[];
   }
@@ -59,17 +60,17 @@ class VehiculeRepository {
   async readAllVehicule(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `
-      SELECT b.label AS brand, m.label AS model, s.label AS socket, c.id
+      SELECT b.label AS brand, m.label AS model, s.label AS socket, c.id AS id
       FROM user_car AS u
       JOIN car as c ON c.id = u.car_id
       JOIN brand AS b ON b.id = c.brand_id
       JOIN model AS m ON m.id = c.model_id
       JOIN socket AS s ON s.id = c.socket_id
-      WHERE u.user_id = ?;
-      
+      WHERE u.user_id = ? 
       `,
       [userId],
     );
+
     return rows as UserVehiculeProps[];
   }
 }

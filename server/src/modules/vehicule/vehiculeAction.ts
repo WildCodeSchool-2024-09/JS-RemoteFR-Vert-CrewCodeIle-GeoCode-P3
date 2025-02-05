@@ -4,10 +4,10 @@ import VehiculeRepository from "./VehiculeRepository";
 
 const readVehiculeInfo: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.id);
+    const { userId, vehiculeId } = req.body;
 
     const vehiculeInfo: UserVehiculeProps[] =
-      await VehiculeRepository.readUserVehicule(userId);
+      await VehiculeRepository.readUserVehicule(userId, vehiculeId);
 
     if (vehiculeInfo.length > 0) {
       res.status(201).json(vehiculeInfo);
@@ -64,6 +64,8 @@ const browseVehicule: RequestHandler = async (req, res, next) => {
 
     if (allUserVehicule.length === 0) {
       res.status(400).json({ message: "Aucun véhicule trouvé" });
+    } else {
+      res.json(allUserVehicule);
     }
   } catch (e) {
     next(e);
