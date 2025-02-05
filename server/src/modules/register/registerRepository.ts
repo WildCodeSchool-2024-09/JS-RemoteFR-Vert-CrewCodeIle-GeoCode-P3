@@ -43,6 +43,7 @@ class RegisterRepository {
       VALUES (?,?)`,
       [userId, carId],
     );
+    return result.insertId;
   }
 
   async readAll() {

@@ -8,7 +8,7 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
 
     const vehiculeInfo: UserVehiculeProps[] =
       await VehiculeRepository.readUserVehicule(userId);
-    console.info(vehiculeInfo);
+
     if (vehiculeInfo.length > 0) {
       res.status(201).json(vehiculeInfo);
     } else {
@@ -24,7 +24,7 @@ const updateUserVehiculeInfo: RequestHandler = async (req, res, next) => {
 
     const newVehicule =
       await VehiculeRepository.updateUserVehicule(vehiculeInfo);
-
+    console.info(newVehicule);
     if (newVehicule) {
       res.status(201).json({ message: "Le véhicule a bien été modifié" });
     }
@@ -33,4 +33,46 @@ const updateUserVehiculeInfo: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { readVehiculeInfo, updateUserVehiculeInfo };
+const addUserVehicule: RequestHandler = async (req, res, next) => {
+  try {
+    const vehiculeInfo = req.body;
+    const userId = Number(req.params.id);
+
+    const newVehiculeId =
+      await VehiculeRepository.createNewVehicule(vehiculeInfo);
+    const insertVehiculeId = await VehiculeRepository.createNewUserCar(
+      userId,
+      newVehiculeId,
+    );
+    console.info(userId);
+    if (insertVehiculeId) {
+      res.status(201).json({ message: "Le véhicule à bien été ajouté" });
+    } else {
+      res.status(400).json({
+        message: "Un problème est survenu, veuillez rééssayer ultérieurement",
+      });
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+const browseVehicule: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.id);
+
+    const allUserVehicule = await VehiculeRepository.readAllVehicule(userId);
+
+    if (allUserVehicule.length === 0) {
+      res.status(400).json({ message: "Aucun véhicule trouvé" });
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default {
+  readVehiculeInfo,
+  updateUserVehiculeInfo,
+  addUserVehicule,
+  browseVehicule,
+};

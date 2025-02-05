@@ -7,4 +7,7 @@ const router = express.Router();
 router.get("/api/vehicule/:id", vehiculeAction.readVehiculeInfo);
 router.put("/api/update/vehicule/:id", vehiculeAction.updateUserVehiculeInfo);
 
+router.post("/api/add/vehicule/:id", vehiculeAction.addUserVehicule);
+router.get("/api/vehicule/:id", vehiculeAction.browseVehicule);
+
 export default router;
