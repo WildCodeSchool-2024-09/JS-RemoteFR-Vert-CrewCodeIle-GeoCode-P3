@@ -44,7 +44,7 @@ const readUserInfo: RequestHandler = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const userInfo = await profilRepository.ReadUserData(userId);
-    console.info(userId);
+
     if (userInfo === null) {
       res.sendStatus(404);
     } else {
