@@ -106,7 +106,7 @@ export default function AdminEditCar({
           {...register("model", {
             required: errorMessage.required,
             minLength: {
-              value: 3,
+              value: 2,
               message: errorMessage.minChar,
             },
             maxLength: {

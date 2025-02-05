@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 import data from "../assets/data/adminCars.json";
 
 import type { AdminVehiculeProps } from "../assets/definition/lib";
@@ -46,12 +47,45 @@ export default function AdminAddBrandPage() {
 
   // Button edit brand and models tables
   const handleChangeVehicle = async (data: AdminVehiculeProps) => {
+    // Add each id
     const addBrandId = {
       ...data,
       id_model: actualBrandAndModel?.id_model,
       id_socket: actualBrandAndModel?.id_socket,
       id_brand: actualBrandAndModel?.id_brand,
     };
+
+    // Verify if model, brand or socket exist
+    const isExistingBrand = brandsAndModelsList.some(
+      (e: AdminVehiculeProps) => e.brand === addBrandId.brand,
+    );
+    const isExistingModel = brandsAndModelsList.some(
+      (e: AdminVehiculeProps) => e.model === addBrandId.model,
+    );
+    const isExistingSocket = brandsAndModelsList.some(
+      (e: AdminVehiculeProps) => e.socket === addBrandId.socket,
+    );
+
+    const updatedData: Partial<AdminVehiculeProps> = {};
+    // If the brand exist not exist, update updateData
+    if (!isExistingBrand) {
+      updatedData.brand = addBrandId.brand;
+    }
+    // If the brand exist not exist, update updateData
+    if (!isExistingModel) {
+      updatedData.model = addBrandId.model;
+    }
+    // If the brand exist not exist, update updateData
+    if (!isExistingSocket) {
+      updatedData.socket = addBrandId.socket;
+    }
+    // If the object has no props return and lauch a toast
+    if (Object.keys(updatedData).length === 0) {
+      toast.warning(
+        "Aucune mise à jour nécessaire, aucune propriété modifiée.",
+      );
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -64,6 +98,7 @@ export default function AdminAddBrandPage() {
       );
 
       if (response.ok) {
+        toast.success("Mise à jour effectuée");
         const updatedList = brandsAndModelsList.map((e: AdminVehiculeProps) => {
           if (
             e.id_brand === addBrandId.id_brand &&
