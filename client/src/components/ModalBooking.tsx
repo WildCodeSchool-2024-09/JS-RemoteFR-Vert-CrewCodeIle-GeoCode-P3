@@ -39,7 +39,6 @@ export default function ModalBooking({
     }
   };
 
-  console.info(booking);
   return (
     <>
       <table className="z-[1000] border-2   border-interestColor rounded-lg h-60 flex-col justify-center items-center text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 fixed top-32 left-8   -translate-x1/2  vsm:top-10 vsm:pb-8 vmd:top-16 sm:w-4/6 md:left-32 lg:left-8 lg:w-[80vw] lg:translate-x-[8vw] lg:h-[40vh] lg:top-[20vh] xl:translate-x-[35vw] xl:top-[20vh] 2xl:w-1/4">

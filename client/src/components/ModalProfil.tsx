@@ -190,7 +190,7 @@ export default function ModalProfil({
                     </>
                   )}
                 </fieldset>
-                <fieldset className="mt-8 flex items-center gap-8 w-72 mx-auto border-b-2 border-white  xl:w-[41vh] ">
+                <fieldset className="mt-8 flex items-center justify-around w-72 mx-auto border-b-2 border-white  xl:w-[41vh] ">
                   <label
                     htmlFor="firstName"
                     className="mb-4  text-interestColor ml-2"
@@ -216,30 +216,34 @@ export default function ModalProfil({
                     />
                   </div>
                 </fieldset>
-                <fieldset className="flex items-center gap-7 mt-2  w-72 mx-auto  border-b-2 border-white  xl:w-[41vh]">
+                <fieldset className="flex items-center justify-around mt-2  w-72 mx-auto  border-b-2 border-white  xl:w-[41vh]">
                   <label
                     htmlFor="birthday"
                     className="mb-4  text-interestColor ml-2"
                   >
                     <Calendar1 size={48} />
                   </label>
-                  <input
-                    className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4 "}`}
-                    type="text"
-                    readOnly={editForm}
-                    disabled={editForm}
-                    defaultValue={formatedDAte(new Date(userData[0]?.birthday))}
-                    {...register("birthday")}
-                  />
+                  <div className="w-44 ">
+                    <input
+                      className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4 "}`}
+                      type="text"
+                      readOnly={editForm}
+                      disabled={editForm}
+                      defaultValue={formatedDAte(
+                        new Date(userData[0]?.birthday),
+                      )}
+                      {...register("birthday")}
+                    />
+                  </div>
                 </fieldset>
-                <fieldset className="flex  gap-7 w-72 mx-auto border-b-2 mt-2 border-white   xl:w-[41vh]">
+                <fieldset className="flex items-center justify-around  w-72 mx-auto border-b-2 mt-2 border-white   xl:w-[41vh]">
                   <label
                     htmlFor="city"
                     className="mb-4  text-interestColor ml-2"
                   >
                     <MapPinHouse size={48} />
                   </label>
-                  <div>
+                  <div className="w-44 ">
                     <input
                       className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
                       type="text"
