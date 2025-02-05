@@ -138,7 +138,7 @@ const addVehicleInfo: RequestHandler = async (req, res, next) => {
       socket: Number(req.body.socket),
     };
     const insertId = await registerRepository.createVehicleInfo(newRegister);
-    console.info(req.body.model);
+
     res.status(201).json({ insertId });
   } catch (err) {
     next(err);

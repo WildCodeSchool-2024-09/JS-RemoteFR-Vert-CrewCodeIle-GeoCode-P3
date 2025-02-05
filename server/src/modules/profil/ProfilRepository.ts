@@ -28,7 +28,7 @@ class ProfilRepository {
   }
 
   async UpdateUserInfo(
-    user: Omit<UserProps, "email" | "password" | "confirm">,
+    user: Omit<UserProps, "email" | "password" | "confirm" | "dbpassword">,
   ) {
     const [result] = await databaseClient.query<Result>(
       `UPDATE user

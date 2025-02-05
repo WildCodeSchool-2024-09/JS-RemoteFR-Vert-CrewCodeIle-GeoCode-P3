@@ -19,6 +19,7 @@ export type UserProps = {
   zipCode: number;
   password: string;
   confirm: string;
+  dbpassword: string;
 };
 
 export type BrandProps = {
