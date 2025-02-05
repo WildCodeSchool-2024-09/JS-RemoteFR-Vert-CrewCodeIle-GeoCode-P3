@@ -7,6 +7,7 @@ import contactIcon from "../assets/images/contact.png";
 import logo from "../assets/images/logo.png";
 import mapIcon from "../assets/images/map.png";
 import userIcon from "../assets/images/user.png";
+import { useAuth } from "../context/userContext";
 import ModalProfil from "./ModalProfil";
 
 export default function NavBar({
@@ -17,7 +18,9 @@ export default function NavBar({
   const navBarData = data;
   const navBarIcons = [mapIcon, userIcon, carIcon, contactIcon];
   const [showProfilModal, setShowProfilModal] = useState<boolean>(false);
+
   const handleClickModalProfil = () => setShowProfilModal(false);
+  const { userInfo } = useAuth();
 
   return (
     <>
@@ -34,7 +37,7 @@ export default function NavBar({
                     : "flex lg:justify-center lg:bg-interestColor lg:py-3 lg:min-w-28 lg:max-w-28 lg:rounded-full lg:shadow-md lg:shadow-darkColor lg:font-title lg:text-lightColor lg:active:bg-darkColor"
                 }
                 onClick={() => {
-                  if (e.name === navBarData[1].name) {
+                  if (userInfo && e.name === navBarData[1].name) {
                     setShowProfilModal(!showProfilModal);
                   } else if (e.name === navBarData[3].name) {
                     setShowContactModale(!showContactModale);
