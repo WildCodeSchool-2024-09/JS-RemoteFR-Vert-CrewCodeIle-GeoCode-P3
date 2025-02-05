@@ -3,11 +3,13 @@ export type PresentationProps = {
   link: string;
   buttonText: string;
 };
+
 export type VehiculeProps = {
   brand: number;
   model: number;
   socket: number;
 };
+
 export type UserProps = {
   id: number;
   firstName: string;
@@ -152,4 +154,13 @@ export type AdminMessagesListProps = {
   setIsContactMessagesModale: (bool: boolean) => void;
   setActualMessage: (e: ContactFormProps) => void;
   usersMessages: ContactFormProps[] | null;
+};
+
+export type AdminVehiculeProps = {
+  id_brand: number;
+  id_model: number;
+  id_socket: number;
+  brand: string;
+  model: string;
+  socket: string;
 };

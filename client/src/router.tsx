@@ -3,6 +3,8 @@ import App from "./App";
 import { createBrowserRouter } from "react-router-dom";
 
 import ModalRegistration from "./components/ModalRegistration";
+import AdminBrandPage from "./pages/AdminBrandPage";
+import AdminCarsPage from "./pages/AdminCarsPage";
 import AdminContactPage from "./pages/AdminContactPage";
 import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
@@ -38,5 +40,15 @@ export const mainRouter = createBrowserRouter([
   {
     path: "/admin/messages",
     element: <AdminContactPage />,
+  },
+  {
+    path: "/admin/cars",
+    element: <AdminCarsPage />,
+    children: [
+      {
+        path: "/admin/cars/brand-model",
+        element: <AdminBrandPage />,
+      },
+    ],
   },
 ]);

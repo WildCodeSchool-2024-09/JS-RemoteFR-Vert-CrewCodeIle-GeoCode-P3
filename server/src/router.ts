@@ -29,4 +29,8 @@ router.use("/", showStationsMap);
 import updateStations from "./routes/updateStations.routes";
 router.use("/", updateStations);
 
+// Define database station-related route
+import adminBrand from "./routes/adminBrand.routes";
+router.use("/", adminBrand);
+
 export default router;

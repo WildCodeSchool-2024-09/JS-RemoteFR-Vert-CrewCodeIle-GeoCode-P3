@@ -1,0 +1,15 @@
+{
+  "userCars": "Gérer les véhicules des utilisateurs",
+  "brandsAndModels": "Gérer les marques et les models",
+  "adminListModelBrand": "Liste des modèles par marques",
+  "brand": "Marque",
+  "model": "Modèle",
+  "socket": "Prise",
+  "addButton": "Ajouter",
+  "modifyButton": "Modifier",
+  "deleteButton": "Supprimer",
+  "returnButton": "Retour",
+  "car": "véhicule",
+  "newBrand": "Nouvelle marque",
+  "editBrand": "Modifier ou supprimer une marque"
+}
