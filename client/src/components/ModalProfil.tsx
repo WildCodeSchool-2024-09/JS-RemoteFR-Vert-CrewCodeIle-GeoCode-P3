@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import type { UserProps } from "../assets/definition/lib";
 import { formatedDAte } from "../assets/helpers/FormatedDate";
 import { formatedName } from "../assets/helpers/FormatedName";
+import { useAuth } from "../context/userContext";
 import ModalBooking from "./ModalBooking";
 
 export default function ModalProfil({
@@ -16,10 +17,12 @@ export default function ModalProfil({
   const [openBookingModal, setOpenBookingModal] = useState(false);
   const handleClickBooking = () => setOpenBookingModal(!openBookingModal);
 
-  //Stock in a state userInfo from fecth table user
-  const [userInfo, setUserInfo] = useState<UserProps[]>();
+  //Stock in a state userData from fecth table user
+  const [userData, setuserData] = useState<UserProps[]>();
 
-  const id = 1;
+  const { userInfo } = useAuth();
+
+  const id = userInfo?.email as string;
   const { register, handleSubmit } = useForm<UserProps>();
 
   useEffect(() => {
@@ -27,12 +30,11 @@ export default function ModalProfil({
       method: "GET",
       headers: {
         "Content-type": "application/json",
-        // Authorization: `Bearer ${auth.token}`,
       },
     })
       .then((res) => res.json())
-      .then((data) => setUserInfo(data));
-  }, []);
+      .then((data) => setuserData(data));
+  }, [id]);
 
   //State to open burgerMenu : modify profil & see booking
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
@@ -62,7 +64,7 @@ export default function ModalProfil({
   }, [preview[0]]);
 
   //Update user modification to the database
-  const onSubmitEditUserInfo: SubmitHandler<UserProps> = async (userData) => {
+  const onSubmitEdituserData: SubmitHandler<UserProps> = async (userData) => {
     const { photo, ...rest } = userData;
     const formData = new FormData();
     if (photo) {
@@ -87,7 +89,7 @@ export default function ModalProfil({
 
   return (
     <>
-      {userInfo && (
+      {userData && (
         <>
           {/* button to close modale when I clic out of the modal */}
           <button
@@ -142,34 +144,35 @@ export default function ModalProfil({
             {/* User photo */}
             <article>
               <h2 className="mt-4 text-4xl ml-4 w-72 relative bottom-48 z-[2000] text-center font-title lg:text-6xl lg:w-[50vw] lg:mt-16 xl:text-4xl xl:-translate-x-[5vw] xl:w-[20vw] xl:left-32 ">
-                Bonjour {userInfo[0].firstName}
+                Bonjour {userData[0]?.firstName}
               </h2>
             </article>
-            <article>
-              <article className="w-fit mx-auto relative bottom-44 flex-col justify-center lg:bottom-64 xl:bottom-36 xl:w-48 xl:h-96">
-                <figure className="border-white border-8 rounded-full  w-36 h-36 mx-auto lg:w-64 lg:h-64 xl:w-44 xl:h-44">
+
+            <article className="w-fit mx-auto relative bottom-44 flex-col justify-center lg:bottom-64 xl:bottom-36 xl:w-48 xl:h-96">
+              <figure className="border-white border-8 rounded-full  w-36 h-36 mx-auto lg:w-64 lg:h-64 xl:w-44 xl:h-44">
+                <img
+                  className={`lg:w-auto lg:h-60 xl:w-40 xl:h-40  ${
+                    editForm ? "opacity-100 " : "opacity-50"
+                  } rounded-full h-32 w-auto `}
+                  src={`${import.meta.env.VITE_API_URL}/upload/${userData[0]?.photo}`}
+                  alt="profil utilisateur"
+                />
+                {urlImage && (
                   <img
-                    className={`lg:w-auto lg:h-60 xl:w-40 xl:h-40  ${
-                      editForm ? "opacity-100 " : "opacity-50"
-                    } rounded-full h-32 w-auto `}
-                    src={`${import.meta.env.VITE_API_URL}/upload/${userInfo[0].photo}`}
+                    className="relative bottom-32 lg:w-auto lg:h-60 xl:w-40 xl:h-40 rounded-full h-32 w-auto xl:bottom-40 "
+                    src={urlImage}
                     alt="profil utilisateur"
                   />
-                  {urlImage && (
-                    <img
-                      className="relative bottom-32 lg:w-auto lg:h-60 xl:w-40 xl:h-40 rounded-full h-32 w-auto xl:bottom-40 "
-                      src={urlImage}
-                      alt="profil utilisateur"
-                    />
-                  )}
-                </figure>
-              </article>
+                )}
+              </figure>
+            </article>
 
-              {/* display user info & modify them  */}
-              <form
-                className="ml-4 pl-2 font-paragraph relative bottom-36 text-xl flex flex-col md:pl-10 lg:text-4xl lg:bottom-44 xl:text-2xl xl:pl-8 xl:bottom-72 "
-                onSubmit={handleSubmit(onSubmitEditUserInfo)}
-              >
+            {/* display user info & modify them  */}
+            <form
+              className="ml-4 pl-2 font-paragraph relative bottom-36 text-xl flex flex-col md:pl-10 lg:text-4xl lg:bottom-44 xl:text-2xl xl:pl-8 xl:bottom-72 "
+              onSubmit={handleSubmit(onSubmitEdituserData)}
+            >
+              <article className="flex justify-center items-center gap-8  border-b-2 border-white w-[85vw] xl:w-[41vh] overflow-hidden">
                 {!editForm && (
                   <>
                     <label
@@ -190,84 +193,80 @@ export default function ModalProfil({
                     />
                   </>
                 )}
-                <article className="flex justify-center items-center gap-8  border-b-2 border-white w-[85vw] xl:w-[41vh]">
-                  <label
-                    htmlFor="firstName"
-                    className="mb-4  text-interestColor ml-2"
-                  >
-                    <User size={48} />
-                  </label>
-                  <div className=" relative bottom-2">
-                    <input
-                      className={`text-black ml-8 bg-lightColor pl-0  w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
-                      type="text"
-                      readOnly={editForm}
-                      disabled={editForm}
-                      defaultValue={formatedName(userInfo[0].firstName)}
-                      {...register("firstName")}
-                    />
-                    <input
-                      className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
-                      type="text"
-                      readOnly={editForm}
-                      disabled={editForm}
-                      defaultValue={userInfo[0].lastName.toUpperCase()}
-                      {...register("lastName")}
-                    />
-                  </div>
-                </article>
-                <article className="flex items-center gap-7 mt-2  border-b-2 border-white w-[85vw] xl:w-[41vh]">
-                  <label
-                    htmlFor="birthday"
-                    className="mb-4  text-interestColor ml-2"
-                  >
-                    <Calendar1 size={48} />
-                  </label>
+                <label
+                  htmlFor="firstName"
+                  className="mb-4  text-interestColor ml-2"
+                >
+                  <User size={48} />
+                </label>
+                <div className=" relative bottom-2">
                   <input
-                    className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4 "}`}
+                    className={`text-black ml-8 bg-lightColor pl-0  w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
                     type="text"
                     readOnly={editForm}
                     disabled={editForm}
-                    defaultValue={formatedDAte(new Date(userInfo[0].birthday))}
-                    {...register("birthday")}
+                    defaultValue={formatedName(userData[0].firstName)}
+                    {...register("firstName")}
                   />
-                </article>
-                <article className="flex  gap-7  border-b-2 mt-2 border-white w-[85vw]  xl:w-[41vh]">
-                  <label
-                    htmlFor="city"
-                    className="mb-4  text-interestColor ml-2"
-                  >
-                    <MapPinHouse size={48} />
-                  </label>
-                  <div>
-                    <input
-                      className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
-                      type="text"
-                      readOnly={editForm}
-                      disabled={editForm}
-                      defaultValue={userInfo[0].city}
-                      {...register("city")}
-                    />
-                    <input
-                      className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
-                      type="text"
-                      readOnly={editForm}
-                      disabled={editForm}
-                      defaultValue={userInfo[0].zipCode}
-                      {...register("zipCode")}
-                    />
-                  </div>
-                </article>
-                {!editForm && (
-                  <button
-                    className="border-interestColor absolute -bottom-12 translate-x-[27vw] mx-auto border px-6 md:translate-x-[23vw] md:-bottom-16 rounded-3xl bg-interestColor text-white py-1 mt-4 lg:-bottom-24 xl:translate-x-[6vw]"
-                    type="submit"
-                  >
-                    Modifier
-                  </button>
-                )}
-              </form>
-            </article>
+                  <input
+                    className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
+                    type="text"
+                    readOnly={editForm}
+                    disabled={editForm}
+                    defaultValue={userData[0].lastName.toUpperCase()}
+                    {...register("lastName")}
+                  />
+                </div>
+              </article>
+              <article className="flex items-center gap-7 mt-2  border-b-2 border-white w-[85vw] xl:w-[41vh]">
+                <label
+                  htmlFor="birthday"
+                  className="mb-4  text-interestColor ml-2"
+                >
+                  <Calendar1 size={48} />
+                </label>
+                <input
+                  className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4 "}`}
+                  type="text"
+                  readOnly={editForm}
+                  disabled={editForm}
+                  defaultValue={formatedDAte(new Date(userData[0]?.birthday))}
+                  {...register("birthday")}
+                />
+              </article>
+              <article className="flex  gap-7  border-b-2 mt-2 border-white w-[85vw]  xl:w-[41vh]">
+                <label htmlFor="city" className="mb-4  text-interestColor ml-2">
+                  <MapPinHouse size={48} />
+                </label>
+                <div>
+                  <input
+                    className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
+                    type="text"
+                    readOnly={editForm}
+                    disabled={editForm}
+                    defaultValue={userData[0].city}
+                    {...register("city")}
+                  />
+                  <input
+                    className={`text-black ml-8 bg-lightColor pl-0 w-32 h-6 lg:h-fit ${editForm ? "border-none" : "border-2 rounded-md border-interestColor pl-2 mr-4"}`}
+                    type="text"
+                    readOnly={editForm}
+                    disabled={editForm}
+                    defaultValue={userData[0].zipCode}
+                    {...register("zipCode")}
+                  />
+                </div>
+              </article>
+              {!editForm && (
+                <button
+                  className="border-interestColor absolute -bottom-12 translate-x-[27vw] mx-auto border px-6 md:translate-x-[23vw] md:-bottom-16 rounded-3xl bg-interestColor text-white py-1 mt-4 lg:-bottom-24 xl:translate-x-[6vw]"
+                  type="submit"
+                >
+                  Modifier
+                </button>
+              )}
+            </form>
+
             {openBookingModal &&
               createPortal(
                 <ModalBooking closeModal={() => setOpenBookingModal(false)} />,

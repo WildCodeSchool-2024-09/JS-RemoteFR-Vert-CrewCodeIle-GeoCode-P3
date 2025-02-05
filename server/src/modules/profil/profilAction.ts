@@ -42,8 +42,9 @@ const validateUser: RequestHandler = (req, res, next) => {
 
 const readUserInfo: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.id);
+    const userId = req.params.id;
     const userInfo = await profilRepository.ReadUserData(userId);
+    console.info(userId);
     if (userInfo === null) {
       res.sendStatus(404);
     } else {
@@ -56,12 +57,14 @@ const readUserInfo: RequestHandler = async (req, res, next) => {
 
 const readReservation: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.id);
+    const userId = req.params.id;
 
     const bookInfo = await profilRepository.ReadBooking(userId);
 
     if (bookInfo === null) {
-      res.status(404).json({ message: "Aucune réservation" });
+      res.status(404).json({
+        message: "Une erreur s'est produite, veuillez rééssayer ultérieurement",
+      });
     } else {
       res.json(bookInfo);
     }
@@ -75,7 +78,7 @@ const EditProfil: RequestHandler = async (req, res, next) => {
     const user = JSON.parse(req.body.user);
 
     const UserInfo = {
-      id: Number(req.params.id),
+      email: req.params.id,
       firstName: user.firstName,
       lastName: user.lastName,
       birthday: user.birthday,
@@ -105,7 +108,14 @@ const deleteBooking: RequestHandler = async (req, res, next) => {
 
     const affectedRows = await profilRepository.DestroyBooking(bookId);
 
-    res.sendStatus(204).json({ message: "La réservation a bien été annulée" });
+    if (affectedRows > 0) {
+      res.status(201).json({ message: "La réservation a bien été annulée" });
+    } else {
+      res.status(400).json({
+        message:
+          "Une erreur s'est produite, veuillez rééssayer ultérieurement ",
+      });
+    }
   } catch (e) {
     next(e);
   }

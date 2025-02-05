@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import type { BookingProps } from "../assets/definition/lib";
+import { useAuth } from "../context/userContext";
 
 export default function ModalBooking({
   closeModal,
 }: { closeModal: () => void }) {
-  const id = 1;
+  const { userInfo } = useAuth();
+  const id = userInfo?.email;
 
   const [booking, setBooking] = useState<BookingProps[]>();
 
@@ -13,28 +16,28 @@ export default function ModalBooking({
       method: "GET",
       headers: {
         "Content-type": "application/json",
-        // Authorization: `Bearer ${auth.token}`,
       },
     })
 
       .then((res) => res.json())
       .then((data) => setBooking(data));
-  }, []);
+  }, [id]);
 
-  const [bookId, setBookId] = useState<number>();
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/profile/book/${bookId}`, {
-      method: "delete",
-      headers: {
-        "Content-type": "application/json",
-        // Authorization: `Bearer ${auth.token}`,
+  const deleteBooking = async (bookId: number) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/profile/book/${bookId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+        },
       },
-    })
-
-      .then((res) => res.json())
-      .then((data) => setBooking(data));
-  }, [bookId]);
+    );
+    const data = await response.json();
+    if (response.status === 201) {
+      toast.success(data.message);
+    }
+  };
 
   console.info(booking);
   return (
@@ -62,7 +65,7 @@ export default function ModalBooking({
                     <button
                       type="button"
                       key={m.id}
-                      onClick={() => setBookId(m.id)}
+                      onClick={() => deleteBooking(m.id)}
                       className="border border-red-800 bg-red-800 text-white py-1 px-1"
                     >
                       X
