@@ -8,6 +8,7 @@ import type {
   UserVehiculeProps,
   VehiculeProps,
 } from "../assets/definition/lib";
+import car from "../assets/images/car-user.png";
 
 export default function ModalUserVehicule() {
   const { register, watch, handleSubmit } = useForm<VehiculeProps>();
@@ -138,8 +139,12 @@ export default function ModalUserVehicule() {
             </ul>
           )}
         </nav>
-        <figure className="w-fit mx-auto relative bottom-12">
-          <img src="" alt="vehicule" />
+        <figure className="w-fit   mx-auto  rounded-full border border-white ">
+          <img
+            className="h-32 w-auto rounded-full relative bottom-4"
+            src={car}
+            alt="vehicule"
+          />
         </figure>
         <section className=" border border-red-700 w-5/6 mx-auto my-6">
           <form
