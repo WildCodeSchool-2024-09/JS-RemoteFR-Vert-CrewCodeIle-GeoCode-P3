@@ -39,15 +39,20 @@ class VehiculeRepository {
     return rows as UserVehiculeProps[];
   }
 
-  async updateUserVehicule(userVehicule: VehiculeProps) {
+  async updateUserVehicule(
+    userVehicule: VehiculeProps,
+    email: string,
+    carIdid: number,
+  ) {
     const { brand, model, socket } = userVehicule;
     const [result] = await databaseClient.query<Result>(
       `UPDATE car
       JOIN user_car AS uc ON uc.car_id = car.id
-      JOIN user AS u ON user.id = uc.user_id
+      JOIN user AS u ON u.id = uc.user_id
   SET brand_id = ?, model_id = ?, socket_id = ?
-  WHERE u.email = ?;`,
-      [brand, model, socket],
+  WHERE u.email = ?
+  AND car.id = ?`,
+      [brand, model, socket, email, carIdid],
     );
     return result.affectedRows;
   }

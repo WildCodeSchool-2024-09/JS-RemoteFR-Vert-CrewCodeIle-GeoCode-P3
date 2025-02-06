@@ -13,7 +13,9 @@ import car from "../assets/images/car-user.png";
 import { useAuth } from "../context/userContext";
 import ModalListVehicule from "./ModalListVehicule";
 
-export default function ModalUserVehicule() {
+export default function ModalUserVehicule({
+  closeModal,
+}: { closeModal: () => void }) {
   const { userInfo } = useAuth();
   const id = userInfo?.email;
 
@@ -37,8 +39,12 @@ export default function ModalUserVehicule() {
     setAddVehicule(!addVehicule);
     setOpenBurgerMenu(!openBurgerMenu);
   };
+  const [primaryCar, setPrimaryCar] = useState<number | undefined>();
+  const [vehiculeId, setVehiculeId] = useState<number | undefined>(primaryCar);
 
   const onSubmit: SubmitHandler<VehiculeProps> = async (dataVehicule) => {
+    const carId = vehiculeId;
+    const userVehiculeInfo = { ...dataVehicule, carId: carId };
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/update/vehicule/${id}`,
       {
@@ -46,7 +52,7 @@ export default function ModalUserVehicule() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(dataVehicule),
+        body: JSON.stringify(userVehiculeInfo),
       },
     );
 
@@ -82,18 +88,20 @@ export default function ModalUserVehicule() {
     }
   };
 
-  const [primaryCar, setPrimaryCar] = useState();
-
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`)
       .then((res) => res.json())
       .then((data) => setPrimaryCar(data));
   }, [id]);
 
-  const [vehiculeId, setVehiculeId] = useState<number | undefined>(primaryCar);
+  useEffect(() => {
+    if (primaryCar !== undefined) {
+      setVehiculeId(primaryCar);
+    }
+  }, [primaryCar]);
 
   useEffect(() => {
-    if (vehiculeId) {
+    if (vehiculeId !== undefined) {
       fetch(`${import.meta.env.VITE_API_URL}/api/vehicule`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -148,16 +156,21 @@ export default function ModalUserVehicule() {
   console.info(vehiculeId);
   return (
     <>
+      <button
+        className="fixed inset-0 z-[990] backdrop-blur-sm"
+        type="button"
+        onClick={closeModal}
+      />
       <section
-        className={` overflow-hidden  h-[70vh] rounded-xl sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4 ${
-          vehiculeInfo ? "animate-openModal" : "animate-closeModal"
+        className={` overflow-hidden  h-[80vh] rounded-xl sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4 ${
+          vehiculeInfo ? "animate-closeModal" : "animate-openModal"
         } absolute bottom-0 bg-lightColor w-full z-[999]`}
       >
-        <nav className=" w-fit">
+        <nav className=" w-[98vw] mx-auto flex justify-around  items-center gap-36  ">
           <button
             onClick={handleClickMenu}
             type="button"
-            className="relative group"
+            className="relative group "
           >
             <div className="ml-6 mt-4 relative flex overflow-hidden items-center justify-center rounded-2xl w-[50px] h-[50px]  bg-interestColor lg:h-24 lg:w-24 xl:w-[50px] xl:h-[50px]">
               <div className="flex flex-col justify-between w-[20px] h-[20px]  origin-center overflow-hidden lg:w-12 xl:w-[20px] xl:h-[20px] ">
@@ -175,7 +188,7 @@ export default function ModalUserVehicule() {
           </button>
           {openBurgerMenu && (
             <ul
-              className={`absolute left-4 font-paragraph z-[1300]  mt-1 rounded-lg lg:text-3xl xl:text-xl ${openBurgerMenu ? "animate-openMenu" : "animate-closeMenu"} `}
+              className={`absolute top-[13vh] left-7 font-paragraph z-[1300]  mt-1 rounded-lg lg:text-3xl xl:text-xl ${openBurgerMenu ? "animate-openMenu" : "animate-closeMenu"} `}
             >
               <li className=" border border-lightColor bg-interestColor px-4 rounded-lg py-2 text-white hover:bg-interestColor active:bg-interestColor/50  focus:bg-interestColor/70">
                 <button onClick={handleClickEdit} type="button">
@@ -192,16 +205,13 @@ export default function ModalUserVehicule() {
                   Voir tous mes véhicules
                 </button>
               </li>
-              <li className="border border-lightColor  bg-interestColor px-4 rounded-lg py-2 text-white">
-                <button type="button">Modifier la photo</button>
-              </li>
             </ul>
           )}
+          <figure className="w-24 bg-inherit border-8 border-white mx-auto  rounded-full  overflow-hidden-visible mt-4 bg-interestColor">
+            <img className="relative bottom-4 " src={car} alt="vehicule" />
+          </figure>
         </nav>
-        <figure className="w-36 bg-inherit border-8 border-white mx-auto  rounded-full relative bottom-24 overflow-hidden-visible  ">
-          <img className="relative bottom-6 " src={car} alt="vehicule" />
-        </figure>
-        <article className="w-5/6 mx-auto my-6 relative bottom-24 border border-red-300 h-[30vh]">
+        <article className="w-5/6 mx-auto my-8  h-[30vh]">
           <form
             onSubmit={
               addVehicule
@@ -222,9 +232,7 @@ export default function ModalUserVehicule() {
                 type="text"
                 readOnly={formVehicule}
                 disabled={formVehicule}
-                defaultValue={
-                  vehiculeInfo !== undefined ? vehiculeInfo[0].brand : ""
-                }
+                defaultValue={vehiculeInfo ? vehiculeInfo[0].brand : ""}
               />
               {!formVehicule && (
                 <select
@@ -251,9 +259,7 @@ export default function ModalUserVehicule() {
                 type="text"
                 readOnly={formVehicule}
                 disabled={formVehicule}
-                defaultValue={
-                  vehiculeInfo !== undefined ? vehiculeInfo[0].model : ""
-                }
+                defaultValue={vehiculeInfo ? vehiculeInfo[0].model : ""}
               />
               {!formVehicule && (
                 <select
@@ -280,9 +286,7 @@ export default function ModalUserVehicule() {
                 type="text"
                 readOnly={formVehicule}
                 disabled={formVehicule}
-                defaultValue={
-                  vehiculeInfo !== undefined ? vehiculeInfo[0].socket : ""
-                }
+                defaultValue={vehiculeInfo ? vehiculeInfo[0].socket : ""}
               />
               {!formVehicule && (
                 <select

@@ -36,12 +36,16 @@ const readPrimaryUserCar: RequestHandler = async (req, res, next) => {
 };
 const updateUserVehiculeInfo: RequestHandler = async (req, res, next) => {
   try {
-    const vehiculeInfo = req.body;
-    const id = req.params.id;
+    const { carId, ...userVehicule } = req.body;
 
-    const newVehicule =
-      await VehiculeRepository.updateUserVehicule(vehiculeInfo);
-    console.info(newVehicule);
+    const mail = req.params.id;
+
+    const newVehicule = await VehiculeRepository.updateUserVehicule(
+      userVehicule,
+      mail,
+      carId,
+    );
+    console.info(userVehicule);
     if (newVehicule) {
       res.status(201).json({ message: "Le véhicule a bien été modifié" });
     }

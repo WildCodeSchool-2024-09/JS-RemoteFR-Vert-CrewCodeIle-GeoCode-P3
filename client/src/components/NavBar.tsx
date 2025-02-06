@@ -44,9 +44,7 @@ export default function NavBar({
                     setShowProfilModal(!showProfilModal);
                   } else if (e.name === navBarData[3].name) {
                     setShowContactModale(!showContactModale);
-                  } else if (e.name === navBarData[2].name) {
-                    setOpenVehiculeModal(!openVehiculeModal);
-                  } else if (e.name === navBarData[2].name) {
+                  } else if (userInfo && e.name === navBarData[2].name) {
                     setOpenVehiculeModal(!openVehiculeModal);
                   }
                 }}
@@ -70,7 +68,11 @@ export default function NavBar({
           />,
           document.body,
         )}
-      {openVehiculeModal && createPortal(<ModalUserVehicule />, document.body)}
+      {openVehiculeModal &&
+        createPortal(
+          <ModalUserVehicule closeModal={() => setOpenVehiculeModal(false)} />,
+          document.body,
+        )}
     </>
   );
 }
