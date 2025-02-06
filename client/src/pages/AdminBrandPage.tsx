@@ -176,7 +176,7 @@ export default function AdminAddBrandPage() {
         setIsAddCarModale(false);
       }
     } catch (err) {
-      toast.error("Une erreur est survenue");
+      toast.error("Une erreur est survenue.");
     }
   };
 
