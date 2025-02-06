@@ -16,11 +16,17 @@ export type UserProps = {
   lastName: string;
   email: string;
   birthday: Date;
+  photo: string | undefined;
   city: string;
   zipCode: number;
   password: string;
   confirm: string;
   dbpassword: string;
+};
+
+export type ProfilModalProps = {
+  showProfilModal: boolean;
+  setShowProfilModal: (s: boolean) => void;
 };
 
 export type BrandProps = {

@@ -26,6 +26,8 @@ router.use(loginRouter);
 import contactRouter from "./routes/formContact.routes";
 router.use("/", contactRouter);
 
+import ProfilRouter from "./routes/Profile.routes";
+router.use("/", ProfilRouter);
 /* ************************************************************************* */
 
 // Define database station-related route

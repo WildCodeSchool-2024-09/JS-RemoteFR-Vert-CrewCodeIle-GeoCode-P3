@@ -1,0 +1,91 @@
+import { userInfo } from "node:os";
+import type { RequestHandler } from "express";
+import joi from "joi";
+import profilRepository from "./ProfilRepository";
+
+const now = Date.now();
+const YEARS_18_MILLISECONDE = 1000 * 60 * 60 * 24 * 365 * 18;
+const minLegalAge = new Date(now - YEARS_18_MILLISECONDE);
+const userRegisterSchema = joi.object({
+  firstName: joi
+    .string()
+    .pattern(/^[A-Za-z\é\è\ê\ï-]+$/)
+    .required(),
+  lastName: joi
+    .string()
+    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
+    .required(),
+  birthday: joi.string(),
+  city: joi
+    .string()
+    .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
+    .required(),
+  zipCode: joi.number().integer().required(),
+  photo: joi.string(),
+});
+
+// Vehicule validation Schema with Joi
+
+//Validation for register submission
+const validateUser: RequestHandler = (req, res, next) => {
+  const user = JSON.parse(req.body.user);
+  const { error } = userRegisterSchema.validate(user, {
+    abortEarly: false,
+  });
+  if (error == null) {
+    next();
+  } else {
+    res.status(400).json({ valdationErrors: error.details });
+    console.info(error);
+  }
+};
+
+const readUserInfo: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const userInfo = await profilRepository.ReadUserData(userId);
+
+    if (userInfo === null) {
+      res.sendStatus(404);
+    } else {
+      res.json(userInfo);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+const EditProfil: RequestHandler = async (req, res, next) => {
+  try {
+    const user = JSON.parse(req.body.user);
+
+    const UserInfo = {
+      email: req.params.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      birthday: user.birthday,
+      photo: req.file?.filename,
+      city: user.city,
+      zipCode: Number(user.zipCode),
+    };
+
+    const affectedRows = await profilRepository.UpdateUserInfo(UserInfo);
+    if (affectedRows === 0) {
+      res
+        .status(404)
+        .json("Une erreur s'est produite, veuillez rééssayer ultérieurement");
+    } else {
+      res.status(201).json({ message: "Profil mis à jour avec succès" });
+    }
+  } catch (err) {
+    res.json({
+      message: "Une erreur s'est produite, veuillez rééssayer ultérieurement",
+    });
+  }
+};
+
+export default {
+  readUserInfo,
+  EditProfil,
+  validateUser,
+};
