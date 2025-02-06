@@ -11,7 +11,7 @@ export default function ModalListVehicule({
   const id = userInfo?.email;
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/all/vehicule/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/all/${id}`)
       .then((res) => res.json())
       .then((data) => setUserVehicules(data));
   }, [id]);

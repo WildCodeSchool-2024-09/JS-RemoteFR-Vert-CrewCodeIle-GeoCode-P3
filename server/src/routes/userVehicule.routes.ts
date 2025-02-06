@@ -6,10 +6,10 @@ const router = express.Router();
 
 router.get("/api/vehicule/:id", vehiculeAction.readPrimaryUserCar);
 router.post("/api/vehicule", vehiculeAction.readVehiculeInfo);
-router.put("/api/update/vehicule/:id", vehiculeAction.updateUserVehiculeInfo);
+router.put("/api/vehicule/update/:id", vehiculeAction.updateUserVehiculeInfo);
 
-router.post("/api/add/vehicule/:id", vehiculeAction.addUserVehicule);
-router.get("/api/all/vehicule/:id", vehiculeAction.browseVehicule);
+router.post("/api/vehicule/add/:id", vehiculeAction.addUserVehicule);
+router.get("/api/vehicule/all/:id", vehiculeAction.browseVehicule);
 
 router.get("/api/vehicule");
 

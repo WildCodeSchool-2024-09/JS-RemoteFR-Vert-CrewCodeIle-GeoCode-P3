@@ -46,7 +46,7 @@ export default function ModalUserVehicule({
     const carId = vehiculeId;
     const userVehiculeInfo = { ...dataVehicule, carId: carId };
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/update/vehicule/${id}`,
+      `${import.meta.env.VITE_API_URL}/api/vehicule/update/${id}`,
       {
         method: "PUT",
         headers: {
@@ -68,7 +68,7 @@ export default function ModalUserVehicule({
     dataVehicule,
   ) => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/add/vehicule/${id}`,
+      `${import.meta.env.VITE_API_URL}/api/vehicule/add/${id}`,
       {
         method: "POST",
         headers: {
@@ -162,11 +162,11 @@ export default function ModalUserVehicule({
         onClick={closeModal}
       />
       <section
-        className={` overflow-hidden  h-[80vh] rounded-xl sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4 ${
+        className={` overflow-hidden  h-[80vh] rounded-xl sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4  ${
           vehiculeInfo ? "animate-closeModal" : "animate-openModal"
         } absolute bottom-0 bg-lightColor w-full z-[999]`}
       >
-        <nav className=" w-[98vw] mx-auto flex justify-around  items-center gap-36  ">
+        <nav className=" w-[98vw] mx-auto flex justify-around  items-center gap-36  xl:w-[20vw] ">
           <button
             onClick={handleClickMenu}
             type="button"
@@ -197,7 +197,7 @@ export default function ModalUserVehicule({
               </li>
               <li className="border border-lightColor  bg-interestColor px-4 rounded-lg py-2 text-white">
                 <button onClick={handleClickAdd} type="button">
-                  Ajouter une véhicule
+                  Ajouter un véhicule
                 </button>
               </li>
               <li className="border border-lightColor  bg-interestColor px-4 rounded-lg py-2 text-white">
@@ -211,14 +211,14 @@ export default function ModalUserVehicule({
             <img className="relative bottom-4 " src={car} alt="vehicule" />
           </figure>
         </nav>
-        <article className="w-5/6 mx-auto my-8  h-[30vh]">
+        <article className="w-5/6 mx-auto my-8  h-[30vh] xl:w-[20vw] ">
           <form
             onSubmit={
               addVehicule
                 ? handleSubmit(onSubmitNewVehicule)
                 : handleSubmit(onSubmit)
             }
-            className="font-paragraph grid grid-cols-2  "
+            className="font-paragraph grid grid-cols-2  xl:w-96 xl:mx-auto xl:mt-20 "
           >
             <label
               htmlFor="brand"
@@ -226,9 +226,9 @@ export default function ModalUserVehicule({
             >
               Marque
             </label>
-            <div className="relative top-5">
+            <div className="relative top-5 xl:w-40">
               <input
-                className="inline-block bg-inherit "
+                className="inline-block bg-inherit xl:w-40"
                 type="text"
                 readOnly={formVehicule}
                 disabled={formVehicule}
@@ -253,9 +253,9 @@ export default function ModalUserVehicule({
             <label htmlFor="model" className="my-4 text-interestColor text-xl">
               Modèle
             </label>
-            <div className="relative top-5">
+            <div className="relative top-5 xl:w-40">
               <input
-                className="inline-block bg-inherit "
+                className="inline-block bg-inherit xl:w-40 "
                 type="text"
                 readOnly={formVehicule}
                 disabled={formVehicule}
@@ -280,9 +280,9 @@ export default function ModalUserVehicule({
             <label htmlFor="socket" className="my-4 text-interestColor text-xl">
               Prise
             </label>
-            <div className="relative top-5">
+            <div className="relative top-5 xl:w-40">
               <input
-                className="inline-block bg-inherit"
+                className="inline-block bg-inherit xl:w-40"
                 type="text"
                 readOnly={formVehicule}
                 disabled={formVehicule}
