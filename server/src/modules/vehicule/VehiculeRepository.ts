@@ -24,14 +24,29 @@ class VehiculeRepository {
     );
     return rows as UserVehiculeProps[];
   }
+  async readPrimaryCar(userId: number) {
+    const [rows] = await databaseClient.query(
+      `SELECT b.label AS brand, m.label AS model, s.label AS socket
+            FROM user_car AS u
+            JOIN car AS c ON c.id = u.car_id
+            JOIN brand AS b ON b.id = c.brand_id
+            JOIN model AS m ON m.id = c.model_id
+            JOIN socket AS s ON s.id = c.socket_id
+            WHERE user_id = ?
+        `,
+      [userId],
+    );
+    return rows as UserVehiculeProps[];
+  }
 
   async updateUserVehicule(userVehicule: VehiculeProps) {
     const { brand, model, socket } = userVehicule;
     const [result] = await databaseClient.query<Result>(
       `UPDATE car
-      JOIN user_car AS u ON u.car_id = car.id
+      JOIN user_car AS uc ON uc.car_id = car.id
+      JOIN user AS u ON user.id = uc.user_id
   SET brand_id = ?, model_id = ?, socket_id = ?
-  WHERE u.user_id = 15;`,
+  WHERE u.email = ?;`,
       [brand, model, socket],
     );
     return result.affectedRows;
@@ -47,6 +62,19 @@ class VehiculeRepository {
     );
     return result.insertId;
   }
+
+  async readUserByEmail(userMail: string) {
+    const [rows] = await databaseClient.query<Rows>(
+      `
+      SELECT id
+      FROM user
+      WHERE email = ?
+      `,
+      [userMail],
+    );
+    return rows[0].id;
+  }
+
   async createNewUserCar(userId: number, carId: number) {
     const [result] = await databaseClient.query<Result>(
       `INSERT INTO user_car(user_id, car_id)

@@ -4,11 +4,27 @@ import VehiculeRepository from "./VehiculeRepository";
 
 const readVehiculeInfo: RequestHandler = async (req, res, next) => {
   try {
-    const { userId, vehiculeId } = req.body;
+    const { userMail, vehiculeId } = req.body;
+    const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
     const vehiculeInfo: UserVehiculeProps[] =
-      await VehiculeRepository.readUserVehicule(userId, vehiculeId);
+      await VehiculeRepository.readUserVehicule(UserId, vehiculeId);
+    if (vehiculeInfo.length > 0) {
+      res.status(201).json(vehiculeInfo);
+    } else {
+      res.status(400).json({ message: "Aucun véhicule enregistré" });
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+const readPrimaryUserCar: RequestHandler = async (req, res, next) => {
+  try {
+    const { userMail } = req.body;
+    const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
+    const vehiculeInfo: UserVehiculeProps[] =
+      await VehiculeRepository.readPrimaryCar(UserId);
     if (vehiculeInfo.length > 0) {
       res.status(201).json(vehiculeInfo);
     } else {
@@ -21,6 +37,7 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
 const updateUserVehiculeInfo: RequestHandler = async (req, res, next) => {
   try {
     const vehiculeInfo = req.body;
+    const id = req.params.id;
 
     const newVehicule =
       await VehiculeRepository.updateUserVehicule(vehiculeInfo);
@@ -36,12 +53,13 @@ const updateUserVehiculeInfo: RequestHandler = async (req, res, next) => {
 const addUserVehicule: RequestHandler = async (req, res, next) => {
   try {
     const vehiculeInfo = req.body;
-    const userId = Number(req.params.id);
+    const userMail = req.params.id;
 
     const newVehiculeId =
       await VehiculeRepository.createNewVehicule(vehiculeInfo);
+    const userId = await VehiculeRepository.readUserByEmail(userMail);
     const insertVehiculeId = await VehiculeRepository.createNewUserCar(
-      userId,
+      Number(userId),
       newVehiculeId,
     );
     console.info(userId);
@@ -58,7 +76,9 @@ const addUserVehicule: RequestHandler = async (req, res, next) => {
 };
 const browseVehicule: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.id);
+    const userMail = req.params.id;
+
+    const userId = await VehiculeRepository.readUserByEmail(userMail);
 
     const allUserVehicule = await VehiculeRepository.readAllVehicule(userId);
 
@@ -74,6 +94,7 @@ const browseVehicule: RequestHandler = async (req, res, next) => {
 
 export default {
   readVehiculeInfo,
+  readPrimaryUserCar,
   updateUserVehiculeInfo,
   addUserVehicule,
   browseVehicule,

@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import type { UserVehiculeProps } from "../assets/definition/lib";
+import { useAuth } from "../context/userContext";
 
 export default function ModalListVehicule({
   setVehiculeId,
   closeModal,
 }: { setVehiculeId: (s: number) => void; closeModal: () => void }) {
+  const { userInfo } = useAuth();
   const [userVehicules, setUserVehicules] = useState<UserVehiculeProps[]>();
-  const id = 15;
+  const id = userInfo?.email;
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/all/vehicule/${id}`)
       .then((res) => res.json())
       .then((data) => setUserVehicules(data));
-  }, []);
+  }, [id]);
 
   const handleClickSelectCar = (id: number) => {
     setVehiculeId(id);

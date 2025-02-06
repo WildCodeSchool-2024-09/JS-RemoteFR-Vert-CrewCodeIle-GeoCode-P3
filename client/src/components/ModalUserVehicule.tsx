@@ -10,9 +10,13 @@ import type {
   VehiculeProps,
 } from "../assets/definition/lib";
 import car from "../assets/images/car-user.png";
+import { useAuth } from "../context/userContext";
 import ModalListVehicule from "./ModalListVehicule";
 
 export default function ModalUserVehicule() {
+  const { userInfo } = useAuth();
+  const id = userInfo?.email;
+
   const { register, watch, handleSubmit } = useForm<VehiculeProps>();
   const [vehiculeInfo, setVehiculeInfo] = useState<UserVehiculeProps[]>();
 
@@ -34,7 +38,6 @@ export default function ModalUserVehicule() {
     setOpenBurgerMenu(!openBurgerMenu);
   };
 
-  const id = 15;
   const onSubmit: SubmitHandler<VehiculeProps> = async (dataVehicule) => {
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/update/vehicule/${id}`,
@@ -42,7 +45,6 @@ export default function ModalUserVehicule() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          //Authorization : `Bearer ${auth.token}
         },
         body: JSON.stringify(dataVehicule),
       },
@@ -79,29 +81,31 @@ export default function ModalUserVehicule() {
       toast.warning(data.message);
     }
   };
-  const [vehiculeId, setVehiculeId] = useState<number>(1);
 
-  // useEffect(() => {
-  //   fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`, {
-  //     method: "GET",
-  //     headers: { "Content-type": "application/json" },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => setVehiculeInfo(data));
-  // }, []);
+  const [primaryCar, setPrimaryCar] = useState();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule`, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        userId: id,
-        vehiculeId: vehiculeId,
-      }),
-    })
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`)
       .then((res) => res.json())
-      .then((data) => setVehiculeInfo(data));
-  }, [vehiculeId]);
+      .then((data) => setPrimaryCar(data));
+  }, [id]);
+
+  const [vehiculeId, setVehiculeId] = useState<number | undefined>(primaryCar);
+
+  useEffect(() => {
+    if (vehiculeId) {
+      fetch(`${import.meta.env.VITE_API_URL}/api/vehicule`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          userMail: id,
+          vehiculeId: vehiculeId,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => setVehiculeInfo(data));
+    }
+  }, [vehiculeId, id]);
 
   const idBrand = watch("brand");
   const idSocket = watch("model");
@@ -218,7 +222,9 @@ export default function ModalUserVehicule() {
                 type="text"
                 readOnly={formVehicule}
                 disabled={formVehicule}
-                defaultValue={vehiculeInfo ? vehiculeInfo[0].brand : ""}
+                defaultValue={
+                  vehiculeInfo !== undefined ? vehiculeInfo[0].brand : ""
+                }
               />
               {!formVehicule && (
                 <select
@@ -245,7 +251,9 @@ export default function ModalUserVehicule() {
                 type="text"
                 readOnly={formVehicule}
                 disabled={formVehicule}
-                defaultValue={vehiculeInfo ? vehiculeInfo[0].model : ""}
+                defaultValue={
+                  vehiculeInfo !== undefined ? vehiculeInfo[0].model : ""
+                }
               />
               {!formVehicule && (
                 <select
@@ -272,7 +280,9 @@ export default function ModalUserVehicule() {
                 type="text"
                 readOnly={formVehicule}
                 disabled={formVehicule}
-                defaultValue={vehiculeInfo ? vehiculeInfo[0].socket : ""}
+                defaultValue={
+                  vehiculeInfo !== undefined ? vehiculeInfo[0].socket : ""
+                }
               />
               {!formVehicule && (
                 <select
