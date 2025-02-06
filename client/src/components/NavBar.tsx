@@ -1,13 +1,15 @@
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import data from "../assets/data/navbar.json";
+import type { ContactModaleProps } from "../assets/definition/lib";
 import carIcon from "../assets/images/car.png";
 import contactIcon from "../assets/images/contact.png";
 import logo from "../assets/images/logo.png";
 import mapIcon from "../assets/images/map.png";
 import userIcon from "../assets/images/user.png";
 
-import { useState } from "react";
-import { createPortal } from "react-dom";
-import data from "../assets/data/navbar.json";
-import type { ContactModaleProps } from "../assets/definition/lib";
+import { useAuth } from "../context/userContext";
+import ModalProfil from "./ModalProfil";
 import ModalUserVehicule from "./ModalUserVehicule";
 
 export default function NavBar({
@@ -17,6 +19,10 @@ export default function NavBar({
   // Data of the navbar
   const navBarData = data;
   const navBarIcons = [mapIcon, userIcon, carIcon, contactIcon];
+  const [showProfilModal, setShowProfilModal] = useState<boolean>(false);
+
+  const handleClickModalProfil = () => setShowProfilModal(false);
+  const { userInfo } = useAuth();
   const [openVehiculeModal, setOpenVehiculeModal] = useState(false);
 
   return (
@@ -34,8 +40,12 @@ export default function NavBar({
                     : "flex lg:justify-center lg:bg-interestColor lg:py-3 lg:min-w-28 lg:max-w-28 lg:rounded-full lg:shadow-md lg:shadow-darkColor lg:font-title lg:text-lightColor lg:active:bg-darkColor"
                 }
                 onClick={() => {
-                  if (e.name === navBarData[3].name) {
+                  if (userInfo && e.name === navBarData[1].name) {
+                    setShowProfilModal(!showProfilModal);
+                  } else if (e.name === navBarData[3].name) {
                     setShowContactModale(!showContactModale);
+                  } else if (e.name === navBarData[2].name) {
+                    setOpenVehiculeModal(!openVehiculeModal);
                   } else if (e.name === navBarData[2].name) {
                     setOpenVehiculeModal(!openVehiculeModal);
                   }
@@ -52,6 +62,14 @@ export default function NavBar({
           ))}
         </ul>
       </nav>
+      {showProfilModal &&
+        createPortal(
+          <ModalProfil
+            showProfilModal={showProfilModal}
+            closeModal={handleClickModalProfil}
+          />,
+          document.body,
+        )}
       {openVehiculeModal && createPortal(<ModalUserVehicule />, document.body)}
     </>
   );

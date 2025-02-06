@@ -139,11 +139,10 @@ const addVehicleInfo: RequestHandler = async (req, res, next) => {
       socket: Number(req.body.socket),
     };
     const userId = Number(req.body.userId);
-    const insertId = await registerRepository.createVehicleInfo(newRegister);
 
-    const userCarId = await registerRepository.createUserCar(userId, insertId);
+    const vehiculeId = await registerRepository.createVehicleInfo(newRegister);
 
-    res.status(201).json({ userCarId });
+    res.status(201).json({ vehiculeId });
   } catch (err) {
     next(err);
   }
