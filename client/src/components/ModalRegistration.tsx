@@ -36,7 +36,11 @@ export default function ModalRegistration({
       body: JSON.stringify(userData),
     })
       .then((response) => response.json())
+      .then((data) => {
+        localStorage.setItem("userId", data.insertId);
+      })
       .catch((err) => console.error(err));
+
     setShowVehiculeModal(true);
   };
 
