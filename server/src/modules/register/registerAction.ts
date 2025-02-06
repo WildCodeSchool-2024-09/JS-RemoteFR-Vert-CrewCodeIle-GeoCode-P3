@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import joi, { number } from "joi";
+import joi from "joi";
 import registerRepository from "./registerRepository";
 
 // User validation Schema with Joi
@@ -142,7 +142,13 @@ const addVehicleInfo: RequestHandler = async (req, res, next) => {
 
     const vehiculeId = await registerRepository.createVehicleInfo(newRegister);
 
-    res.status(201).json({ vehiculeId });
+    const userCarId = await registerRepository.createUserCar(
+      userId,
+      vehiculeId,
+    );
+    if (userCarId) {
+      res.status(201).json({ message: "Le profil a bien été créé" });
+    }
   } catch (err) {
     next(err);
   }
