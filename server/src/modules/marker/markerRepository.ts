@@ -1,3 +1,4 @@
+import { number } from "joi";
 import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
 import convertSlotToHoursMinutes from "../../helpers/convertSlotToHoursMinutes";
@@ -5,6 +6,13 @@ import type { Marker } from "../../lib/definitions";
 import type { Book } from "../../lib/definitions";
 
 class MarkerRepository {
+  async browseAll() {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT price FROM book_cost",
+    );
+    return rows;
+  }
+
   async read(id: string) {
     const [rows] = await databaseClient.query<Rows>(
       "SELECT s.id_station, s.name, s.address, t.power, COUNT(t.power) as nb_power FROM station AS s JOIN terminal AS t ON t.station_id = s.id_station AND s.id_station = ? GROUP BY t.power",
@@ -16,7 +24,7 @@ class MarkerRepository {
 
   async readBook(id: string) {
     const [rows] = await databaseClient.query<Rows>(
-      "SELECT user_id, station_id, slot, start_book, price FROM book, book_cost WHERE station_id = ? AND start_book > NOW()",
+      "SELECT user_id, station_id, slot, start_book FROM book WHERE station_id = ? AND start_book > NOW()",
       [id],
     );
 

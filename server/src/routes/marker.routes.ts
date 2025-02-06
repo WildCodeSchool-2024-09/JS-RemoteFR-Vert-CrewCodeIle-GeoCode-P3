@@ -6,5 +6,6 @@ const router = express.Router();
 router.get("/api/admin/marker/:id", marker.read);
 router.get("/api/admin/marker/book/:id", marker.readBook);
 router.post("/api/admin/marker/book", marker.addBook);
+router.get("/api/admin/marker/cost", marker.readCost);
 
 export default router;

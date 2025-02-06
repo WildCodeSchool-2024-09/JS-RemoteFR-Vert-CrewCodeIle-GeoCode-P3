@@ -10,15 +10,17 @@ import convertHoursMinutesToSlot from "../services/convertHoursMinutesToSlot";
 export default function ModalStationBook({
   onClose,
   stationId,
+  cost,
 }: {
   onClose: MouseEventHandler;
   stationId: string;
+  cost: number;
 }) {
   const id = stationId;
   const id_book = stationId;
 
   const [findStation, setFindStation] = useState<Marker[]>();
-  const [book, setBook] = useState<Book[] | undefined>();
+  const [book, setBook] = useState<Book[]>();
 
   // slots reserved and valid after this moment
   const availableSlots = book?.map((b) => b.slot);
@@ -95,6 +97,8 @@ export default function ModalStationBook({
     }
   };
 
+  console.info("Book : ", book);
+
   return (
     <div className="w-full flex flex-col shadow-md bg-gray-50 border border-gray-600 rounded-lg absolute lg:w-[360px] lg:top-[30%] top-[20%] lg:left-10 lg:bottom-10 bottom-1 z-[3000]">
       <div className="m-2">
@@ -115,7 +119,7 @@ export default function ModalStationBook({
         <h2 className="font-paragraph text-sm">
           Coût de la reservation (limitée à 30mn) :{" "}
           <span className="bg-accentColor text-white text-base">
-            {typeof book !== "undefined" ? book?.[0].price : 0} €
+            {(cost && cost) || 15} €
           </span>
         </h2>
         <h2>Créneaux de reservation :</h2>

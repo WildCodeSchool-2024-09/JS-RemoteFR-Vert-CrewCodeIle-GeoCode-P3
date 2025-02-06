@@ -13,7 +13,6 @@ export default function ModalStationInfo({
   stationId: string;
 }) {
   const [findStation, setFindStation] = useState<Marker[]>();
-
   const id = stationId;
 
   // loading stations from database

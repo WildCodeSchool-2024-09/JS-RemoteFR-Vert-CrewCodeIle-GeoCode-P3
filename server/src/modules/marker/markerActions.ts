@@ -1,6 +1,22 @@
 import type { RequestHandler } from "express";
 import markerRepository from "./markerRepository";
 
+const readCost: RequestHandler = async (req, res, next) => {
+  try {
+    const costValue = await markerRepository.browseAll();
+
+    console.info("cost", costValue);
+
+    if (costValue == null) {
+      res.sendStatus(404);
+    } else {
+      res.json(costValue);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 const read: RequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
@@ -40,4 +56,4 @@ const addBook: RequestHandler = async (req, res) => {
   }
 };
 
-export default { read, readBook, addBook };
+export default { readCost, read, readBook, addBook };

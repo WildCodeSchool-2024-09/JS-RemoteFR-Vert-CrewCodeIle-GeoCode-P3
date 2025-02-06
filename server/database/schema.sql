@@ -74,18 +74,6 @@ CREATE TABLE book_cost (
   price FLOAT NOT NULL
 );
 
-/* CREATE TABLE book (
-  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  user_id INT NOT NULL,
-  terminal_id INT NOT NULL,
-  book_cost_id INT NOT NULL,
-  star_book DATETIME DEFAULT CURRENT_TIMESTAMP,
-  end_book DATETIME,
-  cost FLOAT NOT NULL,
-  CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(id),
-  CONSTRAINT FOREIGN KEY (terminal_id) REFERENCES terminal(id),
-  CONSTRAINT FOREIGN KEY (book_cost_id) REFERENCES book_cost(id)
-); */
 
 CREATE TABLE book (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,

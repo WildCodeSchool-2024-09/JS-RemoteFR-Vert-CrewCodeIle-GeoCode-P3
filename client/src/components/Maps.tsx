@@ -27,6 +27,7 @@ import ModalStationInfo from "./ModalStationInfo";
 import ModaleContact from "./ModaleContact";
 
 import MarkerClusterGroup from "react-leaflet-cluster";
+import { useAuth } from "../context/userContext";
 
 /**
  *
@@ -48,6 +49,7 @@ export default function Maps({
 
   setShowContactModale: ContactModaleProps["setShowContactModale"];
 }) {
+  const { userInfo } = useAuth();
   // default map centering position
   const position = { lat: 48.8566, lng: 2.3522 };
   const [stations, setStations] = useState<Station[]>();
@@ -55,10 +57,10 @@ export default function Maps({
   const [showMarkerInfo, setShowMarkerInfo] = useState(false);
   const [showMarkerBook, setShowMarkerBook] = useState(false);
   const [stationId, setStationId] = useState("");
+  const [cost, setCost] = useState(0);
 
-  const userconnected = true;
   const launch = () => {
-    if (userconnected) {
+    if (userInfo) {
       setShowMarkerInfo(false);
       setShowMarkerBook(true);
     } else {
@@ -107,6 +109,23 @@ export default function Maps({
       .catch((error) => toast.error("Oups ! Une erreur s'est produite", error));
   }, []);
 
+  // loading book_cost
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/marker/cost`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data !== null) {
+          console.info("data", data);
+          setCost(data);
+        } else {
+          toast.warning(
+            "Oups ! Impossible de récupérer le prix de la recharge",
+          );
+        }
+      })
+      .catch((error) => toast.error("Oups ! Une erreur s'est produite", error));
+  }, []);
+
   return (
     <>
       <MapContainer center={position} zoom={13} zoomControl={false}>
@@ -135,13 +154,13 @@ export default function Maps({
               />,
               document.body,
             )}
-
           {/*display station reservation information*/}
           {showMarkerBook &&
             createPortal(
               <ModalStationBook
                 onClose={() => setShowMarkerBook(false)}
                 stationId={stationId}
+                cost={cost}
               />,
               document.body,
             )}
