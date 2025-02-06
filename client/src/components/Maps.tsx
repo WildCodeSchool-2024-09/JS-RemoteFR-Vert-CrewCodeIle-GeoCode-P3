@@ -12,15 +12,21 @@
 
 import "../index.css";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState } from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
+import L from "leaflet";
+import { type SetStateAction, useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
+
 import { toast } from "react-toastify";
+import type { Station } from "../assets/definition/lib";
 import type { ContactModaleProps } from "../assets/definition/lib";
 import type { searchApi } from "../assets/definition/lib";
-import type { Station } from "../assets/definition/lib";
 import LocationUser from "./LocationUser";
+import ModalStationBook from "./ModalStationBook";
+import ModalStationInfo from "./ModalStationInfo";
 import ModaleContact from "./ModaleContact";
+
+import MarkerClusterGroup from "react-leaflet-cluster";
 
 /**
  *
@@ -45,6 +51,43 @@ export default function Maps({
   // default map centering position
   const position = { lat: 48.8566, lng: 2.3522 };
   const [stations, setStations] = useState<Station[]>();
+
+  const [showMarkerInfo, setShowMarkerInfo] = useState(false);
+  const [showMarkerBook, setShowMarkerBook] = useState(false);
+  const [stationId, setStationId] = useState("");
+
+  const userconnected = true;
+  const launch = () => {
+    if (userconnected) {
+      setShowMarkerInfo(false);
+      setShowMarkerBook(true);
+    } else {
+      alert("Vous devez être connecte pour pouvoir reserver");
+    }
+  };
+
+  const handleClick = useCallback(
+    (e: {
+      target: {
+        options: { children: SetStateAction<string> };
+      };
+    }) => {
+      setStationId(e.target.options.children);
+      setShowMarkerInfo(true);
+    },
+    [],
+  );
+
+  // custom station icon
+  const LeafIcon = L.Icon.extend({
+    options: {
+      iconUrl: "./src/assets/images/chargingPoint.png",
+      iconSize: [64, 64],
+      iconAnchor: [32, 64],
+      popupAnchor: [0, -42],
+    },
+  });
+  const stationIcon = new LeafIcon();
 
   // loading stations from database
   useEffect(() => {
@@ -73,14 +116,35 @@ export default function Maps({
         />
         <MarkerClusterGroup>
           {stations?.map((s) => (
-            <Marker position={[s.latitude, s.longitude]} key={s.id}>
-              <Popup>
-                Station : {s.name}
-                <br />
-                Adresse : {s.address}
-              </Popup>
+            <Marker
+              position={[s.latitude, s.longitude]}
+              key={s.id_station}
+              icon={stationIcon}
+              eventHandlers={{ click: handleClick }}
+            >
+              {s.id_station}
             </Marker>
           ))}
+          {/*display station information after clicking on marker */}
+          {showMarkerInfo &&
+            createPortal(
+              <ModalStationInfo
+                onClose={() => setShowMarkerInfo(false)}
+                onBook={() => launch()}
+                stationId={stationId}
+              />,
+              document.body,
+            )}
+
+          {/*display station reservation information*/}
+          {showMarkerBook &&
+            createPortal(
+              <ModalStationBook
+                onClose={() => setShowMarkerBook(false)}
+                stationId={stationId}
+              />,
+              document.body,
+            )}
         </MarkerClusterGroup>
         <LocationUser selectedPosition={selectedPosition} />
       </MapContainer>

@@ -5,7 +5,9 @@ import type { Station } from "../../lib/definitions";
 
 class StationRepository {
   async readAll() {
-    const [rows] = await databaseClient.query<Rows>("SELECT * FROM station");
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT * FROM station LIMIT 2800",
+    );
 
     return rows as Station[];
   }
@@ -20,7 +22,7 @@ class StationRepository {
 
       for (const row of station) {
         const [result] = await databaseClient.query<Result>(
-          "INSERT INTO station (id_station, name, address, latitude, longitude) values (?,?,?,?,?)",
+          "INSERT INTO station (id_station, name, address, latitude, longitude) VALUES (?,?,?,?,?)",
           [
             row.id_station_itinerance,
             row.nom_station,

@@ -21,7 +21,7 @@ class StationRepository {
     if (terminal !== null) {
       for (const row of terminal) {
         const [result] = await databaseClient.query<Result>(
-          "insert into terminal (id_terminal, power, is_type_ef, is_type_2, is_type_combo_ccs, is_type_chademo, is_type_other, station_id) values (?,?,?,?,?,?,?,?)",
+          "INSERT INTO terminal (id_terminal, power, is_type_ef, is_type_2, is_type_combo_ccs, is_type_chademo, is_type_other, station_id) VALUES (?,?,?,?,?,?,?,?)",
           [
             row.id_pdc_itinerance,
             row.puissance_nominale,

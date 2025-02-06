@@ -98,6 +98,14 @@ export type Station = {
   longitude: number;
 };
 
+export type Marker = {
+  station_id: string;
+  name: string;
+  address: string;
+  power: number;
+  nb_power: number;
+};
+
 export type fileIrveType = {
   id_station_itinerance: string;
   nom_station: string;
@@ -144,6 +152,13 @@ export type terminalTableType = {
   type_combo_ccs: boolean;
   type_chademo: boolean;
   type_autre: boolean;
+};
+
+export type Book = {
+  user_id: number;
+  station_id: string;
+  slot: number;
+  price?: number;
 };
 
 export type AdminMessagesListProps = {

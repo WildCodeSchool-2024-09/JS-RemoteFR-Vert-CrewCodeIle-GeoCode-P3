@@ -29,4 +29,8 @@ router.use("/", showStationsMap);
 import updateStations from "./routes/updateStations.routes";
 router.use("/", updateStations);
 
+//  Define database marker-related route
+import marker from "./routes/marker.routes";
+router.use("/", marker);
+
 export default router;

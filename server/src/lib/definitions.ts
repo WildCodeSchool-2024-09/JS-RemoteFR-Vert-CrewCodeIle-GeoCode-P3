@@ -69,3 +69,18 @@ export type parsefileIrve2 = {
   consolidated_longitude: number;
   consolidated_latitude: number;
 };
+
+export type Marker = {
+  station_id: string;
+  name: string;
+  address: string;
+  power: number;
+  nb_power: number;
+};
+
+export type Book = {
+  user_id: number;
+  station_id: string;
+  slot: number;
+  price: number;
+};

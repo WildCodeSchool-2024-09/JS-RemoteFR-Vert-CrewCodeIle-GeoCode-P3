@@ -73,7 +73,7 @@ CREATE TABLE book_cost (
   price FLOAT NOT NULL
 );
 
-CREATE TABLE book (
+/* CREATE TABLE book (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   user_id INT NOT NULL,
   terminal_id INT NOT NULL,
@@ -84,7 +84,18 @@ CREATE TABLE book (
   CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(id),
   CONSTRAINT FOREIGN KEY (terminal_id) REFERENCES terminal(id),
   CONSTRAINT FOREIGN KEY (book_cost_id) REFERENCES book_cost(id)
-);
+); */
+
+CREATE TABLE book (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  user_id INT NOT NULL,
+  station_id VARCHAR(255),
+  slot INT,
+  start_book TIMESTAMP,
+  end_book TIMESTAMP,
+  CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(id),
+  CONSTRAINT FOREIGN KEY (station_id) REFERENCES station(id_station)
+)
 
 CREATE TABLE contact (
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -96,7 +107,6 @@ CREATE TABLE contact (
   date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   is_treated BOOLEAN NOT NULL DEFAULT false
 );
-
 
 INSERT INTO brand (label )
 VALUES

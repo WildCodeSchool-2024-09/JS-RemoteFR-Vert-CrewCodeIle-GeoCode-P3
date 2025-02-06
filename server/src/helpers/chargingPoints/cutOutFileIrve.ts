@@ -39,10 +39,9 @@ export default function cutOutFileIrve(formattedFileIrve: fileIrveType[]) {
   // we process the first record
   const line1 = formattedFileIrve[0];
   let currentStation = formattedFileIrve[0].id_station_itinerance;
+
   station.push(addRowsStation(line1));
   terminal.push(addRowsTerminal(line1));
-
-  const MAX_RECORDS = 8000;
 
   //then everything else
   for (const nlines of formattedFileIrve.splice(1)) {
