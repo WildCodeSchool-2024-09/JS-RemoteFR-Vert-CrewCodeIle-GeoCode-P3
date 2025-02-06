@@ -1,3 +1,4 @@
+import { de_AT } from "@faker-js/faker/.";
 import databaseClient from "../../../database/client";
 
 import type { Result, Rows } from "../../../database/client";
@@ -9,6 +10,8 @@ type VehiculeProps = {
   brand: string;
   model: string;
   socket: string;
+  is_brand_delete?: boolean;
+  is_socket_delete?: boolean;
 };
 
 class BrandsRepository {
@@ -46,6 +49,42 @@ class BrandsRepository {
       );
       await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
       resultModel = modelResult;
+    }
+
+    return {
+      brand: resultBrand,
+      model: resultModel,
+      socket: resultSocket,
+    };
+  }
+
+  async deleteVehicle(vehicle: VehiculeProps) {
+    const { id_model, id_brand, id_socket, is_brand_delete, is_socket_delete } =
+      vehicle;
+    let resultModel = null;
+    let resultSocket = null;
+    let resultBrand = null;
+
+    const [modelResult] = await databaseClient.query<Result>(
+      "DELETE from model WHERE id = ?",
+      [id_model],
+    );
+    resultModel = modelResult;
+
+    if (is_brand_delete === true) {
+      const [brandResult] = await databaseClient.query<Result>(
+        "DELETE from brand WHERE id = ?",
+        [id_brand],
+      );
+      resultBrand = brandResult;
+    }
+
+    if (is_socket_delete === true) {
+      const [socketResult] = await databaseClient.query<Result>(
+        "DELETE from socket WHERE id = ?",
+        [id_socket],
+      );
+      resultSocket = socketResult;
     }
 
     return {

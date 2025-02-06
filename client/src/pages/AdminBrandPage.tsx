@@ -176,13 +176,63 @@ export default function AdminAddBrandPage() {
         setIsAddCarModale(false);
       }
     } catch (err) {
-      toast.warning("Une erreur est survenue");
+      toast.error("Une erreur est survenue");
     }
   };
-  let test = 0;
+
   // On click delete the model
   const handleDeleteVehicle = async (id: number) => {
-    test = id;
+    const findBrand = brandsAndModelsList.find((e) => e.id_model === id);
+
+    // Array of all brands and models without current model, for uptade the state if promise success
+    const brandsAndModelsListFiltered = brandsAndModelsList.filter(
+      (e) => e.id_model !== id,
+    );
+    // List if the same brands of current model
+    const brandsListFiltered = brandsAndModelsListFiltered.filter(
+      (e) => e.id_brand === findBrand?.id_brand,
+    );
+    // List if the same sockets of current model
+    const socketListFiltered = brandsAndModelsListFiltered.filter(
+      (e) => e.id_socket === findBrand?.id_socket,
+    );
+
+    let vehicleToDelete = {};
+    if (vehicleToDelete && brandsListFiltered.length > 0) {
+      vehicleToDelete = {
+        ...findBrand,
+        // Set false, don't need to delete brand on database
+        is_brand_delete: false,
+      };
+    } else {
+      // Set true, need to delete brand on database
+      vehicleToDelete = { ...findBrand, is_brand_delete: true };
+    }
+
+    if (socketListFiltered.length === 0) {
+      // Set false, don't need to delete socket on database
+      vehicleToDelete = { ...vehicleToDelete, is_socket_delete: true };
+    } else {
+      // Set true, need to delete socket on database
+      vehicleToDelete = { ...vehicleToDelete, is_socket_delete: false };
+    }
+
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/brands-and-models/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vehicleToDelete),
+    })
+      .then((res) => {
+        if (res.status === 204) {
+          setBrandsAndModelsList(brandsAndModelsListFiltered);
+          setIsConfirmDeleteModale(false);
+          setIsDeleteCarModale(false);
+          toast.success("Véhicule supprimé");
+        }
+      })
+      .catch(() => toast.error("Une erreur est survenue"));
   };
 
   // On click selected row was save on state
@@ -191,10 +241,9 @@ export default function AdminAddBrandPage() {
   };
 
   return (
-    <main className="pb-8 flex flex-col w-full gap-2 items-center lg:border-darkColor">
+    <main className="pb-8 flex h-fit flex-col w-full gap-2 items-center lg:border-darkColor">
       <h2 className="text-2xl text-center mb-2 font-title text-darkColor mt-4 lg:text-4xl">
         {data.adminListModelBrand}
-        {test}
       </h2>
       <article className="border-4 w-full border-darkColor grid grid-cols-12">
         <h3 className="col-span-4 text-center font-title py-2 text-darkColor text-lg border-solid border-darkColor border-r-4 lg:text-2xl">
@@ -212,6 +261,10 @@ export default function AdminAddBrandPage() {
             key={`${e.id_model}-${i}`}
             className={`col-span-12 h-12 text-sm grid grid-cols-12 text-darkColor hover:text-lightColor ${actualBrandAndModel === e ? "bg-accentColor hover:bg-interestColor" : "bg-lightColor hover:bg-darkColor"} ${isDeleteCarModale || isAddCarModale ? "bg-opacity-25 pointer-events-none" : "bg-lightColor"} `}
             onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
               handleClick(e);
               setIsDisabled(isDisabled === e.id_model ? null : e.id_model);
               setIsDeleteCarModale(true);
@@ -231,7 +284,13 @@ export default function AdminAddBrandPage() {
         <button
           type="button"
           className={`fixed z-10 right-2 top-2 text-center bg-interestColor w-1/3 h-10 font-paragraph text-lightColor rounded-lg hover:scale-105 active:bg-accentColor active:text-darkColor vsm:text-xl ${isAddCarModale || isDeleteCarModale ? "hidden" : "inline"}`}
-          onClick={() => setIsAddCarModale(!isAddCarModale)}
+          onClick={() => {
+            setIsAddCarModale(!isAddCarModale);
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
         >
           {data.addButton}
         </button>

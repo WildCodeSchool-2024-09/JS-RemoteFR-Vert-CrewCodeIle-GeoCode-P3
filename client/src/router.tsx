@@ -37,7 +37,7 @@ export const mainRouter = createBrowserRouter([
     element: <AdminContactPage />,
   },
   {
-    path: "/admin/cars",
+    path: "/admin/cars/brand-model",
     element: <AdminCarsPage />,
     children: [
       {
