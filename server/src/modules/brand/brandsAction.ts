@@ -13,20 +13,16 @@ const browse: RequestHandler = async (req, res, next) => {
   }
 };
 
-const edit: RequestHandler = async (req, res, next) => {
+const add: RequestHandler = async (req, res, next) => {
   try {
-    const brandAndModel = req.body;
+    const newVehicle = req.body;
 
-    const affectedRows = await BrandsRepository.update(brandAndModel);
+    const insertId = await BrandsRepository.create(newVehicle);
 
-    if (affectedRows === 0) {
-      res.sendStatus(404);
-    } else {
-      res.sendStatus(204);
-    }
+    res.send(201);
   } catch (err) {
     next(err);
   }
 };
 
-export default { browse, edit };
+export default { browse, add };

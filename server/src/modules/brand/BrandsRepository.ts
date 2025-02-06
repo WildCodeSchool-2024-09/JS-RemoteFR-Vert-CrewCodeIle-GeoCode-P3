@@ -19,27 +19,40 @@ class BrandsRepository {
     return rows;
   }
 
-  async update(brandAndModel: VehiculeProps) {
-    const { brand, model, socket, id_brand, id_socket, id_model } =
-      brandAndModel;
-    const [resultBrand] = await databaseClient.query<Result>(
-      "UPDATE brand SET label=? WHERE id=?",
-      [brand, id_brand],
-    );
-    const [resultSocket] = await databaseClient.query<Result>(
-      "UPDATE socket SET label=? WHERE id=?",
-      [socket, id_socket],
-    );
-    const [resultModel] = await databaseClient.query<Result>(
-      "UPDATE model SET label=? WHERE id=?",
-      [model, id_model],
-    );
+  async create(brandAndModel: VehiculeProps) {
+    const { brand, model, socket, id_brand, id_socket } = brandAndModel;
+    let resultBrand = null;
+    let resultModel = null;
+    let resultSocket = null;
+    if (brand !== null) {
+      const [brandResult] = await databaseClient.query<Result>(
+        "INSERT INTO brand (label) VALUE (?);",
+        [brand],
+      );
+      resultBrand = brandResult;
+    }
+    if (socket !== null) {
+      const [socketResult] = await databaseClient.query<Result>(
+        "INSERT INTO socket (label) VALUE (?);",
+        [socket],
+      );
+      resultSocket = socketResult;
+    }
+    if (model !== null) {
+      await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=0");
+      const [modelResult] = await databaseClient.query<Result>(
+        "INSERT INTO model (label, brand_id, socket_id) VALUE (?, ?, ?);",
+        [model, id_brand, id_socket],
+      );
+      await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
+      resultModel = modelResult;
+    }
 
-    return (
-      resultBrand.affectedRows +
-      resultSocket.affectedRows +
-      resultModel.affectedRows
-    );
+    return {
+      brand: resultBrand,
+      model: resultModel,
+      socket: resultSocket,
+    };
   }
 }
 

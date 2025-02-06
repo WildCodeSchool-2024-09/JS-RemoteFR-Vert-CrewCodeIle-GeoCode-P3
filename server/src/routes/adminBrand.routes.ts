@@ -6,6 +6,6 @@ const router = express.Router();
 import brandsAction from "../modules/brand/brandsAction";
 
 router.get("/api/admin/brands-and-models", brandsAction.browse);
-router.put("/api/admin/brands-and-models/:id", brandsAction.edit);
+router.post("/api/admin/brands-and-models", brandsAction.add);
 
 export default router;

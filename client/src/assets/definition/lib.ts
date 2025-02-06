@@ -72,6 +72,7 @@ export type ContactModaleProps = {
 };
 
 export type ContactFormProps = {
+  id_model?: number;
   date: string;
   email: string;
   firstname: string;
@@ -158,10 +159,11 @@ export type AdminMessagesListProps = {
 };
 
 export type AdminVehiculeProps = {
+  id?: number;
   id_brand: number;
   id_model: number;
   id_socket: number;
-  brand: string;
-  model: string;
-  socket: string;
+  brand: string | null;
+  model: string | null;
+  socket: string | null;
 };
