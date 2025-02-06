@@ -38,6 +38,7 @@ const userVehiculeSchema = joi.object({
   brand: joi.number().required(),
   model: joi.number().required(),
   socket: joi.number().required(),
+  userId: joi.number(),
 });
 
 //Validation for register submission
@@ -137,9 +138,17 @@ const addVehicleInfo: RequestHandler = async (req, res, next) => {
       model: Number(req.body.model),
       socket: Number(req.body.socket),
     };
-    const insertId = await registerRepository.createVehicleInfo(newRegister);
+    const userId = Number(req.body.userId);
 
-    res.status(201).json({ insertId });
+    const vehiculeId = await registerRepository.createVehicleInfo(newRegister);
+
+    const userCarId = await registerRepository.createUserCar(
+      userId,
+      vehiculeId,
+    );
+    if (userCarId) {
+      res.status(201).json({ message: "Le profil a bien été créé" });
+    }
   } catch (err) {
     next(err);
   }
