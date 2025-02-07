@@ -7,10 +7,12 @@ export default function ModalStationInfo({
   onClose,
   onBook,
   stationId,
+  distance,
 }: {
   onClose: MouseEventHandler;
   onBook: MouseEventHandler;
   stationId: string;
+  distance: number;
 }) {
   const [findStation, setFindStation] = useState<Marker[]>();
   const id = stationId;
@@ -38,6 +40,7 @@ export default function ModalStationInfo({
           {findStation?.[0].name}
         </h1>
         <h2 className="">{findStation?.[0].address}</h2>
+        <h2>Distance : {distance} km.</h2>
         <br />
         <h2>Puissance de charge :</h2>
         <ul>

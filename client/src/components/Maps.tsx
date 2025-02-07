@@ -27,7 +27,9 @@ import ModalStationInfo from "./ModalStationInfo";
 import ModaleContact from "./ModaleContact";
 
 import MarkerClusterGroup from "react-leaflet-cluster";
+import type { latlng } from "../assets/definition/lib";
 import { useAuth } from "../context/userContext";
+import distanceTo from "../services/distanceTo";
 
 /**
  *
@@ -50,14 +52,25 @@ export default function Maps({
   setShowContactModale: ContactModaleProps["setShowContactModale"];
 }) {
   const { userInfo } = useAuth();
+  const userId = userInfo?.email;
+
   // default map centering position
   const position = { lat: 48.8566, lng: 2.3522 };
   const [stations, setStations] = useState<Station[]>();
-
+  const [markerPos, setMarkerPos] = useState<latlng>(position);
   const [showMarkerInfo, setShowMarkerInfo] = useState(false);
   const [showMarkerBook, setShowMarkerBook] = useState(false);
   const [stationId, setStationId] = useState("");
   const [cost, setCost] = useState(0);
+
+  const latA = selectedPosition.geometry.coordinates[1];
+  const lngA = selectedPosition.geometry.coordinates[0];
+  const latB = markerPos.lat;
+  const lngB = markerPos.lng;
+
+  // calculate the distance between the user's position and the selected station
+  const dist = distanceTo(latA, lngA, latB, lngB);
+  const distance = Number.parseFloat(dist);
 
   const launch = () => {
     if (userInfo) {
@@ -70,10 +83,12 @@ export default function Maps({
 
   const handleClick = useCallback(
     (e: {
+      latlng: { lat: number; lng: number };
       target: {
         options: { children: SetStateAction<string> };
       };
     }) => {
+      setMarkerPos(e.latlng);
       setStationId(e.target.options.children);
       setShowMarkerInfo(true);
     },
@@ -151,6 +166,7 @@ export default function Maps({
                 onClose={() => setShowMarkerInfo(false)}
                 onBook={() => launch()}
                 stationId={stationId}
+                distance={distance}
               />,
               document.body,
             )}
@@ -161,6 +177,8 @@ export default function Maps({
                 onClose={() => setShowMarkerBook(false)}
                 stationId={stationId}
                 cost={cost}
+                distance={distance}
+                userId={userId}
               />,
               document.body,
             )}

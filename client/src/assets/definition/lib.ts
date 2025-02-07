@@ -175,3 +175,8 @@ export type AdminMessagesListProps = {
   setActualMessage: (e: ContactFormProps) => void;
   usersMessages: ContactFormProps[] | null;
 };
+
+export type latlng = {
+  lat: number;
+  lng: number;
+};

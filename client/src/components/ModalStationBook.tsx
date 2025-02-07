@@ -11,10 +11,14 @@ export default function ModalStationBook({
   onClose,
   stationId,
   cost,
+  distance,
+  userId,
 }: {
   onClose: MouseEventHandler;
   stationId: string;
   cost: number;
+  distance: number;
+  userId: string | undefined;
 }) {
   const id = stationId;
   const id_book = stationId;
@@ -32,6 +36,8 @@ export default function ModalStationBook({
   const slotsToDisplay = slots.filter(
     (s) => s.slot > slotNow && !availableSlots?.includes(s.slot),
   );
+
+  console.info("userID: ", userId);
 
   // loading stations from database
   useEffect(() => {
@@ -76,7 +82,7 @@ export default function ModalStationBook({
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
-          user_id: 2,
+          user_id: userId,
           station_id: stationId,
           slot: slot_id,
         }),
@@ -104,6 +110,7 @@ export default function ModalStationBook({
       <div className="m-2">
         <h1 className="font-paragraph lg:text-xl ">{findStation?.[0].name}</h1>
         <h2 className="">{findStation?.[0].address}</h2>
+        <h2>Distance : {distance} km.</h2>
         <hr />
         <h2>Puissance de charge :</h2>
         <ul>
