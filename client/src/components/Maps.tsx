@@ -130,7 +130,6 @@ export default function Maps({
       .then((response) => response.json())
       .then((data) => {
         if (data !== null) {
-          console.info("data", data);
           setCost(data);
         } else {
           toast.warning(
