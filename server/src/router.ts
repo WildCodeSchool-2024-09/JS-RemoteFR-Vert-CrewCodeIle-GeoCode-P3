@@ -42,4 +42,7 @@ router.use("/", adminBrand);
 import adminUser from "./routes/adminUser.routes";
 router.use("/", adminUser);
 
+import userVehiculeRouter from "./routes/userVehicule.routes";
+router.use("/", userVehiculeRouter);
+
 export default router;
