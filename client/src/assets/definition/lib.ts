@@ -29,6 +29,14 @@ export type ProfilModalProps = {
   setShowProfilModal: (s: boolean) => void;
 };
 
+export type BookingProps = {
+  id: number;
+  start_book: Date;
+  end_book: Date;
+  name: string;
+  adress: string;
+};
+
 export type BrandProps = {
   id: number;
   label: string;
