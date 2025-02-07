@@ -3,9 +3,6 @@ import type { RequestHandler } from "express";
 import joi from "joi";
 import profilRepository from "./ProfilRepository";
 
-const now = Date.now();
-const YEARS_18_MILLISECONDE = 1000 * 60 * 60 * 24 * 365 * 18;
-const minLegalAge = new Date(now - YEARS_18_MILLISECONDE);
 const userRegisterSchema = joi.object({
   firstName: joi
     .string()
@@ -23,8 +20,6 @@ const userRegisterSchema = joi.object({
   zipCode: joi.number().integer().required(),
   photo: joi.string(),
 });
-
-// Vehicule validation Schema with Joi
 
 //Validation for register submission
 const validateUser: RequestHandler = (req, res, next) => {
@@ -83,9 +78,46 @@ const EditProfil: RequestHandler = async (req, res, next) => {
     });
   }
 };
+const readReservation: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
 
+    const bookInfo = await profilRepository.ReadBooking(userId);
+
+    if (bookInfo === null) {
+      res.status(404).json({
+        message: "Une erreur s'est produite, veuillez rééssayer ultérieurement",
+      });
+    } else {
+      res.json(bookInfo);
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
+const deleteBooking: RequestHandler = async (req, res, next) => {
+  try {
+    const bookId = Number(req.params.id);
+
+    const affectedRows = await profilRepository.DestroyBooking(bookId);
+
+    if (affectedRows > 0) {
+      res.status(201).json({ message: "La réservation a bien été annulée" });
+    } else {
+      res.status(400).json({
+        message:
+          "Une erreur s'est produite, veuillez rééssayer ultérieurement ",
+      });
+    }
+  } catch (e) {
+    next(e);
+  }
+};
 export default {
   readUserInfo,
   EditProfil,
   validateUser,
+  readReservation,
+  deleteBooking,
 };

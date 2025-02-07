@@ -3,11 +3,13 @@ export type PresentationProps = {
   link: string;
   buttonText: string;
 };
+
 export type VehiculeProps = {
   brand: number;
   model: number;
   socket: number;
 };
+
 export type UserProps = {
   id: number;
   firstName: string;
@@ -27,6 +29,14 @@ export type ProfilModalProps = {
   setShowProfilModal: (s: boolean) => void;
 };
 
+export type BookingProps = {
+  id: number;
+  start_book: Date;
+  end_book: Date;
+  name: string;
+  adress: string;
+};
+
 export type BrandProps = {
   id: number;
   label: string;
@@ -37,6 +47,13 @@ export type ModelProps = {
   socket_id: number;
   model_id: number;
   socketType: string;
+};
+
+export type UserVehiculeProps = {
+  id: number;
+  brand: string;
+  model: string;
+  socket: string;
 };
 
 export type SocketProps = {
@@ -76,6 +93,8 @@ export type ContactModaleProps = {
 };
 
 export type ContactFormProps = {
+  id_model?: number;
+  user_id?: number;
   date: string;
   email: string;
   firstname: string;
@@ -179,4 +198,49 @@ export type AdminMessagesListProps = {
 export type latlng = {
   lat: number;
   lng: number;
+};
+export type AdminVehiculeProps = {
+  id?: number;
+  user_id?: number;
+  id_brand: number;
+  id_model: number;
+  id_socket: number;
+  brand: string | null;
+  model: string | null;
+  socket: string | null;
+};
+
+export type AdminUserProps = {
+  user_id: number;
+  id_model?: number;
+  id?: number;
+  car_id: number;
+  socket_label: string;
+  brand_label: string;
+  model_label: string;
+  picture: string;
+  age: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthday: string;
+  city: string;
+  zipCode: number;
+};
+
+export type AdminUserDetailProps = {
+  actualUser: AdminUserProps | null;
+  usersList: AdminUserProps[];
+  isUsersDetailsModale: boolean;
+  setIsConfirmDeleteModale: (bool: boolean) => void;
+  handleChangeActualUser: (user: AdminUserProps) => void;
+  isDisabled: boolean;
+  setIsDisabled: (bool: boolean) => void;
+};
+
+export type AdminUsersListProps = {
+  usersList: AdminUserProps[];
+  setIsUsersDetailsModale: (bool: boolean) => void;
+  isUsersDetailsModale: boolean;
+  setAcualUser: (e: AdminUserProps) => void;
 };

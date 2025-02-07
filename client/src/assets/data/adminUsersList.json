@@ -1,0 +1,14 @@
+{
+  "usersList": "Liste d'utilisateurs",
+  "userLastName": "Nom",
+  "userFirstName": "Prénom",
+  "birthdate": "Date de naissance",
+  "yearOld": "Age",
+  "zipcode": "Code postale",
+  "city": "Ville",
+  "mail": "Email",
+  "modificationButton": "Modifier",
+  "okButton": "Ok",
+  "deleteButton": "Supprimer",
+  "userVehicle": "Véhicule de l'utilisateur"
+}

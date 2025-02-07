@@ -56,6 +56,9 @@ export default {
       gridTemplateRows: {
         40: "repeat(40, minmax(0, 1fr))",
       },
+      backgroundImage: {
+        edit: "url('./assets/images/modify.png')",
+      },
     },
   },
   plugins: [],

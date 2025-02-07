@@ -37,5 +37,15 @@ router.use("/", updateStations);
 //  Define database marker-related route
 import marker from "./routes/marker.routes";
 router.use("/", marker);
+// Define admin branch route
+import adminBrand from "./routes/adminBrand.routes";
+router.use("/", adminBrand);
+
+// Define admin Users route
+import adminUser from "./routes/adminUser.routes";
+router.use("/", adminUser);
+
+import userVehiculeRouter from "./routes/userVehicule.routes";
+router.use("/", userVehiculeRouter);
 
 export default router;

@@ -14,6 +14,6 @@
   "userEmail": "Mail :",
   "userSubject": "Sujet :",
   "userMessage": "Message :",
-  "confirmationMessage": "Êtes vous sur de vouloir suprimer le message?",
+  "confirmationMessage": "Êtes vous sur de procéder à la suppression?",
   "detailMessage": "Détails du message:"
 }
