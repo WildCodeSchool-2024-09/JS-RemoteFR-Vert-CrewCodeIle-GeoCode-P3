@@ -37,8 +37,6 @@ export default function ModalStationBook({
     (s) => s.slot > slotNow && !availableSlots?.includes(s.slot),
   );
 
-  console.info("userID: ", userId);
-
   // loading stations from database
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/admin/marker/${id}`)

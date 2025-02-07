@@ -61,7 +61,8 @@ export default function Maps({
   const [showMarkerInfo, setShowMarkerInfo] = useState(false);
   const [showMarkerBook, setShowMarkerBook] = useState(false);
   const [stationId, setStationId] = useState("");
-  const [cost, setCost] = useState(0);
+
+  const price = 15;
 
   const latA = selectedPosition.geometry.coordinates[1];
   const lngA = selectedPosition.geometry.coordinates[0];
@@ -130,7 +131,7 @@ export default function Maps({
       .then((response) => response.json())
       .then((data) => {
         if (data !== null) {
-          setCost(data);
+          // ajout setcost
         } else {
           toast.warning(
             "Oups ! Impossible de récupérer le prix de la recharge",
@@ -175,7 +176,7 @@ export default function Maps({
               <ModalStationBook
                 onClose={() => setShowMarkerBook(false)}
                 stationId={stationId}
-                cost={cost}
+                cost={price}
                 distance={distance}
                 userId={userId}
               />,
