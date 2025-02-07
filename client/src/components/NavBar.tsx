@@ -7,8 +7,10 @@ import contactIcon from "../assets/images/contact.png";
 import logo from "../assets/images/logo.png";
 import mapIcon from "../assets/images/map.png";
 import userIcon from "../assets/images/user.png";
+
 import { useAuth } from "../context/userContext";
 import ModalProfil from "./ModalProfil";
+import ModalUserVehicule from "./ModalUserVehicule";
 
 export default function NavBar({
   showContactModale,
@@ -21,6 +23,7 @@ export default function NavBar({
 
   const handleClickModalProfil = () => setShowProfilModal(false);
   const { userInfo } = useAuth();
+  const [openVehiculeModal, setOpenVehiculeModal] = useState(false);
 
   return (
     <>
@@ -41,6 +44,8 @@ export default function NavBar({
                     setShowProfilModal(!showProfilModal);
                   } else if (e.name === navBarData[3].name) {
                     setShowContactModale(!showContactModale);
+                  } else if (userInfo && e.name === navBarData[2].name) {
+                    setOpenVehiculeModal(!openVehiculeModal);
                   }
                 }}
               >
@@ -61,6 +66,11 @@ export default function NavBar({
             showProfilModal={showProfilModal}
             closeModal={handleClickModalProfil}
           />,
+          document.body,
+        )}
+      {openVehiculeModal &&
+        createPortal(
+          <ModalUserVehicule closeModal={() => setOpenVehiculeModal(false)} />,
           document.body,
         )}
     </>

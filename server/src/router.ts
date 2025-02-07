@@ -34,4 +34,6 @@ router.use("/", ProfilRouter);
 import updateStations from "./routes/updateStations.routes";
 router.use("/", updateStations);
 
+import userVehiculeRouter from "./routes/userVehicule.routes";
+router.use("/", userVehiculeRouter);
 export default router;

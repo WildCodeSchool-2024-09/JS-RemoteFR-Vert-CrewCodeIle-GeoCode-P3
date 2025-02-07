@@ -47,6 +47,13 @@ export type ModelProps = {
   socketType: string;
 };
 
+export type UserVehiculeProps = {
+  id: number;
+  brand: string;
+  model: string;
+  socket: string;
+};
+
 export type SocketProps = {
   id: number;
   label: string;
