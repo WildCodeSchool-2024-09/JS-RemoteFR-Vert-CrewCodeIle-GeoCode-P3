@@ -34,6 +34,9 @@ router.use("/", ProfilRouter);
 import updateStations from "./routes/updateStations.routes";
 router.use("/", updateStations);
 
+//  Define database marker-related route
+import marker from "./routes/marker.routes";
+router.use("/", marker);
 // Define admin branch route
 import adminBrand from "./routes/adminBrand.routes";
 router.use("/", adminBrand);

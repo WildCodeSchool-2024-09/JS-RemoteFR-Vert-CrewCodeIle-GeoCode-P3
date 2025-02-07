@@ -124,6 +124,14 @@ export type Station = {
   longitude: number;
 };
 
+export type Marker = {
+  station_id: string;
+  name: string;
+  address: string;
+  power: number;
+  nb_power: number;
+};
+
 export type fileIrveType = {
   id_station_itinerance: string;
   nom_station: string;
@@ -172,6 +180,13 @@ export type terminalTableType = {
   type_autre: boolean;
 };
 
+export type Book = {
+  user_id: number;
+  station_id: string;
+  slot: number;
+  price?: number;
+};
+
 export type AdminMessagesListProps = {
   handleSwitchIsTreated: (id: number) => void;
   isContactMessagesModale: boolean;
@@ -180,6 +195,10 @@ export type AdminMessagesListProps = {
   usersMessages: ContactFormProps[] | null;
 };
 
+export type latlng = {
+  lat: number;
+  lng: number;
+};
 export type AdminVehiculeProps = {
   id?: number;
   user_id?: number;
