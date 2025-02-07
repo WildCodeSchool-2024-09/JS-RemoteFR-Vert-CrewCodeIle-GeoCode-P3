@@ -127,10 +127,10 @@ export default function AdminContact() {
         </article>
       </main>
       <ConfirmDelete
-        handleDeleteMessage={handleDeleteMessage}
+        handleDelete={handleDeleteMessage}
         isConfirmDeleteModale={isConfirmDeleteModale}
         setIsConfirmDeleteModale={setIsConfirmDeleteModale}
-        actualMessage={actualMessage && actualMessage}
+        actualValue={actualMessage && actualMessage}
       />
     </>
   );

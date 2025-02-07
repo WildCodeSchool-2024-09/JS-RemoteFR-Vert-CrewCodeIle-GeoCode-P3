@@ -78,7 +78,6 @@ export default function ContactMessages({
             </button>
           )}
         </p>
-
         <p className="col-span-3 font-paragraph text-darkColor text-lg">
           <strong>{data.userEmail} </strong>
           {actualMessage?.email}

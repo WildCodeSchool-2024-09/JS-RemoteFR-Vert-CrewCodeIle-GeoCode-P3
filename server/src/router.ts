@@ -34,6 +34,15 @@ router.use("/", ProfilRouter);
 import updateStations from "./routes/updateStations.routes";
 router.use("/", updateStations);
 
+// Define admin branch route
+import adminBrand from "./routes/adminBrand.routes";
+router.use("/", adminBrand);
+
+// Define admin Users route
+import adminUser from "./routes/adminUser.routes";
+router.use("/", adminUser);
+
 import userVehiculeRouter from "./routes/userVehicule.routes";
 router.use("/", userVehiculeRouter);
+
 export default router;

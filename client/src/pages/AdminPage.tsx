@@ -49,7 +49,7 @@ export default function AdminPage() {
       name: "Nombre de véhicules",
       icon: carIcon,
       iconDark: carIconDark,
-      link: "/admin/cars",
+      link: "/admin/cars/brand-model",
       buttonStyle: "row-span-2",
       imageStyle: "md:top-1/4 md:left-1/2 md:-translate-x-1/2",
       figcaptionStyle: "md:bottom-1/3",
