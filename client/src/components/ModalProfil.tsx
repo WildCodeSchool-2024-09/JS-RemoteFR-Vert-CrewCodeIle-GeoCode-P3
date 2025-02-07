@@ -1,13 +1,14 @@
 import { Calendar1, MapPinHouse, Pencil, User } from "lucide-react";
 
 import { useEffect, useState } from "react";
-
+import { createPortal } from "react-dom";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import type { UserProps } from "../assets/definition/lib";
 import { formatedDAte } from "../assets/helpers/formatedDate";
 import { formatedName } from "../assets/helpers/formatedName";
 import { useAuth } from "../context/userContext";
+import ModalBooking from "./ModalBooking";
 
 export default function ModalProfil({
   closeModal,
@@ -16,6 +17,10 @@ export default function ModalProfil({
   //Verify userInformation
   const { userInfo } = useAuth();
   const id = userInfo?.email as string;
+
+  //Open table booking
+  const [openBookingModal, setOpenBookingModal] = useState(false);
+  const handleClickBooking = () => setOpenBookingModal(!openBookingModal);
 
   const { register, handleSubmit } = useForm<UserProps>();
 
@@ -125,6 +130,11 @@ export default function ModalProfil({
                       <li className=" border border-lightColor bg-interestColor px-4 rounded-lg py-2 text-white hover:bg-interestColor active:bg-interestColor/50  focus:bg-interestColor/70">
                         <button onClick={handleClickEdit} type="button">
                           Modifier mon profil
+                        </button>
+                      </li>
+                      <li className="border border-lightColor  bg-interestColor px-4 rounded-lg py-2 text-white">
+                        <button type="button" onClick={handleClickBooking}>
+                          Mes réservations
                         </button>
                       </li>
                     </ul>
@@ -263,6 +273,11 @@ export default function ModalProfil({
               </form>
             </article>
           </section>
+          {openBookingModal &&
+            createPortal(
+              <ModalBooking closeModal={() => setOpenBookingModal(false)} />,
+              document.body,
+            )}
         </>
       )}
     </>

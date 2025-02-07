@@ -1,4 +1,7 @@
-import type { UserProps } from "../../../../client/src/assets/definition/lib";
+import type {
+  BookingProps,
+  UserProps,
+} from "../../../../client/src/assets/definition/lib";
 import databaseClient, { type Result } from "../../../database/client";
 
 class ProfilRepository {
@@ -30,6 +33,28 @@ class ProfilRepository {
       ],
     );
 
+    return result.affectedRows;
+  }
+
+  async ReadBooking(id: string) {
+    const [rows] = await databaseClient.query(
+      `SELECT start_book b, end_book b, name s, address s
+      FROM book AS b
+      JOIN terminal AS t ON t.id = b.terminal_id
+      JOIN station AS s ON s.id_station = t.station_id
+      JOIN user AS u ON u.id = b.user_id
+      WHERE u.email = ?;`,
+      [id],
+    );
+    return rows as BookingProps[];
+  }
+
+  async DestroyBooking(id: number) {
+    const [result] = await databaseClient.query<Result>(
+      `DELETE FROM book
+      WHERE id= ?`,
+      [id],
+    );
     return result.affectedRows;
   }
 }
