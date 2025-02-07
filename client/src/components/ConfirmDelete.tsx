@@ -1,6 +1,7 @@
 import data from "../assets/data/adminContact.json";
 
 import type {
+  AdminUserProps,
   AdminVehiculeProps,
   ContactFormProps,
 } from "../assets/definition/lib";
@@ -9,7 +10,11 @@ type AdminDeleteProps = {
   handleDelete: (id: number) => void;
   isConfirmDeleteModale: boolean;
   setIsConfirmDeleteModale: (bool: boolean) => void;
-  actualValue: Partial<AdminVehiculeProps> | ContactFormProps | null;
+  actualValue:
+    | AdminUserProps
+    | Partial<AdminVehiculeProps>
+    | ContactFormProps
+    | null;
 };
 
 export default function ConfirmDelete({
@@ -19,8 +24,8 @@ export default function ConfirmDelete({
   actualValue,
 }: AdminDeleteProps) {
   if (!isConfirmDeleteModale) return;
-
-  const idToDelete = actualValue?.id_model || actualValue?.id;
+  const idToDelete =
+    actualValue?.user_id || actualValue?.id_model || actualValue?.id;
 
   return (
     <section className="z-10 fixed flex flex-col items-center justify-around p-5 top-1/2 -translate-y-2/3 -translate-x-1/2 left-1/2 bg-lightColor w-9/12 h-1/2 rounded-lg vsm:h-1/3 lg:w-1/3 xl:justify-center xl:gap-4 2xl:w-1/5">
