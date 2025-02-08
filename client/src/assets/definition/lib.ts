@@ -244,3 +244,7 @@ export type AdminUsersListProps = {
   isUsersDetailsModale: boolean;
   setAcualUser: (e: AdminUserProps) => void;
 };
+
+export type costType = {
+  cost: number;
+};

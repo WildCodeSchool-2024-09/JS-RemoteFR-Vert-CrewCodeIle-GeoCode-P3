@@ -28,8 +28,11 @@ import ModaleContact from "./ModaleContact";
 
 import MarkerClusterGroup from "react-leaflet-cluster";
 import type { latlng } from "../assets/definition/lib";
+import type { costType } from "../assets/definition/lib";
 import { useAuth } from "../context/userContext";
 import distanceTo from "../services/distanceTo";
+
+import generateSlots from "../services/generateSlots";
 
 /**
  *
@@ -61,8 +64,9 @@ export default function Maps({
   const [showMarkerInfo, setShowMarkerInfo] = useState(false);
   const [showMarkerBook, setShowMarkerBook] = useState(false);
   const [stationId, setStationId] = useState("");
+  const [cost, setCost] = useState<costType>();
 
-  const price = 15;
+  const price = cost?.cost || 0;
 
   const latA = selectedPosition.geometry.coordinates[1];
   const lngA = selectedPosition.geometry.coordinates[0];
@@ -72,6 +76,12 @@ export default function Maps({
   // calculate the distance between the user's position and the selected station
   const dist = distanceTo(latA, lngA, latB, lngB);
   const distance = Number.parseFloat(dist);
+
+  // testert la generation auto des slots
+
+  const slot2 = generateSlots(15);
+
+  console.info(slot2);
 
   const launch = () => {
     if (userInfo) {
@@ -131,7 +141,7 @@ export default function Maps({
       .then((response) => response.json())
       .then((data) => {
         if (data !== null) {
-          // ajout setcost
+          setCost(data);
         } else {
           toast.warning(
             "Oups ! Impossible de récupérer le prix de la recharge",

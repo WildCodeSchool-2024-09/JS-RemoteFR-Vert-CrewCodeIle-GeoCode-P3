@@ -1,4 +1,4 @@
-export default function generateSlots(stepTimeslot: number) {
+export default function generateSlots(stepTimeSlot: number) {
   type slotsType = {
     slot: number;
     label: string;
@@ -11,7 +11,8 @@ export default function generateSlots(stepTimeslot: number) {
   let i = 1;
 
   while (i < 24) {
-    slotsTime.setUTCHours(setHours, setMinutes + stepTimeslot);
+    slotsTime.setUTCHours(setHours, setMinutes);
+    slotsTime.setUTCHours(setHours, setMinutes + stepTimeSlot);
     slots[i] = {
       slot: i,
       label: `${slotsTime.getHours()}H${slotsTime.getMinutes()}`,
