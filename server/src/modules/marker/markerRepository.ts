@@ -32,7 +32,10 @@ class MarkerRepository {
   }
 
   async create(book: Omit<Book, "id">) {
-    const [startSlot, endSlot] = convertSlotToHoursMinutes(book.slot);
+    const [startSlot, endSlot] = convertSlotToHoursMinutes(
+      book.slot,
+      book.slotDuration,
+    );
 
     if (book !== null) {
       const [result] = await databaseClient.query<Result>(

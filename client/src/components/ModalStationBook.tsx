@@ -4,8 +4,9 @@ import { toast } from "react-toastify";
 import type { Marker } from "../assets/definition/lib";
 import type { Book } from "../assets/definition/lib";
 
-import slots from "../assets/data/slots.json";
+import type { slotsType } from "../assets/definition/lib";
 import convertHoursMinutesToSlot from "../services/convertHoursMinutesToSlot";
+import generateSlots from "../services/generateSlots";
 
 export default function ModalStationBook({
   onClose,
@@ -22,6 +23,7 @@ export default function ModalStationBook({
 }) {
   const id = stationId;
   const id_book = stationId;
+  const TIME_SLOT_DEFAULT = 30;
 
   const [findStation, setFindStation] = useState<Marker[]>();
   const [book, setBook] = useState<Book[]>();
@@ -30,7 +32,10 @@ export default function ModalStationBook({
   const availableSlots = book?.map((b) => b.slot);
 
   // returns the index of the first slot of the moment (eg: index 22 => 11h)
-  const slotNow = convertHoursMinutesToSlot();
+  const slotNow = convertHoursMinutesToSlot(TIME_SLOT_DEFAULT);
+
+  // definition of the duration of each slot (in minutes)
+  const slots: slotsType[] = generateSlots(TIME_SLOT_DEFAULT);
 
   // time slots that will be available and displayed for booking
   const slotsToDisplay = slots.filter(
@@ -83,6 +88,7 @@ export default function ModalStationBook({
           user_id: userId,
           station_id: stationId,
           slot: slot_id,
+          slotDuration: TIME_SLOT_DEFAULT,
         }),
       })
         .then((response) => response.json())
@@ -100,8 +106,6 @@ export default function ModalStationBook({
         );
     }
   };
-
-  console.info("Book : ", book);
 
   return (
     <div className="w-full flex flex-col shadow-md bg-gray-50 border border-gray-600 rounded-lg absolute lg:w-[360px] lg:top-[30%] top-[20%] lg:left-10 lg:bottom-10 bottom-1 z-[3000]">
@@ -122,7 +126,7 @@ export default function ModalStationBook({
       </div>
       <div className="m-1  bottom-12 overflow-auto">
         <h2 className="font-paragraph text-sm">
-          Coût de la reservation (limitée à 30mn) :{" "}
+          {`Coût de la reservation (limitée à ${TIME_SLOT_DEFAULT}mn) `}:{" "}
           <span className="bg-accentColor text-white text-base">
             {(cost && cost) || 15} €
           </span>

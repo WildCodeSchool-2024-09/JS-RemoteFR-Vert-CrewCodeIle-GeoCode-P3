@@ -248,3 +248,8 @@ export type AdminUsersListProps = {
 export type costType = {
   cost: number;
 };
+
+export type slotsType = {
+  slot: number;
+  label: string;
+};

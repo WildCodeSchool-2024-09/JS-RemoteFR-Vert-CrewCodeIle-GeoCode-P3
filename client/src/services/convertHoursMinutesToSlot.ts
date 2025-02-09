@@ -1,8 +1,12 @@
-export default function () {
+export default function (stepTimeSlot: number) {
+  // calculate the number of time slots per hour
+  const NumberSlotPerHour = 60 / stepTimeSlot;
+
   const presentTime = new Date();
   const slotHours = presentTime.getHours();
   const slotMinutes = presentTime.getMinutes();
   const totalMinutes = slotHours * 60 + slotMinutes;
-  const nowtSlotToShow = Math.floor((totalMinutes * 2) / 60);
-  return nowtSlotToShow;
+
+  //const nowtSlotToShow = Math.floor((totalMinutes * NumberSlotPerHour) / 60);
+  return Math.floor((totalMinutes * NumberSlotPerHour) / 60);
 }
