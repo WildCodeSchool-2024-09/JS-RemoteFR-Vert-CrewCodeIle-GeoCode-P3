@@ -32,8 +32,6 @@ import type { costType } from "../assets/definition/lib";
 import { useAuth } from "../context/userContext";
 import distanceTo from "../services/distanceTo";
 
-import generateSlots from "../services/generateSlots";
-
 /**
  *
  * @param {object} selectedPosition:
@@ -78,10 +76,6 @@ export default function Maps({
   const distance = Number.parseFloat(dist);
 
   // testert la generation auto des slots
-
-  const slot2 = generateSlots(15);
-
-  console.info(slot2);
 
   const launch = () => {
     if (userInfo) {

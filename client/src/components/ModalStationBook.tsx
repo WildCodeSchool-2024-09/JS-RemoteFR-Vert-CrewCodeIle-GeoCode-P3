@@ -31,7 +31,7 @@ export default function ModalStationBook({
   // slots reserved and valid after this moment
   const availableSlots = book?.map((b) => b.slot);
 
-  // returns the index of the first slot of the moment (eg: index 22 => 11h)
+  // returns the index of the first slot of the moment
   const slotNow = convertHoursMinutesToSlot(TIME_SLOT_DEFAULT);
 
   // definition of the duration of each slot (in minutes)
