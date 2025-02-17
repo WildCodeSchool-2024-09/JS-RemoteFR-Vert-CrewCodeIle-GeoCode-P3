@@ -96,6 +96,15 @@ class RegisterRepository {
     );
     return rows[0] as SocketProps;
   }
+
+  // Check the role of actual user
+  async checkRoleUser(email: string) {
+    const [userRole] = await databaseClient.query<Rows>(
+      "SELECT role FROM user WHERE email = ?",
+      [email],
+    );
+    return userRole;
+  }
 }
 
 export default new RegisterRepository();

@@ -10,6 +10,7 @@ import "./index.css";
 
 // Import the main app component
 
+import { AuthProvider } from "./context/userContext";
 import { mainRouter } from "./router";
 
 // Import additional components for new routes
@@ -30,7 +31,9 @@ if (rootElement == null) {
 // Render the app inside the root element
 createRoot(rootElement).render(
   <StrictMode>
-    <RouterProvider router={mainRouter} />
+    <AuthProvider>
+      <RouterProvider router={mainRouter} />
+    </AuthProvider>
   </StrictMode>,
 );
 

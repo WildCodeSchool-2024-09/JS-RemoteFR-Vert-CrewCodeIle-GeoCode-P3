@@ -1,11 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 export default function UpdateStationsPage() {
+  // if admin is not log navigate to app
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/checkauth`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          toast.error("Veuillez vous reconnecter.");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const { checkRole } = data;
+        if (!checkRole || !checkRole[0] || checkRole[0].role !== "admin") {
+          navigate("/home");
+          return;
+        }
+      })
+      .catch(() => {
+        navigate("/");
+      });
+  }, [navigate]);
+
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const handleOnClick = () => {
     navigate("/admin");
   };
@@ -83,6 +109,19 @@ export default function UpdateStationsPage() {
           Retour
         </button>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={6000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
     </>
   );
 }

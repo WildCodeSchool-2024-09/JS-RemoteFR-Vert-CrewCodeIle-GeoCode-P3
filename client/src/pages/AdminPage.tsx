@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import carIconDark from "../assets/images/car-dark.png";
 import carIcon from "../assets/images/car.png";
 import plugIconDark from "../assets/images/charging-plug-dark.png";
@@ -13,6 +15,32 @@ import usersIconDark from "../assets/images/users-dark.png";
 import usersIcon from "../assets/images/users.png";
 
 export default function AdminPage() {
+  // if admin is not log navigate to app
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/checkauth`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          toast.error("Veuillez vous reconnecter.");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const { checkRole } = data;
+        if (!checkRole || !checkRole[0] || checkRole[0].role !== "admin") {
+          navigate("/home");
+          return;
+        }
+      })
+      .catch(() => {
+        navigate("/");
+      });
+  }, [navigate]);
+
   const adminData = [
     {
       id: 1,
@@ -107,6 +135,19 @@ export default function AdminPage() {
             </figure>
           </Link>
         ))}
+        <ToastContainer
+          position="top-right"
+          autoClose={6000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition={Bounce}
+        />
       </section>
     </article>
   );

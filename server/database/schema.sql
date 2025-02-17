@@ -1,3 +1,4 @@
+-- SQLBook: Code
 CREATE TABLE user (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   firstName VARCHAR(255) NOT NULL,
@@ -7,6 +8,7 @@ CREATE TABLE user (
   photo VARCHAR(255) DEFAULT "user_profil.png",
   city VARCHAR(255) NOT NULL,
   zipCode INT NOT NULL,
+  role VARCHAR(255) NOT NULL DEFAULT 'user',
   password VARCHAR(255) NOT NULL
 );
 
@@ -84,7 +86,7 @@ CREATE TABLE book (
   end_book TIMESTAMP,
   CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(id),
   CONSTRAINT FOREIGN KEY (station_id) REFERENCES station(id_station)
-)
+);
 
 CREATE TABLE contact (
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,

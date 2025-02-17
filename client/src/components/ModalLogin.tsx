@@ -6,10 +6,13 @@ import errorMessage from "../assets/data/errorMessage.json";
 import type { UserProps } from "../assets/definition/lib";
 
 import { toast } from "react-toastify";
-import { useAuth } from "../context/userContext";
+
 import ModalRegistration from "./ModalRegistration";
 
-export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
+export default function ModalLogin({
+  closeModal,
+  setIsConnected,
+}: { closeModal: () => void; setIsConnected: (bool: boolean) => void }) {
   const {
     register,
     handleSubmit,
@@ -23,18 +26,17 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
     setOpenRegisterModal(!openRegisterModal);
   };
 
-  const { login } = useAuth();
-
   const onSubmit: SubmitHandler<UserProps> = async (userData) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(userData),
     });
 
     if (response.status === 201) {
+      setIsConnected(true);
       const data = await response.json();
-      login(data.token);
       closeModal();
       toast.success(data.message);
     } else {
