@@ -32,23 +32,23 @@ class BrandsRepository {
         "INSERT INTO brand (label) VALUE (?);",
         [brand],
       );
-      resultBrand = brandResult.insertId;
+      resultBrand = brandResult;
     }
     if (socket !== null) {
       const [socketResult] = await databaseClient.query<Result>(
         "INSERT INTO socket (label) VALUE (?);",
         [socket],
       );
-      resultSocket = socketResult.insertId;
+      resultSocket = socketResult;
     }
     if (model !== null) {
       await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=0");
       const [modelResult] = await databaseClient.query<Result>(
         "INSERT INTO model (label, brand_id, socket_id) VALUE (?, ?, ?);",
-        [model, resultBrand, resultSocket],
+        [model, id_brand, id_socket],
       );
       await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
-      resultModel = modelResult.insertId;
+      resultModel = modelResult;
     }
 
     return {
