@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 
 export default function UpdateStationsPage() {
-  // if admin is not log navigate to app
   const navigate = useNavigate();
 
   const [message, setMessage] = useState("");

@@ -10,8 +10,6 @@ import adminContactData from "../assets/data/adminContact.json";
 import type { AdminUserProps } from "../assets/definition/lib";
 
 export default function AdminUsersPage() {
-  // if admin is not log navigate to app
-
   // State of modale users list
   const [isUsersDetailsModale, setIsUsersDetailsModale] = useState(false);
 

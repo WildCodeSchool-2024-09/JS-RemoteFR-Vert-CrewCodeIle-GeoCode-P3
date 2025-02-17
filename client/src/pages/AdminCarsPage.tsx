@@ -4,8 +4,6 @@ import { Link, Outlet } from "react-router-dom";
 import data from "../assets/data/adminContact.json";
 
 export default function AdminVehiclePage() {
-  // if admin is not log navigate to app
-
   // State of modale edit
   const [isDeleteCarModale, setIsDeleteCarModale] = useState(false);
 

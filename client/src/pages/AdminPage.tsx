@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Bounce, ToastContainer } from "react-toastify";
 import carIconDark from "../assets/images/car-dark.png";
 import carIcon from "../assets/images/car.png";
 import plugIconDark from "../assets/images/charging-plug-dark.png";
@@ -14,8 +13,6 @@ import usersIconDark from "../assets/images/users-dark.png";
 import usersIcon from "../assets/images/users.png";
 
 export default function AdminPage() {
-  // if admin is not log navigate to app
-
   const adminData = [
     {
       id: 1,
@@ -110,19 +107,6 @@ export default function AdminPage() {
             </figure>
           </Link>
         ))}
-        <ToastContainer
-          position="top-right"
-          autoClose={6000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-          transition={Bounce}
-        />
       </section>
     </article>
   );

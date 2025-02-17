@@ -9,8 +9,6 @@ import ConfirmDelete from "../components/ConfirmDelete";
 import type { ContactFormProps } from "../assets/definition/lib";
 
 export default function AdminContact() {
-  // if admin is not log navigate to app
-
   // State of modale AdminContactMessage
   const [isContactMessagesModale, setIsContactMessagesModale] = useState(false);
 
