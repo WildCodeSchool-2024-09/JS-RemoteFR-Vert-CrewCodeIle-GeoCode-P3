@@ -10,7 +10,7 @@ export const login: RequestHandler = async (req, res, next) => {
     const user: UserProps = req.body;
 
     const token = await tokenJWT(user);
-
+    const decodeJwt = jwt.decode(token) as JwtPayload;
     res
       .status(201)
       .cookie("authToken", token, {
@@ -20,6 +20,8 @@ export const login: RequestHandler = async (req, res, next) => {
       })
       .json({
         message: "Bienvenu sur Geocode",
+        email: decodeJwt.email,
+        role: decodeJwt.role,
       });
   } catch (e) {
     next(e);
@@ -62,5 +64,5 @@ export const checkAuth: RequestHandler = async (req, res, next) => {
 export const logout: RequestHandler = (req, res) => {
   res.clearCookie("authToken");
 
-  res.json({ message: "Logout" });
+  res.json({ message: "Logout", authentification: false });
 };

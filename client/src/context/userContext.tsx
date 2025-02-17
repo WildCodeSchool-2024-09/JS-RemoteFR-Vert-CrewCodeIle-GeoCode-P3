@@ -1,38 +1,48 @@
 import { type ReactNode, createContext, useContext, useState } from "react";
 
-type UserInfoProps = {
-  email: string;
-  checkRole: Record<string, string>[];
-  authentification: boolean;
-};
-
 type userContextProps = {
-  userInfo: UserInfoProps | undefined;
-  login: (s: UserInfoProps | undefined) => void;
-  clearUser: (s: string | undefined) => void;
+  userInfo: string | undefined;
+  login: (s: string | undefined) => void;
+  clearUser: (s: boolean) => void;
+  connected: (s: boolean) => void;
+  isConnected: boolean | undefined;
 };
 
 export const AuthContext = createContext<userContextProps>({
   userInfo: undefined,
   login: () => undefined,
   clearUser: () => undefined,
+  connected: () => false,
+  isConnected: undefined,
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  // const [userToken, setUserToken] = useState<boolean | undefined>(undefined);
-  const [userInfo, setUserInfo] = useState<UserInfoProps | undefined>();
-  console.info(userInfo);
+  const [isConnected, setIsConnected] = useState<boolean>();
+  const [userInfo, setUserInfo] = useState<string | undefined>();
 
-  const login = (authentification: UserInfoProps | undefined) => {
+  const login = (authentification: string | undefined) => {
     setUserInfo(authentification);
   };
+  console.info(userInfo);
 
-  const clearUser = () => {
+  const clearUser = (authorisation: boolean) => {
+    setIsConnected(authorisation);
     setUserInfo(undefined);
+  };
+  const connected = (authorisation: boolean) => {
+    setIsConnected(authorisation);
   };
 
   return (
-    <AuthContext.Provider value={{ login, userInfo, clearUser }}>
+    <AuthContext.Provider
+      value={{
+        login,
+        userInfo,
+        clearUser,
+        isConnected,
+        connected,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

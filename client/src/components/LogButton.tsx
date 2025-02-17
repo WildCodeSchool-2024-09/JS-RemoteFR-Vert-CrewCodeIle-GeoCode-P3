@@ -7,7 +7,7 @@ import { useAuth } from "../context/userContext";
 import ModalLogin from "./ModalLogin";
 
 export default function Logbutton() {
-  const { userInfo } = useAuth();
+  const { isConnected, clearUser } = useAuth();
 
   const [openModalLogin, setOpenModalLogin] = useState(false);
 
@@ -18,13 +18,9 @@ export default function Logbutton() {
       .then((res) => res.json())
       .then((data) => {
         toast.success(data.message);
-        setIsConnected(false);
+        clearUser(data.authentification);
       });
   };
-
-  const [isConnected, setIsConnected] = useState<boolean | undefined>(
-    userInfo?.authentification,
-  );
 
   const handleClickModalLogin = () => {
     setOpenModalLogin(!openModalLogin);
@@ -40,10 +36,7 @@ export default function Logbutton() {
     <>
       {openModalLogin &&
         createPortal(
-          <ModalLogin
-            closeModal={handleClickModalLogin}
-            setIsConnected={setIsConnected}
-          />,
+          <ModalLogin closeModal={handleClickModalLogin} />,
           document.body,
         )}
       <section className=" z-[600]  absolute top-6 left-[47vh]">

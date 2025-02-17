@@ -22,6 +22,7 @@ export type UserProps = {
   password: string;
   confirm: string;
   dbpassword: string;
+  role: string;
 };
 
 export type ProfilModalProps = {

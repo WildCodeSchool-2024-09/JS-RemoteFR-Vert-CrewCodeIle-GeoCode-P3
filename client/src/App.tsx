@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import LogButton from "./components/LogButton";
 import NavBar from "./components/NavBar";
@@ -9,12 +9,7 @@ export default function App() {
   // Use a state: if the state is true, the modale is open then its false the modale is close
   const [showContactModale, setShowContactModale] = useState<boolean>(false);
 
-  const { login, userInfo } = useAuth();
-  console.info(userInfo);
-  const navigate = useNavigate();
-
-  const [authentification, setAuthentification] = useState();
-  login(authentification);
+  const { connected, login } = useAuth();
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/checkauth`, {
@@ -22,20 +17,10 @@ export default function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setAuthentification(data);
-        const { checkRole } = data;
-        if (
-          !checkRole ||
-          !checkRole[0] ||
-          (checkRole[0].role !== "user" && checkRole[0].role !== "admin")
-        ) {
-          navigate("/home");
-        } else if (checkRole[0].role === "admin") {
-          navigate("/admin");
-          return;
-        }
+        connected(data.authentification);
+        login(data.email);
       });
-  }, [navigate]);
+  }, [connected, login]);
 
   return (
     <>

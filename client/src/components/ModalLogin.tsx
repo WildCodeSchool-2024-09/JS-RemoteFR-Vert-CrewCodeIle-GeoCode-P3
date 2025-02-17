@@ -7,12 +7,11 @@ import type { UserProps } from "../assets/definition/lib";
 
 import { toast } from "react-toastify";
 
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/userContext";
 import ModalRegistration from "./ModalRegistration";
 
-export default function ModalLogin({
-  closeModal,
-  setIsConnected,
-}: { closeModal: () => void; setIsConnected: (bool: boolean) => void }) {
+export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
   const {
     register,
     handleSubmit,
@@ -25,7 +24,8 @@ export default function ModalLogin({
   const handleClickRegister = () => {
     setOpenRegisterModal(!openRegisterModal);
   };
-
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<UserProps> = async (userData) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
       method: "POST",
@@ -35,10 +35,13 @@ export default function ModalLogin({
     });
 
     if (response.status === 201) {
-      setIsConnected(true);
       const data = await response.json();
       closeModal();
       toast.success(data.message);
+      login(data);
+      if (data.role === "admin") {
+        navigate("/admin");
+      }
     } else {
       toast.warning("Mot de pass ou identifiant incorect");
     }

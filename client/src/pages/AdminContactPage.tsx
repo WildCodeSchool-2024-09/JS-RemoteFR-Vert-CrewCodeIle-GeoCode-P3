@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { Bounce, ToastContainer } from "react-toastify";
 
 import data from "../assets/data/adminContact.json";
 import AdminContactMessages from "../components/AdminContactMessage";
@@ -11,30 +11,6 @@ import type { ContactFormProps } from "../assets/definition/lib";
 
 export default function AdminContact() {
   // if admin is not log navigate to app
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/checkauth`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          toast.error("Veuillez vous reconnecter.");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        const { checkRole } = data;
-        if (!checkRole || !checkRole[0] || checkRole[0].role !== "admin") {
-          navigate("/home");
-          return;
-        }
-      })
-      .catch(() => {
-        navigate("/");
-      });
-  }, [navigate]);
 
   // State of modale AdminContactMessage
   const [isContactMessagesModale, setIsContactMessagesModale] = useState(false);
