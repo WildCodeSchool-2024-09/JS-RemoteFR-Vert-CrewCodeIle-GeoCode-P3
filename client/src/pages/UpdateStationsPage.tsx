@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
-import { Bounce, ToastContainer } from "react-toastify";
 
 export default function UpdateStationsPage() {
   // if admin is not log navigate to app
@@ -86,19 +85,6 @@ export default function UpdateStationsPage() {
           Retour
         </button>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={6000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-        transition={Bounce}
-      />
     </>
   );
 }

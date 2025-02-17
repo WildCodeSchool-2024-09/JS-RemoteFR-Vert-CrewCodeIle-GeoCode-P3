@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bounce, ToastContainer } from "react-toastify";
 
 import AdminUserDetail from "../components/AdminUserDetail";
 import AdminUsersList from "../components/AdminUsersList";
@@ -165,19 +164,6 @@ export default function AdminUsersPage() {
         isConfirmDeleteModale={isConfirmDeleteModale}
         setIsConfirmDeleteModale={setIsConfirmDeleteModale}
         actualValue={actualUser && actualUser}
-      />
-      <ToastContainer
-        position="top-right"
-        autoClose={6000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-        transition={Bounce}
       />
     </>
   );

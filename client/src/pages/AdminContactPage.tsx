@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bounce, ToastContainer } from "react-toastify";
 
 import data from "../assets/data/adminContact.json";
 import AdminContactMessages from "../components/AdminContactMessage";
@@ -134,19 +133,6 @@ export default function AdminContact() {
         isConfirmDeleteModale={isConfirmDeleteModale}
         setIsConfirmDeleteModale={setIsConfirmDeleteModale}
         actualValue={actualMessage && actualMessage}
-      />
-      <ToastContainer
-        position="top-right"
-        autoClose={6000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-        transition={Bounce}
       />
     </>
   );
