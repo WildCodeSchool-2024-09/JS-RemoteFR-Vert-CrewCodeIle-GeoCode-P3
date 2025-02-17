@@ -79,6 +79,11 @@ export default function AdminUsersList({
           </li>
         ))}
       </ul>
+      {usersList?.length === 0 && (
+        <p className="text-center pt-4 font-paragraph text-darkColor text-xl">
+          {data.noUser}
+        </p>
+      )}
     </article>
   );
 }

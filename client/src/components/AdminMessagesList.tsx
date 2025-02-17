@@ -66,7 +66,12 @@ export default function AdminMessagesList({
             </button>
           </li>
         ))}
-      </ul>
+      </ul>{" "}
+      {usersMessages?.length === 0 && (
+        <p className="text-center pt-4 font-paragraph text-darkColor text-xl">
+          {data.noMessage}
+        </p>
+      )}
     </section>
   );
 }

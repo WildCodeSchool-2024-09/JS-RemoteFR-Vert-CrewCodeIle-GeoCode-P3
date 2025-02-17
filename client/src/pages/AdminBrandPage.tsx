@@ -241,7 +241,7 @@ export default function AdminAddBrandPage() {
   };
 
   return (
-    <main className="pb-8 flex h-fit flex-col w-full gap-2 items-center lg:border-darkColor">
+    <main className="overflow-auto pb-8 flex h-[100vh] flex-col w-full gap-2 items-center lg:border-darkColor">
       <h2 className="text-2xl text-center mb-2 font-title text-darkColor mt-4 lg:text-4xl">
         {data.adminListModelBrand}
       </h2>
@@ -252,7 +252,7 @@ export default function AdminAddBrandPage() {
         <h3 className="col-span-5 text-center font-title py-2 text-darkColor text-lg border-r-4 border-darkColor lg:text-2xl">
           {data.model}
         </h3>
-        <h3 className="text-center col-span-3 font-title py-2 text-darkColor border-r-4 text-lg border-darkColor lg:text-2xl">
+        <h3 className="text-center col-span-3 font-title py-2 text-darkColor text-lg border-darkColor lg:text-2xl">
           {data.socket}
         </h3>
         {brandsAndModelsList?.map((e: AdminVehiculeProps, i) => (
@@ -276,7 +276,7 @@ export default function AdminAddBrandPage() {
             <p className="text-sm col-span-5 border-darkColor h-full border-r-4 border-t-4 text-center break-words">
               {e.model}
             </p>
-            <p className="border-darkColor h-full col-span-3 border-t-4 border-r-4 text-center">
+            <p className="border-darkColor h-full col-span-3 border-t-4 text-center">
               {e.socket}
             </p>
           </button>
@@ -293,8 +293,13 @@ export default function AdminAddBrandPage() {
           }}
         >
           {data.addButton}
-        </button>
+        </button>{" "}
       </article>
+      {brandsAndModelsList?.length === 0 && (
+        <p className="text-center pt-4 font-paragraph text-darkColor text-xl">
+          {data.noVehicle}
+        </p>
+      )}
       <AdminEditCar
         isAddCarModale={isAddCarModale}
         setIsAddCarModale={setIsAddCarModale}
