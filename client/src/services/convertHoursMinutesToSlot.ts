@@ -7,6 +7,5 @@ export default function (stepTimeSlot: number) {
   const slotMinutes = presentTime.getMinutes();
   const totalMinutes = slotHours * 60 + slotMinutes;
 
-  //const nowtSlotToShow = Math.floor((totalMinutes * NumberSlotPerHour) / 60);
   return Math.floor((totalMinutes * NumberSlotPerHour) / 60);
 }
