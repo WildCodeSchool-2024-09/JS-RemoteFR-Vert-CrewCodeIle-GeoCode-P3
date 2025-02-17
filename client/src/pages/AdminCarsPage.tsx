@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-
 import data from "../assets/data/adminContact.json";
 
 export default function AdminVehiclePage() {
