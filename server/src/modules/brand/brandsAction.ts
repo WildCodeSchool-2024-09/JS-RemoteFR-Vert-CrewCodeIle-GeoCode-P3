@@ -36,12 +36,12 @@ const destroy: RequestHandler = async (req, res, next) => {
 };
 
 const newVehicleSchema = joi.object({
-  brand: joi.string().min(3).max(50).allow(null).required().allow(null),
-  model: joi.string().min(2).max(50).allow(null).required().allow(null),
-  socket: joi.string().min(3).max(20).allow(null).required().allow(null),
-  id_brand: joi.number().integer().required().allow(null),
-  id_model: joi.number().integer().required().allow(null),
-  id_socket: joi.number().integer().required().allow(null),
+  brand: joi.string().min(3).max(50).allow(null).required(),
+  model: joi.string().min(2).max(50).allow(null).required(),
+  socket: joi.string().min(3).max(20).allow(null).required(),
+  id_brand: joi.number().integer().required(),
+  id_model: joi.number().integer().required(),
+  id_socket: joi.number().integer().required(),
 });
 
 const validate: RequestHandler = (req, res, next) => {
