@@ -1,21 +1,19 @@
-export default function generateSlots(stepTimeslot: number) {
-  type slotsType = {
-    slot: number;
-    label: string;
-  };
-  const slotsTime = new Date();
+export default function generateSlots(stepTimeSlot: number) {
+  let totalMinutes = 0;
+  let Hours = 0;
+  let Minutes = 0;
+  const slots = [];
+  let i = 0;
 
-  const setHours = 0;
-  const setMinutes = 0;
-  const slots: slotsType[] = [{ slot: 0, label: "0H00" }];
-  let i = 1;
-
-  while (i < 24) {
-    slotsTime.setUTCHours(setHours, setMinutes + stepTimeslot);
-    slots[i] = {
+  while (Hours < 24) {
+    slots.push({
       slot: i,
-      label: `${slotsTime.getHours()}H${slotsTime.getMinutes()}`,
-    };
+      label: `${Hours}H${Minutes.toLocaleString().padEnd(2, "0")}`,
+    });
+
+    totalMinutes += stepTimeSlot;
+    Hours = Math.floor(totalMinutes / 60);
+    Minutes = totalMinutes % 60;
     i++;
   }
   return slots;

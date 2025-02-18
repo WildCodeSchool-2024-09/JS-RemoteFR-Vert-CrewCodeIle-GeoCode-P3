@@ -6,7 +6,7 @@ import type { Station } from "../../lib/definitions";
 class StationRepository {
   async readAll() {
     const [rows] = await databaseClient.query<Rows>(
-      "SELECT * FROM station LIMIT 2800",
+      "SELECT * FROM station LIMIT 4800",
     );
 
     return rows as Station[];
