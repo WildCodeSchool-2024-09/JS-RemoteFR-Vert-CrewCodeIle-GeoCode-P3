@@ -28,7 +28,7 @@ class BrandsRepository {
     let resultModel = null;
     let resultSocket = null;
 
-    if (brand !== null) {
+    if (id_brand < 0) {
       const [brandResult] = await databaseClient.query<Result>(
         "INSERT INTO brand (label) VALUE (?);",
         [brand],
@@ -36,7 +36,7 @@ class BrandsRepository {
       resultBrand = brandResult.insertId;
     }
 
-    if (socket !== null) {
+    if (id_socket < 0) {
       const [socketResult] = await databaseClient.query<Result>(
         "INSERT INTO socket (label) VALUE (?);",
         [socket],
@@ -71,6 +71,16 @@ class BrandsRepository {
         const [modelResult] = await databaseClient.query<Result>(
           "INSERT INTO model (label, brand_id, socket_id) VALUE (?, ?, ?);",
           [model, id_brand, resultSocket],
+        );
+        await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
+        resultModel = modelResult.insertId;
+        //
+      } else if (id_brand >= 0 && id_socket >= 0) {
+        //
+        await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=0");
+        const [modelResult] = await databaseClient.query<Result>(
+          "INSERT INTO model (label, brand_id, socket_id) VALUE (?, ?, ?);",
+          [model, id_brand, id_socket],
         );
         await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
         resultModel = modelResult.insertId;
