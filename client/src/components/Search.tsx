@@ -105,7 +105,7 @@ export default function Search(majPosition: {
           {query.length > 2 &&
             resultsApi?.map((item) => (
               <li
-                className="py-2.5 w-[260px] lg:w-[478px] border-b-solid border-b-gray-300 cursor-pointer relative z-[1000] bg-white hover:bg-[#E5E9E7] border-b last:border-b-0"
+                className="px-3 py-2.5 w-[260px] lg:w-[478px] border-b-solid border-b-gray-300 cursor-pointer relative z-[1000] bg-white hover:bg-[#E5E9E7] border-b last:border-b-0"
                 key={item.toString()}
                 onClick={() => handleElementClick(item)}
                 onKeyUp={handleKeyUp}
