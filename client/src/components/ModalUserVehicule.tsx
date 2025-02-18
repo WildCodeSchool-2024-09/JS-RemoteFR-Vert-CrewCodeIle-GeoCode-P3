@@ -17,7 +17,7 @@ export default function ModalUserVehicule({
   closeModal,
 }: { closeModal: () => void }) {
   const { userInfo } = useAuth();
-  const id = userInfo?.email;
+  const id = userInfo;
 
   const { register, watch, handleSubmit } = useForm<VehiculeProps>();
   const [vehiculeInfo, setVehiculeInfo] = useState<UserVehiculeProps[]>();

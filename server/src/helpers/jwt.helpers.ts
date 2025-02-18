@@ -7,10 +7,10 @@ type payloadProps = {
 };
 
 export const tokenJWT = async (userInfo: UserProps) => {
-  const { email, firstName, ...rest } = userInfo;
+  const { email, role, ...rest } = userInfo;
   const payload = {
     email: email,
-    firstName: firstName,
+    role: role,
   };
 
   const token = jwt.sign(payload, process.env.APP_SECRET as string, {

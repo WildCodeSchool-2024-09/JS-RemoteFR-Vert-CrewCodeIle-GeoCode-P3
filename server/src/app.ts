@@ -1,5 +1,6 @@
 // Load the express module to create a web application
 
+import cookieParser from "cookie-parser";
 import express from "express";
 
 const app = express();
@@ -21,7 +22,7 @@ const app = express();
 import cors from "cors";
 
 if (process.env.CLIENT_URL != null) {
-  app.use(cors({ origin: [process.env.CLIENT_URL] }));
+  app.use(cors({ origin: [process.env.CLIENT_URL], credentials: true }));
 }
 
 app.use("/upload", express.static("public/uploads"));
@@ -56,6 +57,7 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(cookieParser());
 // app.use(express.text());
 // app.use(express.raw());
 
