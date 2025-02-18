@@ -18,7 +18,7 @@ export default function ModalStationInfo({
   const [findStation, setFindStation] = useState<MarkerType[]>();
   const id = stationId;
 
-  // loading stations from database
+  // retrieving information from the selected station
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/admin/marker/${id}`)
       .then((response) => response.json())

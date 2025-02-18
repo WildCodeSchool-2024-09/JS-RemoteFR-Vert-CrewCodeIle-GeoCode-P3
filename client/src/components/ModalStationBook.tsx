@@ -29,8 +29,8 @@ export default function ModalStationBook({
   const [findStation, setFindStation] = useState<MarkerType[]>();
   const [book, setBook] = useState<Book[]>();
   const [openModal, setOpenModal] = useState(false);
-  //const [confirmModal, setConfirmModal] = useState(false);
   const [choiceSlot, setChoiceSlot] = useState(0);
+  const [reload, setReload] = useState(false);
 
   // slots reserved and valid after this moment
   const availableSlots = book?.map((b) => b.slot);
@@ -46,7 +46,7 @@ export default function ModalStationBook({
     (s) => s.slot > slotNow && !availableSlots?.includes(s.slot),
   );
 
-  // loading stations from database
+  // retrieving information from the selected station
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/admin/marker/${id}`)
       .then((response) => response.json())
@@ -69,6 +69,12 @@ export default function ModalStationBook({
       .then((data) => {
         if (data !== null) {
           setBook(data);
+          if (!reload) {
+            //refresh the display of slots after a new reservation in the modal
+            setReload(true);
+          } else {
+            setReload(false);
+          }
         } else {
           toast.warning(
             "Oups ! Impossible d'afficher les stations de recharge...",
@@ -76,7 +82,7 @@ export default function ModalStationBook({
         }
       })
       .catch((error) => toast.error("Oups ! Une erreur s'est produite", error));
-  }, [id_book]);
+  }, [id_book, reload]);
 
   const handleClickBook = (slot_id: number) => {
     setChoiceSlot(slot_id);
@@ -101,7 +107,7 @@ export default function ModalStationBook({
       .then((response) => response.json())
       .then((data: Book[]) => {
         if (data !== null) {
-          toast.success("Votre reservation et enregistré ");
+          toast.success("Votre reservation est bien enregistrée ");
         } else {
           toast.warning("Oups ! Impossible d'enregistrer votre réservation...");
         }
