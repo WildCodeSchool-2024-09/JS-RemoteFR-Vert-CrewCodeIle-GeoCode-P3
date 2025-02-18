@@ -31,6 +31,7 @@ import type { latlng } from "../assets/definition/lib";
 import type { costType } from "../assets/definition/lib";
 import { useAuth } from "../context/userContext";
 import distanceTo from "../services/distanceTo";
+import ModalAlert from "./ModalAlert";
 
 /**
  *
@@ -63,6 +64,7 @@ export default function Maps({
   const [showMarkerBook, setShowMarkerBook] = useState(false);
   const [stationId, setStationId] = useState("");
   const [cost, setCost] = useState<costType>();
+  const [popupAlert, setPopupAlert] = useState(false);
 
   const price = cost?.cost || 0;
 
@@ -75,14 +77,12 @@ export default function Maps({
   const dist = distanceTo(latA, lngA, latB, lngB);
   const distance = Number.parseFloat(dist);
 
-  // testert la generation auto des slots
-
   const launch = () => {
     if (userInfo) {
       setShowMarkerInfo(false);
       setShowMarkerBook(true);
     } else {
-      alert("Vous devez être connecte pour pouvoir reserver");
+      setPopupAlert(true);
     }
   };
 
@@ -184,6 +184,12 @@ export default function Maps({
                 distance={distance}
                 userId={userId}
               />,
+              document.body,
+            )}
+          {/*display user not logged in warning*/}
+          {popupAlert &&
+            createPortal(
+              <ModalAlert onClose={() => setPopupAlert(false)} />,
               document.body,
             )}
         </MarkerClusterGroup>
