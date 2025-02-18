@@ -202,9 +202,9 @@ export type latlng = {
 export type AdminVehiculeProps = {
   id?: number;
   user_id?: number;
-  id_brand: number;
-  id_model: number;
-  id_socket: number;
+  id_brand: number | null;
+  id_model: number | null;
+  id_socket: number | null;
   brand: string | null;
   model: string | null;
   socket: string | null;

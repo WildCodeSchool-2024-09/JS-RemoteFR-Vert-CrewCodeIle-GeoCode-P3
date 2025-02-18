@@ -1,4 +1,3 @@
-import { de_AT } from "@faker-js/faker/.";
 import databaseClient from "../../../database/client";
 
 import type { Result, Rows } from "../../../database/client";
@@ -23,38 +22,66 @@ class BrandsRepository {
   }
 
   async create(brandAndModel: VehiculeProps) {
-    const { brand, model, socket, id_brand, id_socket } = brandAndModel;
+    const { brand, model, socket, id_brand, id_socket, id_model } =
+      brandAndModel;
     let resultBrand = null;
     let resultModel = null;
     let resultSocket = null;
+
     if (brand !== null) {
       const [brandResult] = await databaseClient.query<Result>(
         "INSERT INTO brand (label) VALUE (?);",
         [brand],
       );
-      resultBrand = brandResult;
+      resultBrand = brandResult.insertId;
     }
+
     if (socket !== null) {
       const [socketResult] = await databaseClient.query<Result>(
         "INSERT INTO socket (label) VALUE (?);",
         [socket],
       );
-      resultSocket = socketResult;
+      resultSocket = socketResult.insertId;
     }
+
     if (model !== null) {
-      await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=0");
-      const [modelResult] = await databaseClient.query<Result>(
-        "INSERT INTO model (label, brand_id, socket_id) VALUE (?, ?, ?);",
-        [model, id_brand, id_socket],
-      );
-      await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
-      resultModel = modelResult;
+      if (id_brand < 0 && id_socket < 0) {
+        //
+        await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=0");
+        const [modelResult] = await databaseClient.query<Result>(
+          "INSERT INTO model (label, brand_id, socket_id) VALUE (?, ?, ?);",
+          [model, resultBrand, resultSocket],
+        );
+        await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
+        resultModel = modelResult.insertId;
+        //
+      } else if (id_brand < 0 && id_socket >= 0) {
+        //
+        await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=0");
+        const [modelResult] = await databaseClient.query<Result>(
+          "INSERT INTO model (label, brand_id, socket_id) VALUE (?, ?, ?);",
+          [model, resultBrand, id_socket],
+        );
+        await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
+        resultModel = modelResult.insertId;
+        //
+      } else if (id_brand >= 0 && id_socket < 0) {
+        //
+        await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=0");
+        const [modelResult] = await databaseClient.query<Result>(
+          "INSERT INTO model (label, brand_id, socket_id) VALUE (?, ?, ?);",
+          [model, id_brand, resultSocket],
+        );
+        await databaseClient.query<Result>("SET FOREIGN_KEY_CHECKS=1");
+        resultModel = modelResult.insertId;
+        //
+      }
     }
 
     return {
-      brand: resultBrand,
-      model: resultModel,
-      socket: resultSocket,
+      id_brand: id_brand >= 0 ? id_brand : resultBrand,
+      id_model: id_model >= 0 ? id_model : resultModel,
+      id_socket: id_socket >= 0 ? id_socket : resultSocket,
     };
   }
 
