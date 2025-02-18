@@ -58,10 +58,9 @@ export default function AdminEditCar({
     });
   };
 
-  const array = [];
-  if (actualBrandAndModel) {
-    array.push(actualBrandAndModel);
-  }
+  // Regex
+  const carRegex = /^[a-zA-Z0-9àÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç.-\s]+$/g;
+
   return (
     <article
       className={`py-16 grid grid-cols-3 p-2 z-10 absolute w-11/12 h-[130vw] rounded-lg transform duration-1000 ease-in-out bg-lightColor ${isAddCarModale || isDeleteCarModale ? "translate-x-0 " : "translate-x-full opacity-0 z-0"} ${isConfirmDeleteModale ? "opacity-0" : ""} sm:h-[90vw] md:h-[50vw] md:w-1/2 md:right-2`}
@@ -128,7 +127,7 @@ export default function AdminEditCar({
               message: errorMessage.maxChar,
             },
             pattern: {
-              value: /^[a-zA-Z0-9àÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç-\s]+$/g,
+              value: carRegex,
               message: errorMessage.lastName,
             },
           })}
@@ -156,7 +155,7 @@ export default function AdminEditCar({
               message: errorMessage.maxChar,
             },
             pattern: {
-              value: /^[a-zA-Z0-9àÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç.-\s]+$/g,
+              value: carRegex,
               message: errorMessage.lastName,
             },
           })}
@@ -184,7 +183,7 @@ export default function AdminEditCar({
               message: errorMessage.maxChar,
             },
             pattern: {
-              value: /^[a-zA-Z0-9àÀáÁâÂéÉèÈêÊëËîÎïÏûÛüÜôÔöÖÇç-\s]+$/g,
+              value: carRegex,
               message: errorMessage.lastName,
             },
           })}

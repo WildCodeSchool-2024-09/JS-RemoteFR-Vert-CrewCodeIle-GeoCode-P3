@@ -53,11 +53,11 @@ const destroy: RequestHandler = async (req, res, next) => {
 const now = Date.now();
 const minLegalAge = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
 const userRegisterSchema = joi.object({
-  firstname: joi
+  firstName: joi
     .string()
     .pattern(/^[A-Za-z\é\è\ê\ï-]+$/)
     .required(),
-  lastname: joi
+  lastName: joi
     .string()
     .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
     .required(),
@@ -70,7 +70,7 @@ const userRegisterSchema = joi.object({
     .string()
     .pattern(/^[A-Za-z\é\è\ê\ï\s-]+$/)
     .required(),
-  zipcode: joi.number().integer().required(),
+  zipCode: joi.number().integer().required(),
   id: joi.number().integer().required(),
 });
 
