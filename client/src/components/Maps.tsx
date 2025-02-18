@@ -121,12 +121,16 @@ export default function Maps({
           setStations(data);
           toast.dismiss();
         } else {
+          toast.dismiss();
           toast.warning(
             "Oups ! Impossible d'afficher les stations de recharge...",
           );
         }
       })
-      .catch((error) => toast.error("Oups ! Une erreur s'est produite", error));
+      .catch((error) => {
+        toast.dismiss();
+        toast.error("Oups ! Une erreur s'est produite", error);
+      });
   }, []);
 
   // loading book_cost
