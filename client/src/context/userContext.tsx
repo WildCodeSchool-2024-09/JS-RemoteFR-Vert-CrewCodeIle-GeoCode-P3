@@ -1,39 +1,48 @@
-import { jwtDecode } from "jwt-decode";
 import { type ReactNode, createContext, useContext, useState } from "react";
-import type { UserProps } from "../assets/definition/lib";
 
 type userContextProps = {
-  userToken: string | null;
-  userInfo: UserProps | undefined;
-  login: (s: string | null) => void;
-  logout: () => void;
+  userInfo: string | undefined;
+  login: (s: string | undefined) => void;
+  clearUser: (s: boolean) => void;
+  connected: (s: boolean) => void;
+  isConnected: boolean | undefined;
 };
 
 export const AuthContext = createContext<userContextProps>({
-  userToken: null,
   userInfo: undefined,
   login: () => undefined,
-  logout: () => undefined,
+  clearUser: () => undefined,
+  connected: () => false,
+  isConnected: undefined,
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [userToken, setUserToken] = useState<string | null>(null);
-  const [userInfo, setUserInfo] = useState<UserProps>();
+  const [isConnected, setIsConnected] = useState<boolean>();
+  const [userInfo, setUserInfo] = useState<string | undefined>();
 
-  const login = (token: string | null) => {
-    setUserToken(token);
-    if (token) {
-      setUserInfo(jwtDecode(token));
-    }
+  const login = (authentification: string | undefined) => {
+    setUserInfo(authentification);
   };
+  console.info(userInfo);
 
-  const logout = () => {
-    setUserToken(null);
+  const clearUser = (authorisation: boolean) => {
+    setIsConnected(authorisation);
     setUserInfo(undefined);
+  };
+  const connected = (authorisation: boolean) => {
+    setIsConnected(authorisation);
   };
 
   return (
-    <AuthContext.Provider value={{ login, logout, userToken, userInfo }}>
+    <AuthContext.Provider
+      value={{
+        login,
+        userInfo,
+        clearUser,
+        isConnected,
+        connected,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

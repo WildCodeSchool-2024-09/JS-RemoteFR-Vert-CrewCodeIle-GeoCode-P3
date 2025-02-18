@@ -7,7 +7,7 @@ export default function ModalBooking({
   closeModal,
 }: { closeModal: () => void }) {
   const { userInfo } = useAuth();
-  const id = userInfo?.email;
+  const id = userInfo;
 
   const [booking, setBooking] = useState<BookingProps[]>();
 

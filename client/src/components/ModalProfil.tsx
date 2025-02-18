@@ -16,7 +16,7 @@ export default function ModalProfil({
 }: { closeModal: () => void; showProfilModal: boolean }) {
   //Verify userInformation
   const { userInfo } = useAuth();
-  const id = userInfo?.email as string;
+  const id = userInfo;
 
   //Open table booking
   const [openBookingModal, setOpenBookingModal] = useState(false);
