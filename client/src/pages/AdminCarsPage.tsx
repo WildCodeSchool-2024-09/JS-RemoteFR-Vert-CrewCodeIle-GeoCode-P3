@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { Bounce, ToastContainer } from "react-toastify";
-
 import data from "../assets/data/adminContact.json";
 
 export default function AdminVehiclePage() {
@@ -34,19 +32,6 @@ export default function AdminVehiclePage() {
             }}
           />
         </article>
-        <ToastContainer
-          position="top-right"
-          autoClose={6000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-          transition={Bounce}
-        />
       </main>
     </>
   );

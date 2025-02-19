@@ -8,7 +8,7 @@ export default function ModalListVehicule({
 }: { setVehiculeId: (s: number) => void; closeModal: () => void }) {
   const { userInfo } = useAuth();
   const [userVehicules, setUserVehicules] = useState<UserVehiculeProps[]>();
-  const id = userInfo?.email;
+  const id = userInfo;
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/all/${id}`)
