@@ -74,8 +74,8 @@ export default function Maps({
   const latB = markerPos.lat;
   const lngB = markerPos.lng;
 
-  const startPoint = [latB, lngB];
-  const endPoint = [latA, lngA];
+  const startPoint = [latA, lngA];
+  const endPoint = [latB, lngB];
 
   // calculate the distance between the user's position and the selected station
   const dist = distanceTo(latA, lngA, latB, lngB);
