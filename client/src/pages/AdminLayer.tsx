@@ -29,22 +29,19 @@ export default function AdminLayer() {
   }, [navigate]);
 
   // disconnect button
-  const handleDisconnect = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/logout`,
-        {
-          method: "POST",
-          credentials: "include",
-        },
-      );
+  const logout = () => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/logout`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success(data.message);
+      });
+  };
 
-      if (response.ok) {
-        navigate("/");
-      }
-    } catch (err) {
-      toast.error("une erreur est survenue.");
-    }
+  const handleLogout = () => {
+    logout();
+    navigate("/home");
   };
 
   return (
@@ -56,7 +53,7 @@ export default function AdminLayer() {
         <button
           type="button"
           className="bg-disconnectDark bg-contain py-4 px-3.5 w-16 h-16 border-darkColor border-2 rounded-lg active:bg-darkColor active:bg-disconnectLight"
-          onClick={handleDisconnect}
+          onClick={handleLogout}
         />
       </nav>
       <Outlet />
