@@ -74,6 +74,7 @@ export default function Maps({
   const latB = markerPos.lat;
   const lngB = markerPos.lng;
 
+  // coordinates of the user and the terminal selected for routing
   const startPoint = [latA, lngA];
   const endPoint = [latB, lngB];
 
