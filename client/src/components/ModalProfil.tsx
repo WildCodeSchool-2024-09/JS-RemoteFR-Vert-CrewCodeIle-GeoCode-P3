@@ -125,7 +125,7 @@ export default function ModalProfil({
                   </button>
                   {openBurgerMenu && (
                     <ul
-                      className={`absolute left-4 font-paragraph z-[1300]  mt-1 rounded-lg xl:left-16 ${openBurgerMenu ? "animate-openMenu" : "animate-closeMenu"} `}
+                      className={`absolute left-8 font-paragraph z-[1300]  mt-1 rounded-lg xl:left-16 ${openBurgerMenu ? "animate-openMenu" : "animate-closeMenu"} `}
                     >
                       <li className=" border border-lightColor bg-interestColor px-4 rounded-lg py-2 text-white hover:bg-interestColor active:bg-interestColor/50  focus:bg-interestColor/70">
                         <button onClick={handleClickEdit} type="button">
