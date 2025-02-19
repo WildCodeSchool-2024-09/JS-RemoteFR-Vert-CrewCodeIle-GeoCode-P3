@@ -41,7 +41,9 @@ export default function AdminLayer() {
 
   const handleLogout = () => {
     logout();
-    navigate("/home");
+    setTimeout(() => {
+      navigate("/home");
+    }, 1500);
   };
 
   return (
