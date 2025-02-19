@@ -163,28 +163,27 @@ export default function AdminAddBrandPage() {
     const brandsListFiltered = brandsAndModelsListFiltered.filter(
       (e) => e.id_brand === findBrand?.id_brand,
     );
+
     // List if the same sockets of current model
     const socketListFiltered = brandsAndModelsListFiltered.filter(
       (e) => e.id_socket === findBrand?.id_socket,
     );
 
     let vehicleToDelete = {};
-    if (vehicleToDelete && brandsListFiltered.length > 0) {
-      vehicleToDelete = {
-        ...findBrand,
-        // Set false, don't need to delete brand on database
-        is_brand_delete: false,
-      };
+    if (brandsListFiltered.length > 0) {
+      // Set false, don't need to delete brand on database
+      vehicleToDelete = { ...findBrand, is_brand_delete: false };
     } else {
       // Set true, need to delete brand on database
       vehicleToDelete = { ...findBrand, is_brand_delete: true };
     }
-    if (socketListFiltered.length === 0) {
+
+    if (socketListFiltered.length > 0) {
       // Set false, don't need to delete socket on database
-      vehicleToDelete = { ...vehicleToDelete, is_socket_delete: true };
+      vehicleToDelete = { ...vehicleToDelete, is_socket_delete: false };
     } else {
       // Set true, need to delete socket on database
-      vehicleToDelete = { ...vehicleToDelete, is_socket_delete: false };
+      vehicleToDelete = { ...vehicleToDelete, is_socket_delete: true };
     }
 
     fetch(`${import.meta.env.VITE_API_URL}/api/admin/brands-and-models/${id}`, {
