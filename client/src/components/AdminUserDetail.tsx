@@ -212,11 +212,11 @@ export default function AdminUserDetail({
           {data.userVehicle}
         </h4>
         <section className="text-md text-darkColor font-paragraph mt-8 grid gap-2 grid-cols-3 border-4 border-darkColor">
-          <p>{actualUser.brand_label}</p>
-          <p className="h-12 border-r-4 border-darkColor border-l-4">
+          <p className="h-fit">{actualUser.brand_label}</p>
+          <p className="h-fit border-r-4 border-darkColor border-l-4">
             {actualUser.model_label}
           </p>
-          <p>{actualUser.socket_label}</p>
+          <p className="h-fit">{actualUser.socket_label}</p>
         </section>
       </article>
     </fieldset>

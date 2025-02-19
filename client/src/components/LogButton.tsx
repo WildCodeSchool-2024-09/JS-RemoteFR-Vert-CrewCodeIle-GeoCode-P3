@@ -39,7 +39,7 @@ export default function Logbutton() {
           <ModalLogin closeModal={handleClickModalLogin} />,
           document.body,
         )}
-      <section className=" z-[600] absolute top-6 left-[47vh] xl:z-[1600] xl:top-36 xl:left-[96vw] ">
+      <section className=" z-[600] absolute top-4 right-[2vw] xl:z-[1600] xl:top-36 xl:left-[96vw] ">
         {!isConnected ? (
           <button
             className="bg-interestColor rounded-full p-1"

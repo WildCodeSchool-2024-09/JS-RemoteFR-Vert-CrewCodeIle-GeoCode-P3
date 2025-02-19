@@ -27,7 +27,7 @@ export default function NavBar({
 
   return (
     <>
-      <nav className="flex h-10 justify-center z-[1000] fixed bottom-4 w-full lg:top-0 lg:bottom-auto lg:justify-between lg:bg-accentColor lg:h-28 lg:z-[1020]">
+      <nav className="flex h-10 justify-center z-[1004] fixed bottom-4 w-full lg:top-0 lg:bottom-auto lg:justify-between lg:bg-accentColor lg:h-28 lg:z-[1020]">
         <img src={logo} alt="logo" className="hidden lg:inline" />
         <ul className="h-full flex items-center justify-around w-11/12 rounded-full shadow-md shadow-darkColor bg-darkColor lg:bg-transparent lg:shadow-none lg:w-1/2">
           {navBarData.map((e, i) => (
