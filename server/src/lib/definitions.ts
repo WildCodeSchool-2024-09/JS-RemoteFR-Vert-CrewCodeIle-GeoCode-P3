@@ -82,5 +82,5 @@ export type Book = {
   user_id: number;
   station_id: string;
   slot: number;
-  price: number;
+  slotDuration: number;
 };

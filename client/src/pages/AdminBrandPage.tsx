@@ -47,117 +47,75 @@ export default function AdminAddBrandPage() {
       });
   }, []);
 
-  // Array of ids
-  const idModel = brandsAndModelsList
-    .filter((e) => e.id_model)
-    .map((e) => e.id_model);
-  const idModelUnique = [...new Set(idModel)];
-
-  const idBrand = brandsAndModelsList
-    .filter((e) => e.id_brand)
-    .map((e) => e.id_brand)
-    .sort((a, b) => a - b);
-  const idBrandUnique = [...new Set(idBrand)];
-
-  const idSocket = brandsAndModelsList
-    .filter((e) => e.id_socket)
-    .map((e) => e.id_socket)
-    .sort((a, b) => a - b);
-  const idSocketUnique = [...new Set(idSocket)];
-
   // On click add a new brand, model and socket
-  const handleAddVehicle = async (e: Partial<AdminVehiculeProps>) => {
-    // Data for front
-    const newVehicle = {
-      ...e,
-      id_model: brandsAndModelsList.length + 1,
-    };
-
-    // Verify if model, brand or socket exist
+  const handleAddVehicle = async (data: Partial<AdminVehiculeProps>) => {
+    //Check if brand exist
     const isExistingBrand = brandsAndModelsList.some(
-      (e: AdminVehiculeProps) => e.brand === newVehicle.brand,
+      (e: AdminVehiculeProps) => e.brand === data.brand,
     );
     const isExistingModel = brandsAndModelsList.some(
-      (e: AdminVehiculeProps) => e.model === newVehicle.model,
+      (e: AdminVehiculeProps) => e.model === data.model,
     );
     const isExistingSocket = brandsAndModelsList.some(
-      (e: AdminVehiculeProps) => e.socket === newVehicle.socket,
+      (e: AdminVehiculeProps) => e.socket === data.socket,
     );
     const isExistingVehicle: Partial<AdminVehiculeProps> = {};
 
-    // Data for back-end
     let updateVehicle = {};
 
-    // If the brand exist not exist update brand find the new id else update brand to null find the corresponding id
+    // Check if brand exist: if not exist push on isExistingVehicle, update id to -1 for check on database else set brand to null and add id_brand for check on database
     if (!isExistingBrand) {
-      isExistingVehicle.brand = newVehicle?.brand;
-      const highestIdBrand = idBrandUnique.sort((a, b) => a - b).reverse();
-      updateVehicle = { ...newVehicle, id_brand: highestIdBrand[0] + 1 };
-      newVehicle.id_brand = highestIdBrand[0] + 1;
-      highestIdBrand.unshift(highestIdBrand[0] + 1);
+      isExistingVehicle.brand = data?.brand;
+      updateVehicle = { ...data, id_brand: -1 };
     } else {
       const foundBrand = brandsAndModelsList.find(
-        (e) => e.brand === newVehicle.brand,
+        (e) => e.brand === data.brand,
       );
       updateVehicle = {
-        ...newVehicle,
+        ...data,
         id_brand: foundBrand?.id_brand,
         brand: null,
       };
-      newVehicle.id_brand = foundBrand?.id_brand;
     }
 
-    // If the brand exist not exist update model find the new id else update model to null find the corresponding id
-    if (!isExistingModel) {
-      isExistingVehicle.model = newVehicle?.model;
-      const highestIdModel = idModelUnique.sort((a, b) => a - b).reverse();
-      updateVehicle = {
-        ...updateVehicle,
-        id_model: highestIdModel[0] + 1,
-      };
-      newVehicle.id_model = highestIdModel[0] + 1;
-      highestIdModel.unshift(highestIdModel[0] + 1);
-    } else {
-      const foundModel = brandsAndModelsList.find(
-        (e) => e.model === newVehicle.model,
-      );
-      updateVehicle = {
-        ...updateVehicle,
-        id_model: foundModel?.id_model,
-        model: null,
-      };
-      if (foundModel) newVehicle.id_model = foundModel?.id_model;
-    }
-
-    // If the brand exist not exist, update isExistingVehicle else update socket to null
+    // Check if socket exist: if not exist push on isExistingVehicle, update id to -1 for check on database else set socket to null and add id_socket for check on database
     if (!isExistingSocket) {
-      isExistingVehicle.socket = newVehicle?.socket;
-      const highestIdSocket = idSocketUnique.sort((a, b) => a - b).reverse();
-      updateVehicle = {
-        ...updateVehicle,
-        id_socket: highestIdSocket[0] + 1,
-      };
-      newVehicle.id_socket = highestIdSocket[0] + 1;
-      highestIdSocket.unshift(highestIdSocket[0] + 1);
+      isExistingVehicle.socket = data?.socket;
+      updateVehicle = { ...updateVehicle, id_socket: -1 };
     } else {
       const foundSocket = brandsAndModelsList.find(
-        (e) => e.socket === newVehicle.socket,
+        (e) => e.socket === data.socket,
       );
       updateVehicle = {
         ...updateVehicle,
         id_socket: foundSocket?.id_socket,
         socket: null,
       };
-      newVehicle.id_socket = foundSocket?.id_socket;
     }
 
-    // If the object has no props return and lauch a toast
+    // Check if model exist: if not exist push on isExistingVehicle, update id to -1 for check on database else set model to null and add id_model for check on database
+    if (!isExistingModel) {
+      isExistingVehicle.model = data?.model;
+      updateVehicle = { ...updateVehicle, id_model: -1 };
+    } else {
+      const foundModel = brandsAndModelsList.find(
+        (e) => e.model === data.model,
+      );
+      updateVehicle = {
+        ...updateVehicle,
+        id_model: foundModel?.id_model,
+        model: null,
+      };
+    }
+
+    // If brand, model and socket exist lauch a toast and return
     if (Object.keys(isExistingVehicle).length === 0) {
       toast.warning("Ce vehicule existe déjà dans la base de données.");
       return;
     }
 
     try {
+      // Add to database
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/admin/brands-and-models/`,
         {
@@ -167,11 +125,24 @@ export default function AdminAddBrandPage() {
         },
       );
 
+      // Get new id from database
+      const insertId = await response.json();
+
       if (response.ok) {
+        // Update updateVehicle
+        const { id_brand, id_model, id_socket } = insertId;
+        updateVehicle = {
+          ...data,
+          id_brand: id_brand,
+          id_model: id_model,
+          id_socket: id_socket,
+        };
+        // Add to new current updateList
         const updateList: AdminVehiculeProps[] = [
           ...brandsAndModelsList,
-          newVehicle as AdminVehiculeProps,
+          updateVehicle as AdminVehiculeProps,
         ];
+        // Set to actual list state
         setBrandsAndModelsList(updateList);
         setIsAddCarModale(false);
       }
@@ -208,7 +179,6 @@ export default function AdminAddBrandPage() {
       // Set true, need to delete brand on database
       vehicleToDelete = { ...findBrand, is_brand_delete: true };
     }
-
     if (socketListFiltered.length === 0) {
       // Set false, don't need to delete socket on database
       vehicleToDelete = { ...vehicleToDelete, is_socket_delete: true };
@@ -241,7 +211,7 @@ export default function AdminAddBrandPage() {
   };
 
   return (
-    <main className="pb-8 flex h-fit flex-col w-full gap-2 items-center lg:border-darkColor">
+    <main className="overflow-auto pb-8 flex h-[100vh] flex-col w-full gap-2 items-center lg:border-darkColor">
       <h2 className="text-2xl text-center mb-2 font-title text-darkColor mt-4 lg:text-4xl">
         {data.adminListModelBrand}
       </h2>
@@ -252,7 +222,7 @@ export default function AdminAddBrandPage() {
         <h3 className="col-span-5 text-center font-title py-2 text-darkColor text-lg border-r-4 border-darkColor lg:text-2xl">
           {data.model}
         </h3>
-        <h3 className="text-center col-span-3 font-title py-2 text-darkColor border-r-4 text-lg border-darkColor lg:text-2xl">
+        <h3 className="text-center col-span-3 font-title py-2 text-darkColor text-lg border-darkColor lg:text-2xl">
           {data.socket}
         </h3>
         {brandsAndModelsList?.map((e: AdminVehiculeProps, i) => (
@@ -276,7 +246,7 @@ export default function AdminAddBrandPage() {
             <p className="text-sm col-span-5 border-darkColor h-full border-r-4 border-t-4 text-center break-words">
               {e.model}
             </p>
-            <p className="border-darkColor h-full col-span-3 border-t-4 border-r-4 text-center">
+            <p className="border-darkColor h-full col-span-3 border-t-4 text-center">
               {e.socket}
             </p>
           </button>
@@ -293,8 +263,13 @@ export default function AdminAddBrandPage() {
           }}
         >
           {data.addButton}
-        </button>
+        </button>{" "}
       </article>
+      {brandsAndModelsList?.length === 0 && (
+        <p className="text-center pt-4 font-paragraph text-darkColor text-xl">
+          {data.noVehicle}
+        </p>
+      )}
       <AdminEditCar
         isAddCarModale={isAddCarModale}
         setIsAddCarModale={setIsAddCarModale}

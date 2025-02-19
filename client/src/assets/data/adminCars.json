@@ -8,5 +8,6 @@
   "deleteButton": "Supprimer",
   "returnButton": "Retour",
   "newCar": "Nouveau véhicule",
-  "deleteModel": "Supprimer une modèle"
+  "deleteModel": "Supprimer une modèle",
+  "noVehicle": "Aucune marque, modèle ou prise recencés"
 }

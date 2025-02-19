@@ -10,5 +10,6 @@
   "modificationButton": "Modifier",
   "okButton": "Ok",
   "deleteButton": "Supprimer",
-  "userVehicle": "Véhicule de l'utilisateur"
+  "userVehicle": "Véhicule de l'utilisateur",
+  "noUser": "Aucun utilisateurs enregistré."
 }
