@@ -35,7 +35,7 @@ export default function ModalStationInfo({
   }, [id]);
 
   return (
-    <div className="w-full flex flex-col justify-between bg-gray-50 border border-gray-600 rounded-lg absolute lg:w-[360px] lg:left-10 lg:bottom-10 bottom-0 z-[3000]">
+    <div className="w-full flex flex-col justify-between bg-gray-50 border border-gray-600 rounded-lg absolute lg:w-[360px] lg:left-10 lg:bottom-10 bottom-0 z-[3000] overflow-hidden text-ellipsis">
       {/* display station information here */}
       <ShowInfoStation findStation={findStation} distance={distance} />
 
