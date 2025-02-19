@@ -48,7 +48,7 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
   };
 
   return (
-    <section>
+    <>
       {openRegisterModal &&
         createPortal(
           <ModalRegistration
@@ -121,6 +121,6 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
           </fieldset>
         </>
       )}
-    </section>
+    </>
   );
 }
