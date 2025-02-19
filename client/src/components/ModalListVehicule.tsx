@@ -23,7 +23,7 @@ export default function ModalListVehicule({
 
   return (
     <>
-      <section className=" w-[54vh] mx-2 border border-interestColor absolute top-52 bg-lightColor z-[2000] ">
+      <section className=" w-[54vh] mx-2 border border-interestColor absolute top-52 bg-lightColor z-[2000] xl:translate-x-[36.7vw] ">
         <table>
           <thead>
             <tr className="h-16 lg:text-2xl">
