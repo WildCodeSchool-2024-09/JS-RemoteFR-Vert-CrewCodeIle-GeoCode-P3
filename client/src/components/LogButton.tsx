@@ -33,7 +33,7 @@ export default function Logbutton() {
   };
 
   return (
-    <s>
+    <>
       {openModalLogin &&
         createPortal(
           <ModalLogin closeModal={handleClickModalLogin} />,
@@ -58,6 +58,6 @@ export default function Logbutton() {
           </button>
         )}
       </section>
-    </s>
+    </>
   );
 }
