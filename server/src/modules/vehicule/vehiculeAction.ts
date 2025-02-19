@@ -45,7 +45,7 @@ const updateUserVehiculeInfo: RequestHandler = async (req, res, next) => {
       mail,
       carId,
     );
-    console.info(userVehicule);
+
     if (newVehicule) {
       res.status(201).json({ message: "Le véhicule a bien été modifié" });
     }
@@ -66,7 +66,7 @@ const addUserVehicule: RequestHandler = async (req, res, next) => {
       Number(userId),
       newVehiculeId,
     );
-    console.info(userId);
+
     if (insertVehiculeId) {
       res.status(201).json({ message: "Le véhicule à bien été ajouté" });
     } else {
