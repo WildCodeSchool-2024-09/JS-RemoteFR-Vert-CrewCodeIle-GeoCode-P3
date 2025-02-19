@@ -16,7 +16,7 @@ class VehiculeRepository {
             JOIN brand AS b ON b.id = c.brand_id
             JOIN model AS m ON m.id = c.model_id
             JOIN socket AS s ON s.id = c.socket_id
-            WHERE user_id = ?
+            WHERE u.user_id = ?
             AND c.id = ?;
 
         `,
@@ -77,7 +77,8 @@ class VehiculeRepository {
       `,
       [userMail],
     );
-    return rows[0].id;
+
+    return rows[0];
   }
 
   async createNewUserCar(userId: number, carId: number) {

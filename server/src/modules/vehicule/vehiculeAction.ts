@@ -8,7 +8,7 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
     const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
     const vehiculeInfo: UserVehiculeProps[] =
-      await VehiculeRepository.readUserVehicule(UserId, vehiculeId);
+      await VehiculeRepository.readUserVehicule(UserId.id, vehiculeId);
     if (vehiculeInfo.length > 0) {
       res.status(201).json(vehiculeInfo);
     } else {
@@ -20,11 +20,12 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
 };
 const readPrimaryUserCar: RequestHandler = async (req, res, next) => {
   try {
-    const userMail = req.body.email;
+    const userMail: string = req.body.email;
     const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
+    console.info(userMail);
     const vehiculeInfo: UserVehiculeProps =
-      await VehiculeRepository.readPrimaryCar(UserId);
+      await VehiculeRepository.readPrimaryCar(UserId.id);
     if (vehiculeInfo) {
       res.status(201).json(vehiculeInfo);
     } else {
@@ -84,7 +85,7 @@ const browseVehicule: RequestHandler = async (req, res, next) => {
 
     const userId = await VehiculeRepository.readUserByEmail(userMail);
 
-    const allUserVehicule = await VehiculeRepository.readAllVehicule(userId);
+    const allUserVehicule = await VehiculeRepository.readAllVehicule(userId.id);
 
     if (allUserVehicule.length === 0) {
       res.status(400).json({ message: "Aucun véhicule trouvé" });
