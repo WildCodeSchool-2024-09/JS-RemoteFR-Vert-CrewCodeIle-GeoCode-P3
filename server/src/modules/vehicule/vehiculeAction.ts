@@ -20,12 +20,12 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
 };
 const readPrimaryUserCar: RequestHandler = async (req, res, next) => {
   try {
-    const { userMail } = req.body;
+    const userMail = req.body.email;
     const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
-    const vehiculeInfo: UserVehiculeProps[] =
+    const vehiculeInfo: UserVehiculeProps =
       await VehiculeRepository.readPrimaryCar(UserId);
-    if (vehiculeInfo.length > 0) {
+    if (vehiculeInfo) {
       res.status(201).json(vehiculeInfo);
     } else {
       res.status(400).json({ message: "Aucun véhicule enregistré" });
@@ -45,7 +45,7 @@ const updateUserVehiculeInfo: RequestHandler = async (req, res, next) => {
       mail,
       carId,
     );
-    console.info(userVehicule);
+
     if (newVehicule) {
       res.status(201).json({ message: "Le véhicule a bien été modifié" });
     }
@@ -66,7 +66,7 @@ const addUserVehicule: RequestHandler = async (req, res, next) => {
       Number(userId),
       newVehiculeId,
     );
-    console.info(userId);
+
     if (insertVehiculeId) {
       res.status(201).json({ message: "Le véhicule à bien été ajouté" });
     } else {

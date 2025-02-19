@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (authentification: string | undefined) => {
     setUserInfo(authentification);
   };
-  console.info(userInfo);
 
   const clearUser = (authorisation: boolean) => {
     setIsConnected(authorisation);

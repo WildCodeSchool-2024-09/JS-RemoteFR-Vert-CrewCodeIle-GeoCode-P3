@@ -31,7 +31,6 @@ const validateUser: RequestHandler = (req, res, next) => {
     next();
   } else {
     res.status(400).json({ valdationErrors: error.details });
-    console.info(error);
   }
 };
 

@@ -25,7 +25,7 @@ class VehiculeRepository {
     return rows as UserVehiculeProps[];
   }
   async readPrimaryCar(userId: number) {
-    const [rows] = await databaseClient.query(
+    const [rows] = await databaseClient.query<Rows>(
       `SELECT b.label AS brand, m.label AS model, s.label AS socket
             FROM user_car AS u
             JOIN car AS c ON c.id = u.car_id
@@ -36,7 +36,7 @@ class VehiculeRepository {
         `,
       [userId],
     );
-    return rows as UserVehiculeProps[];
+    return rows[0] as UserVehiculeProps;
   }
 
   async updateUserVehicule(
@@ -71,8 +71,8 @@ class VehiculeRepository {
   async readUserByEmail(userMail: string) {
     const [rows] = await databaseClient.query<Rows>(
       `
-      SELECT id
-      FROM user
+      SELECT u.id
+      FROM user AS u
       WHERE email = ?
       `,
       [userMail],

@@ -34,6 +34,13 @@ export default function ModalUserVehicule({
     setOpenBurgerMenu(!openBurgerMenu);
   };
 
+  useEffect(() => {
+    console.info(id);
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`)
+      .then((res) => res.json())
+      .then((data) => setPrimaryCar(data));
+  }, [id]);
+
   const handleClickAdd = () => {
     setFormVehicule(!formVehicule);
     setAddVehicule(!addVehicule);
@@ -73,7 +80,6 @@ export default function ModalUserVehicule({
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          // Authorization : `Bearer ${auth.token}
         },
         body: JSON.stringify(dataVehicule),
       },
@@ -87,12 +93,6 @@ export default function ModalUserVehicule({
       toast.warning(data.message);
     }
   };
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`)
-      .then((res) => res.json())
-      .then((data) => setPrimaryCar(data));
-  }, [id]);
 
   useEffect(() => {
     if (primaryCar !== undefined) {
@@ -153,7 +153,7 @@ export default function ModalUserVehicule({
     setShowVehiculeList(!showVehiculeList);
     setOpenBurgerMenu(!openBurgerMenu);
   };
-  console.info(vehiculeId);
+
   return (
     <>
       <button
