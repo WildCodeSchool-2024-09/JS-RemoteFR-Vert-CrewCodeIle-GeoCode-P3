@@ -121,7 +121,9 @@ export default function ModalUserVehicule({
   // Fetch brand from DB & stock them with state
   const [dataBrand, setDatabrand] = useState<BrandProps[]>([]);
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/register`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
+      headers: { "Content-type": "application/json" },
+    })
       .then((res) => res.json())
       .then((data: BrandProps[]) => setDatabrand(data));
   }, []);
@@ -130,7 +132,9 @@ export default function ModalUserVehicule({
   const [dataModel, setDataModel] = useState<ModelProps[]>();
   useEffect(() => {
     if (idBrand) {
-      fetch(`${import.meta.env.VITE_API_URL}/api/register/${idBrand}`)
+      fetch(`${import.meta.env.VITE_API_URL}/api/register/${idBrand}`, {
+        headers: { "Content-type": "application/json" },
+      })
         .then((res) => res.json())
         .then((data: ModelProps[]) => setDataModel(data));
     }
@@ -140,7 +144,9 @@ export default function ModalUserVehicule({
   const [dataSocket, setDataSocket] = useState<SocketProps>();
   useEffect(() => {
     if (idSocket) {
-      fetch(`${import.meta.env.VITE_API_URL}/api/register/socket/${idSocket}`)
+      fetch(`${import.meta.env.VITE_API_URL}/api/register/socket/${idSocket}`, {
+        headers: { "Content-type": "application/json" },
+      })
         .then((res) => res.json())
         .then((data: SocketProps) => setDataSocket(data));
     }
