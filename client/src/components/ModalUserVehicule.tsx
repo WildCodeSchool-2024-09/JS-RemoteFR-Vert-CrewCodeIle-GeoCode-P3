@@ -153,7 +153,7 @@ export default function ModalUserVehicule({
     setShowVehiculeList(!showVehiculeList);
     setOpenBurgerMenu(!openBurgerMenu);
   };
-  console.info(vehiculeId);
+
   return (
     <>
       <button

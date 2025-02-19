@@ -57,7 +57,8 @@ export default {
         40: "repeat(40, minmax(0, 1fr))",
       },
       backgroundImage: {
-        edit: "url('./assets/images/modify.png')",
+        disconnectDark: "url('./assets/images/disconnect-admin-dark.png')",
+        disconnectLight: "url('./assets/images/disconnect-admin-light.png')",
       },
     },
   },
