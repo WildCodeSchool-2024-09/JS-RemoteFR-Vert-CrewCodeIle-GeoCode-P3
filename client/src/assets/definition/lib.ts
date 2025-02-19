@@ -35,7 +35,7 @@ export type BookingProps = {
   start_book: Date;
   end_book: Date;
   name: string;
-  adress: string;
+  address: string;
 };
 
 export type BrandProps = {
@@ -125,7 +125,7 @@ export type Station = {
   longitude: number;
 };
 
-export type Marker = {
+export type MarkerType = {
   station_id: string;
   name: string;
   address: string;
