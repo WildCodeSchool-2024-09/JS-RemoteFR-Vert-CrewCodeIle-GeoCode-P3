@@ -40,8 +40,8 @@ export default function UpdateStationsPage() {
   };
 
   return (
-    <>
-      <div className="w-[360px] lg:w-[500px] p-2.5 border flex align-center flex-col flex-1 border-gray-300 rounded shadow-md bg-[rgba(0, 0, 0, 0.1)] bg-[rgba(240,248,255,0.1)] absolute left-[50%] top-7 lg:top-40 -translate-x-1/2">
+    <section className="flex flex-col gap-4 h-screen justify-center items-center lg:justify-start lg:mt-28">
+      <div className="w-[360px] lg:w-[500px] p-2.5 border flex flex-col border-gray-300 rounded shadow-md bg-light">
         <h1 className="font-paragraph text-[18px] lg:font-paragraph lg:text-2xl ">
           Mise à jour des bornes de recharge
         </h1>
@@ -56,7 +56,7 @@ export default function UpdateStationsPage() {
           </a>
         </h2>
       </div>
-      <div className="w-[360px] lg:w-[500px] p-2.5 border border-gray-300 rounded shadow-md bg-[rgba(0, 0, 0, 0.1)] bg-[rgba(240,248,255,0.1)] absolute  left-[50%] top-48 lg:top-72 -translate-x-1/2">
+      <div className="w-[360px] lg:w-[500px] p-2.5 border border-gray-300 rounded shadow-md bg-[rgba(0, 0, 0, 0.1)] bg-light">
         <input
           className="block w-full font-paragraph text-sm lg:font-paragraph lg:text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-[#525B5A] dark:border-gray-600 dark:placeholder-gray-400"
           type="file"
@@ -64,7 +64,7 @@ export default function UpdateStationsPage() {
           onChange={handleFileChange}
         />
       </div>
-      <div className="w-72 lg:w-[500px] p-2.5 font-paragraph flex flex-row items-center absolute left-[50%] top-[120px] lg:top-[340px] -translate-x-1/2">
+      <div className="mt-10 lg:w-[500px] p-2.5 font-paragraph flex flex-row justify-center items-center">
         <PulseLoader
           color="#21A89A"
           loading={loading}
@@ -72,17 +72,15 @@ export default function UpdateStationsPage() {
           size={8}
           speedMultiplier={1}
         />
-        {message === "" ? "" : message}
+        <p className="text-center">{message === "" ? "" : message}</p>
       </div>
-      <div>
-        <button
-          type="button"
-          onClick={handleOnClick}
-          className="py-2.5 px-5 me-2 mb-2 font-paragraph text-lg font-medium text-white focus:outline-none rounded-full dark:bg-[#525B5A] absolute  left-[50%] top-[300px] lg:top-[470px] -translate-x-1/2"
-        >
-          Retour
-        </button>
-      </div>
-    </>
+      <button
+        type="button"
+        onClick={handleOnClick}
+        className="inline-block mr-2 w-1/2 lg:w-1/6 mb-2 p-1 font-paragraph border-solid border-2 text-darkColor border-darkColor rounded-lg hover:scale-105 active:bg-darkColor active:text-lightColor vsm:text-xl vsm:border-2"
+      >
+        Retour
+      </button>
+    </section>
   );
 }
