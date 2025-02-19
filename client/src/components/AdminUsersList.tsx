@@ -25,7 +25,7 @@ export default function AdminUsersList({
         <h3 className="text-center font-title py-8 text-darkColor text-lg border-r-4 border-darkColor md:py-12 lg:text-2xl">
           {data.userFirstName}
         </h3>
-        <h3 className="text-center font-title py-4 text-darkColor border-r-4 text-lg md:py-8 lg:py-12 lg:text-2xl">
+        <h3 className="text-center font-title py-4 text-darkColor text-lg md:py-8 lg:py-12 lg:text-2xl">
           {data.zipcode}
         </h3>
         <h3 className="text-center font-title py-8 break-words text-darkColor border-l-4 border-darkColor text-lg md:py-12 lg:text-2xl">
@@ -41,7 +41,7 @@ export default function AdminUsersList({
               className="border-solid font-paragraph text-center border-darkColor border-r-4 border-t-4"
               onClick={() => {
                 setAcualUser(e);
-                setIsUsersDetailsModale(true);
+                if (window.innerWidth < 1024) setIsUsersDetailsModale(true);
               }}
             >
               {e.lastName}
@@ -51,7 +51,7 @@ export default function AdminUsersList({
               className="inline border-darkColor border-r-4 border-t-4 text-center"
               onClick={() => {
                 setAcualUser(e);
-                setIsUsersDetailsModale(true);
+                if (window.innerWidth < 1024) setIsUsersDetailsModale(true);
               }}
             >
               {e.firstName}
@@ -61,7 +61,7 @@ export default function AdminUsersList({
               className="border-darkColor border-t-4"
               onClick={() => {
                 setAcualUser(e);
-                setIsUsersDetailsModale(true);
+                if (window.innerWidth < 1024) setIsUsersDetailsModale(true);
               }}
             >
               {e.city}
@@ -71,7 +71,7 @@ export default function AdminUsersList({
               className="border-darkColor border-t-4 border-l-4"
               onClick={() => {
                 setAcualUser(e);
-                setIsUsersDetailsModale(true);
+                if (window.innerWidth < 1024) setIsUsersDetailsModale(true);
               }}
             >
               {e.age}
