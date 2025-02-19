@@ -32,6 +32,7 @@ import type { costType } from "../assets/definition/lib";
 import { useAuth } from "../context/userContext";
 import distanceTo from "../services/distanceTo";
 import ModalAlert from "./ModalAlert";
+import Routing from "./Routing";
 
 /**
  *
@@ -72,6 +73,9 @@ export default function Maps({
   const lngA = selectedPosition.geometry.coordinates[0];
   const latB = markerPos.lat;
   const lngB = markerPos.lng;
+
+  const startPoint = [latB, lngB];
+  const endPoint = [latA, lngA];
 
   // calculate the distance between the user's position and the selected station
   const dist = distanceTo(latA, lngA, latB, lngB);
@@ -198,6 +202,7 @@ export default function Maps({
             )}
         </MarkerClusterGroup>
         <LocationUser selectedPosition={selectedPosition} />
+        <Routing startPoint={startPoint} endPoint={endPoint} />
       </MapContainer>
       <ModaleContact
         showContactModale={showContactModale}
