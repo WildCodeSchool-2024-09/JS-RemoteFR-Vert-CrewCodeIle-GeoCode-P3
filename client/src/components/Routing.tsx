@@ -16,10 +16,13 @@ const Routing = ({
     if (startPoint != null && endPoint != null) {
       // Create a routing control and add it to the map
       const routingControl = L.Routing.control({
+        // @ts-ignore
+        createMarker: () => null,
         waypoints: [
           L.latLng(startPoint[0], startPoint[1]),
           L.latLng(endPoint[0], endPoint[1]),
         ],
+
         routeWhileDragging: false,
         addWaypoints: false,
         lineOptions: {
