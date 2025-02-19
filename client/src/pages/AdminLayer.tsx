@@ -28,8 +28,37 @@ export default function AdminLayer() {
       });
   }, [navigate]);
 
+  // disconnect button
+  const handleDisconnect = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
+
+      if (response.ok) {
+        navigate("/");
+      }
+    } catch (err) {
+      toast.error("une erreur est survenue.");
+    }
+  };
+
   return (
-    <>
+    <main className="bg-lightColor">
+      <nav className="flex justify-between p-2">
+        <h2 className="py-4 text-xl font-title text-center text-darkColor vsm:text-3xl md:text-4xl md:text-left md:ml-4">
+          Bonjour Admin
+        </h2>
+        <button
+          type="button"
+          className="bg-disconnectDark bg-contain py-4 px-3.5 w-16 h-16 border-darkColor border-2 rounded-lg active:bg-darkColor active:bg-disconnectLight"
+          onClick={handleDisconnect}
+        />
+      </nav>
       <Outlet />
       <ToastContainer
         position="top-center"
@@ -44,6 +73,6 @@ export default function AdminLayer() {
         theme="light"
         transition={Bounce}
       />
-    </>
+    </main>
   );
 }

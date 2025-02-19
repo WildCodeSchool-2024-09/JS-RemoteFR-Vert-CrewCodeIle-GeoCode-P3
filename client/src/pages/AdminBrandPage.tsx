@@ -283,7 +283,7 @@ export default function AdminAddBrandPage() {
         ))}
         <button
           type="button"
-          className={`fixed z-10 right-2 top-2 text-center bg-interestColor w-1/3 h-10 font-paragraph text-lightColor rounded-lg hover:scale-105 active:bg-accentColor active:text-darkColor vsm:text-xl ${isAddCarModale || isDeleteCarModale ? "hidden" : "inline"}`}
+          className={`fixed z-10 bottom-2 right-1/2 translate-x-1/2 text-center bg-interestColor w-1/3 h-10 font-paragraph text-lightColor rounded-lg hover:scale-105 active:bg-accentColor active:text-darkColor vsm:text-xl ${isAddCarModale || isDeleteCarModale ? "hidden" : "inline"}`}
           onClick={() => {
             setIsAddCarModale(!isAddCarModale);
             window.scrollTo({
