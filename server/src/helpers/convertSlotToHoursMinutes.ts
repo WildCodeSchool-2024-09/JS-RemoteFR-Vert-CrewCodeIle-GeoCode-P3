@@ -1,13 +1,15 @@
-export default function convertSlotToHoursMinutes(slot: number) {
+export default function convertSlotToHoursMinutes(
+  slot: number,
+  slotDuration: number,
+) {
   const newSartSlot = new Date();
   const newEndSlot = new Date();
 
-  const totalMinutes = slot * 30;
+  const totalMinutes = slot * slotDuration;
   const slotHours = Math.floor(totalMinutes / 60);
   const slotMinutes = totalMinutes % 60;
-  newSartSlot.setUTCHours(slotHours, slotMinutes);
-
-  newEndSlot.setUTCHours(slotHours, slotMinutes + 30);
+  newSartSlot.setHours(slotHours, slotMinutes);
+  newEndSlot.setHours(slotHours, slotMinutes + slotDuration);
 
   return [newSartSlot, newEndSlot];
 }

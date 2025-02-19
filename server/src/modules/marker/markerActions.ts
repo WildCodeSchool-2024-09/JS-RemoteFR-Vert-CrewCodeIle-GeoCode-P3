@@ -3,10 +3,7 @@ import markerRepository from "./markerRepository";
 
 const readCost: RequestHandler = async (req, res, next) => {
   try {
-    console.info("cost: ");
     const costValue = await markerRepository.browseAll();
-
-    console.info("cost", costValue);
 
     if (costValue == null) {
       res.sendStatus(404);
