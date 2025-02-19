@@ -64,7 +64,7 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
             className="fixed inset-0 backdrop-blur-sm"
             type="button"
           />
-          <fieldset className="text-center font-paragraph bg-lightColor w-2/3 my-12 rounded-2xl absolute top-1/3 -translate-y-1/2 left-1/2 -translate-x-1/2 z-[2000] md:w-2/3 lg:w-1/3 xl:top-1/2 xl:left-64">
+          <fieldset className="text-center font-paragraph bg-lightColor w-2/3 my-12 rounded-2xl absolute top-1/3 -translate-y-1/2 left-1/2 -translate-x-1/2 z-[2000] md:w-2/3 lg:w-1/3 xl:top-1/2 xl:left-64 2xl:left-96 2xl:top-1/2">
             <h2 className="pt-4 text-interestColor font-bold text-2xl  ">
               Login
             </h2>

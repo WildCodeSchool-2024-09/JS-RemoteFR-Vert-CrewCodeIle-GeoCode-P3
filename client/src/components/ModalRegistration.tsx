@@ -53,7 +53,7 @@ export default function ModalRegistration({
   } = useForm<UserProps>();
 
   return (
-    <section className="overflow-auto inset-0 absolute">
+    <section className="absolute inset-0 overflow-auto">
       {showVehiculeModal &&
         createPortal(
           <ModalVehiculeRegistration
@@ -68,15 +68,15 @@ export default function ModalRegistration({
         className="fixed inset-0 backdrop-blur-sm"
       />
       <fieldset
-        className={`text-center font-paragraph bg-lightColor w-2/3 my-12 rounded-2xl absolute top-0 left-7 z-[9500] md:w-2/3 lg:w-1/3 xl:top-28 xl:left-7 ${openRegisterModal ? "animate-openModal" : "animate-closeModal"} ${showVehiculeModal ? "opacity-0" : "opacity-100"} `}
+        className={`py-8 text-center font-paragraph bg-lightColor my-12 rounded-2xl absolute top-96 -translate-y-1/2 left-1/2 -translate-x-1/2 z-[9008] w-11/12 md:w-2/3 lg:w-1/3 xl:top-2/3 xl:left-64 2xl:left-96 2xl:top-1/2 transition-all duration-1000 ${openRegisterModal ? "opacity-0" : "opacity-100"} ${showVehiculeModal ? "opacity-0" : "opacity-100"} `}
       >
-        <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
+        <h2 className="pt-4  text-interestColor font-bold">INSCRIPTION</h2>
 
         <form
-          className=" text-left space-y-3 border flex flex-col font-bold p-3 rounded-xl z-[10000] "
+          className=" text-left space-y-3 border font-bold p-3 rounded-xl z-[10000]"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <h3 className="text-interestColor text-center font-normal">
+          <h3 className="text-interestColor text-center font-normal mb-4">
             Informations personnelles
           </h3>
           <label className="inline-block w-full font-paragraph">
@@ -192,7 +192,7 @@ export default function ModalRegistration({
             />
             <p className="text-red-800">{errors.password?.message}</p>
           </label>
-          <label className="inline-block w-full font-paragraph">
+          <label className="inline-block w-full font-paragraph ">
             Confirmation du mot de passe*
             <input
               className="border w-full rounded-md font-normal font-paragraph"
@@ -206,10 +206,10 @@ export default function ModalRegistration({
                 },
               })}
             />
-            <p className="text-red-800">{errors.confirm?.message}</p>
+            <p className="text-red-800 mb-8">{errors.confirm?.message}</p>
           </label>
           <button
-            className="border-interestColor mx-20 border px-6 rounded-3xl bg-interestColor text-white py-1"
+            className="border-interestColor w-full border px-6 rounded-3xl bg-interestColor text-white py-1"
             type="submit"
           >
             Suivant
