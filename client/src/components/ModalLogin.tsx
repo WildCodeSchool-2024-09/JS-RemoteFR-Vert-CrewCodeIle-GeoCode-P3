@@ -48,7 +48,7 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
   };
 
   return (
-    <>
+    <section className="border-12 border-blue-500">
       {openRegisterModal &&
         createPortal(
           <ModalRegistration
@@ -64,13 +64,13 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
             className="fixed inset-0 backdrop-blur-sm"
             type="button"
           />
-          <fieldset className="text-center font-paragraph  bg-lightColor w-64 mx-auto my-12 rounded-2xl absolute top-0 left-6 z-[2000] md:w-56 lg:w-36 lg:top-40 ] ">
+          <fieldset className="text-center font-paragraph bg-lightColor w-2/3 my-12 rounded-2xl absolute top-1/3 -translate-y-1/2 left-1/2 -translate-x-1/2 z-[2000] md:w-2/3 lg:w-1/3 xl:top-1/2 xl:left-64">
             <h2 className="pt-4 text-interestColor font-bold text-2xl  ">
               Login
             </h2>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className=" text-left space-y-3 border  font-bold p-3 rounded-xl z-[10000] "
+              className=" text-left space-y-3 border flex flex-col font-bold p-3 rounded-xl z-[10000] "
             >
               <label className="inline-block w-full font-paragraph">
                 Email* :
@@ -107,12 +107,12 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
               <button
                 onClick={handleClickRegister}
                 type="button"
-                className="font-normal text-sm w-[80vw]"
+                className="font-normal text-sm"
               >
                 Vous n'avez pas encore de compte ?
               </button>
               <button
-                className="border-interestColor translate-x-1/2 border px-6  rounded-3xl bg-interestColor text-white py-1"
+                className="border-interestColor border px-6 rounded-3xl bg-interestColor text-white py-1"
                 type="submit"
               >
                 Se connecter
@@ -121,6 +121,6 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
           </fieldset>
         </>
       )}
-    </>
+    </section>
   );
 }

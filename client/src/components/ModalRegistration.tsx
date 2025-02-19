@@ -53,7 +53,7 @@ export default function ModalRegistration({
   } = useForm<UserProps>();
 
   return (
-    <>
+    <section className="overflow-auto inset-0 absolute">
       {showVehiculeModal &&
         createPortal(
           <ModalVehiculeRegistration
@@ -68,12 +68,12 @@ export default function ModalRegistration({
         className="fixed inset-0 backdrop-blur-sm"
       />
       <fieldset
-        className={` text-center font-paragraph bg-lightColor w-5/6 mx-auto my-12 rounded-2xl absolute top-0 left-7  z-[9500] lg:w-36 lg:top-40 ${openRegisterModal ? "animate-openModal" : "animate-closeModal"} ${showVehiculeModal ? "opacity-0" : "opacity-100"} `}
+        className={`text-center font-paragraph bg-lightColor w-2/3 my-12 rounded-2xl absolute top-0 left-7 z-[9500] md:w-2/3 lg:w-1/3 xl:top-28 xl:left-7 ${openRegisterModal ? "animate-openModal" : "animate-closeModal"} ${showVehiculeModal ? "opacity-0" : "opacity-100"} `}
       >
         <h2 className="pt-4 text-interestColor font-bold">INSCRIPTION</h2>
 
         <form
-          className=" text-left space-y-3 border  font-bold p-3 rounded-xl z-[10000] "
+          className=" text-left space-y-3 border flex flex-col font-bold p-3 rounded-xl z-[10000] "
           onSubmit={handleSubmit(onSubmit)}
         >
           <h3 className="text-interestColor text-center font-normal">
@@ -209,13 +209,13 @@ export default function ModalRegistration({
             <p className="text-red-800">{errors.confirm?.message}</p>
           </label>
           <button
-            className="border-interestColor mx-20 border px-6  rounded-3xl bg-interestColor text-white py-1"
+            className="border-interestColor mx-20 border px-6 rounded-3xl bg-interestColor text-white py-1"
             type="submit"
           >
             Suivant
           </button>
         </form>
       </fieldset>
-    </>
+    </section>
   );
 }

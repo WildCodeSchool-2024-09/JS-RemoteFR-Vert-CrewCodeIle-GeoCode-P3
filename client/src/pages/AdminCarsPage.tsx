@@ -12,7 +12,7 @@ export default function AdminVehiclePage() {
   return (
     <>
       <main
-        className={`h-fit w-full p-2 xl:p-4 ${isDeleteCarModale || isAddCarModale ? "bg-opacity-30 bg-black" : "bg-lightColor"}`}
+        className={`h-fit w-screen p-2 xl:p-4 ${isDeleteCarModale || isAddCarModale ? "bg-opacity-30 bg-black" : "bg-lightColor"}`}
       >
         <nav>
           <Link
