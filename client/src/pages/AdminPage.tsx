@@ -46,7 +46,7 @@ export default function AdminPage() {
     },
     {
       id: 4,
-      name: "Marques, modèles et prises",
+      name: "Véhicules",
       icon: carIcon,
       iconDark: carIconDark,
       link: "/admin/cars/brand-model",
@@ -78,9 +78,6 @@ export default function AdminPage() {
 
   return (
     <article className="bg-lightColor h-[100vh] w-full absolute z-[1040] grid grid-cols-2 items-center pb-4">
-      <h2 className="py-4 text-xl font-title text-center text-darkColor vsm:text-3xl md:text-4xl md:text-left md:ml-4">
-        Bonjour Admin
-      </h2>
       <section className="bg-lightColor pb-3 w-full h-[80vh] col-span-2 flex flex-col gap-3 items-center md:grid md:grid-cols-3 md:grid-rows-3 md:p-4 md:gap-4">
         {adminData.map((e) => (
           <Link
