@@ -42,6 +42,12 @@ export default function ModalUserVehicule({
   const [primaryCar, setPrimaryCar] = useState<number | undefined>();
   const [vehiculeId, setVehiculeId] = useState<number | undefined>(primaryCar);
 
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/user/${id}`)
+      .then((res) => res.json())
+      .then((data) => setPrimaryCar(data.id));
+  }, [id]);
+
   const onSubmit: SubmitHandler<VehiculeProps> = async (dataVehicule) => {
     const carId = vehiculeId;
     const userVehiculeInfo = { ...dataVehicule, carId: carId };
@@ -73,7 +79,6 @@ export default function ModalUserVehicule({
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          // Authorization : `Bearer ${auth.token}
         },
         body: JSON.stringify(dataVehicule),
       },
@@ -87,12 +92,6 @@ export default function ModalUserVehicule({
       toast.warning(data.message);
     }
   };
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`)
-      .then((res) => res.json())
-      .then((data) => setPrimaryCar(data));
-  }, [id]);
 
   useEffect(() => {
     if (primaryCar !== undefined) {
@@ -119,20 +118,24 @@ export default function ModalUserVehicule({
   const idSocket = watch("model");
 
   // Fetch brand from DB & stock them with state
-  const [dataBrand, setDatabrand] = useState<BrandProps[]>();
+  const [dataBrand, setDatabrand] = useState<BrandProps[]>([]);
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/register`).then((res) =>
-      res.json().then((data: ModelProps[]) => setDatabrand(data)),
-    );
+    fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data: BrandProps[]) => setDatabrand(data));
   }, []);
 
   // Fetch model from DB where model_id = brand(id) & stock model with state
   const [dataModel, setDataModel] = useState<ModelProps[]>();
   useEffect(() => {
     if (idBrand) {
-      fetch(`${import.meta.env.VITE_API_URL}/api/register/${idBrand}`).then(
-        (res) => res.json().then((data: ModelProps[]) => setDataModel(data)),
-      );
+      fetch(`${import.meta.env.VITE_API_URL}/api/register/${idBrand}`, {
+        headers: { "Content-type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data: ModelProps[]) => setDataModel(data));
     }
   }, [idBrand]);
 
@@ -140,11 +143,11 @@ export default function ModalUserVehicule({
   const [dataSocket, setDataSocket] = useState<SocketProps>();
   useEffect(() => {
     if (idSocket) {
-      fetch(
-        `${import.meta.env.VITE_API_URL}/api/register/socket/${idSocket}`,
-      ).then((res) =>
-        res.json().then((data: SocketProps) => setDataSocket(data)),
-      );
+      fetch(`${import.meta.env.VITE_API_URL}/api/register/socket/${idSocket}`, {
+        headers: { "Content-type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data: SocketProps) => setDataSocket(data));
     }
   }, [idSocket]);
 
@@ -162,7 +165,7 @@ export default function ModalUserVehicule({
         onClick={closeModal}
       />
       <section
-        className={` overflow-hidden  h-[80vh] rounded-xl sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4  ${
+        className={` overflow-hidden  h-[80vh] rounded-xl sm:pb-8 sm:w-4/6 sm:h-3/4 md:h-3/4 md:translate-x-1/4 lg:h-3/4 xl:top-auto xl:translate-x-8 xl:bottom-2 xl:h-3/4 2xl:w-1/4 xl:text-2xl ${
           vehiculeInfo ? "animate-closeModal" : "animate-openModal"
         } absolute bottom-0 bg-lightColor w-full z-[999]`}
       >
@@ -172,7 +175,7 @@ export default function ModalUserVehicule({
             type="button"
             className="relative group "
           >
-            <div className="ml-6 mt-4 relative flex overflow-hidden items-center justify-center rounded-2xl w-[50px] h-[50px]  bg-interestColor lg:h-24 lg:w-24 xl:w-[50px] xl:h-[50px]">
+            <div className="ml-6 mt-4 relative flex overflow-hidden items-center justify-center rounded-2xl w-[50px] h-[50px]  bg-interestColor lg:h-24 lg:w-24 xl:w-[50px] xl:h-[50px] ">
               <div className="flex flex-col justify-between w-[20px] h-[20px]  origin-center overflow-hidden lg:w-12 xl:w-[20px] xl:h-[20px] ">
                 <div
                   className={`bg-lightColor h-[2px] w-7 lg:w-12 xl:h-[2px] ${openBurgerMenu ? "transform transition-all duration-300 origin-left group-focus:rotate-[42deg]" : "transform transition-all duration-300 origin-left group-focus:rotate[42deg]"}  `}
@@ -218,15 +221,15 @@ export default function ModalUserVehicule({
                 ? handleSubmit(onSubmitNewVehicule)
                 : handleSubmit(onSubmit)
             }
-            className="font-paragraph grid grid-cols-2  xl:w-96 xl:mx-auto xl:mt-20 "
+            className="font-paragraph grid grid-cols-2  xl:w-80 xl:mx-auto xl:mt-20 xl:gap-8 "
           >
             <label
               htmlFor="brand"
-              className="my-4 text-interestColor  text-xl "
+              className="my-4 text-interestColor  text-xl xl:text-2xl"
             >
               Marque
             </label>
-            <div className="relative top-5 xl:w-40">
+            <div className="relative top-5 xl:w-36">
               <input
                 className="inline-block bg-inherit xl:w-40"
                 type="text"
@@ -250,10 +253,13 @@ export default function ModalUserVehicule({
                 </select>
               )}
             </div>
-            <label htmlFor="model" className="my-4 text-interestColor text-xl">
+            <label
+              htmlFor="model"
+              className="my-4 text-interestColor text-xl xl:text-2xl"
+            >
               Modèle
             </label>
-            <div className="relative top-5 xl:w-40">
+            <div className="relative top-5 xl:w-36">
               <input
                 className="inline-block bg-inherit xl:w-40 "
                 type="text"
@@ -277,10 +283,13 @@ export default function ModalUserVehicule({
                 </select>
               )}
             </div>
-            <label htmlFor="socket" className="my-4 text-interestColor text-xl">
+            <label
+              htmlFor="socket"
+              className="my-4 text-interestColor text-xl xl:text-2xl "
+            >
               Prise
             </label>
-            <div className="relative top-5 xl:w-40">
+            <div className="relative top-5 xl:w-36">
               <input
                 className="inline-block bg-inherit xl:w-40"
                 type="text"
@@ -302,7 +311,7 @@ export default function ModalUserVehicule({
             </div>
             {editVehicule && (
               <button
-                className="border-interestColor w-fit mx-[14vh] border px-6 mt-2 rounded-3xl bg-interestColor text-white py-1"
+                className="border-interestColor w-fit mx-[14vh] border px-6 mt-2 rounded-3xl bg-interestColor text-white py-1 xl:relative xl:right-12 xl:top-4"
                 type="submit"
               >
                 Modifier
@@ -310,7 +319,7 @@ export default function ModalUserVehicule({
             )}
             {addVehicule && (
               <button
-                className="border-interestColor w-fit mx-[14vh] border px-6 mt-2 rounded-3xl bg-interestColor text-white py-1"
+                className="border-interestColor w-fit mx-[14vh] border px-6 mt-2 rounded-3xl bg-interestColor text-white py-1 xl:relative xl:right-12 xl:top-4"
                 type="submit"
               >
                 Ajouter

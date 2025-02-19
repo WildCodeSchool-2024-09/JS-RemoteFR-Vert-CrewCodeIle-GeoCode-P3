@@ -9,24 +9,23 @@ import databaseClient, {
 
 class VehiculeRepository {
   async readUserVehicule(userId: number, vehiculeId: number) {
-    const [rows] = await databaseClient.query(
+    const [rows] = await databaseClient.query<Rows>(
       `SELECT b.label AS brand, m.label AS model, s.label AS socket
             FROM user_car AS u
             JOIN car AS c ON c.id = u.car_id
             JOIN brand AS b ON b.id = c.brand_id
             JOIN model AS m ON m.id = c.model_id
             JOIN socket AS s ON s.id = c.socket_id
-            WHERE user_id = ?
-            AND c.id = ?;
-
+            WHERE u.user_id = ?
+            AND c.id = ?
         `,
       [userId, vehiculeId],
     );
     return rows as UserVehiculeProps[];
   }
   async readPrimaryCar(userId: number) {
-    const [rows] = await databaseClient.query(
-      `SELECT b.label AS brand, m.label AS model, s.label AS socket
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT c.id, b.label AS brand, m.label AS model, s.label AS socket
             FROM user_car AS u
             JOIN car AS c ON c.id = u.car_id
             JOIN brand AS b ON b.id = c.brand_id
@@ -36,7 +35,7 @@ class VehiculeRepository {
         `,
       [userId],
     );
-    return rows as UserVehiculeProps[];
+    return rows[0] as UserVehiculeProps;
   }
 
   async updateUserVehicule(
@@ -71,13 +70,14 @@ class VehiculeRepository {
   async readUserByEmail(userMail: string) {
     const [rows] = await databaseClient.query<Rows>(
       `
-      SELECT id
-      FROM user
+      SELECT u.id
+      FROM user AS u
       WHERE email = ?
       `,
       [userMail],
     );
-    return rows[0].id;
+
+    return rows[0];
   }
 
   async createNewUserCar(userId: number, carId: number) {
