@@ -51,7 +51,6 @@ export default function ModalUserVehicule({
   const onSubmit: SubmitHandler<VehiculeProps> = async (dataVehicule) => {
     const carId = vehiculeId;
     const userVehiculeInfo = { ...dataVehicule, carId: carId };
-    console.info(dataVehicule.model);
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/vehicule/update/${id}`,
       {
