@@ -92,7 +92,7 @@ export default function Search(majPosition: {
   };
   return (
     <>
-      <div className="w-72 lg:w-[500px] p-2.5 border border-gray-300 rounded shadow-md bg-[rgba(0, 0, 0, 0.1)] bg-[rgba(240,248,255,0.1)] absolute z-[9000] left-[50%] top-2 lg:top-36 -translate-x-1/2">
+      <div className="w-72 lg:w-[500px] p-2.5 border border-gray-300 rounded shadow-md bg-[rgba(0, 0, 0, 0.1)] bg-[rgba(240,248,255,0.1)] absolute z-[9000] left-[40%] lg:left-[50%] top-1 lg:top-36 -translate-x-1/2">
         <input
           type="search"
           value={query}
@@ -105,7 +105,7 @@ export default function Search(majPosition: {
           {query.length > 2 &&
             resultsApi?.map((item) => (
               <li
-                className="py-2.5 w-[260px] lg:w-[478px] border-b-solid border-b-gray-300 cursor-pointer relative z-[1000] bg-white hover:bg-[#E5E9E7] border-b last:border-b-0"
+                className="px-3 py-2.5 w-[260px] lg:w-[478px] border-b-solid border-b-gray-300 cursor-pointer relative z-[1000] bg-white hover:bg-[#E5E9E7] border-b last:border-b-0"
                 key={item.toString()}
                 onClick={() => handleElementClick(item)}
                 onKeyUp={handleKeyUp}
