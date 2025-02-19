@@ -25,7 +25,6 @@ export default function ModalBooking({
   }, [id]);
 
   const deleteBooking = async (bookId: number) => {
-    console.info(bookId);
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/profile/book/${bookId}`,
       {

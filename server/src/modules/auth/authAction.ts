@@ -43,7 +43,6 @@ export const checkAuth: RequestHandler = async (req, res, next) => {
     }
 
     const decodeJwt = jwt.decode(token) as JwtPayload;
-    console.info(decodeJwt);
 
     if (decodeJwt.email) {
       const email = decodeJwt.email;
