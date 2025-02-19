@@ -112,11 +112,6 @@ export default function AdminContact() {
             setActualMessage={setActualMessage}
             usersMessages={usersMessages}
           />
-          {usersMessages.length === 0 && (
-            <p className="text-center pt-4 font-paragraph text-darkColor text-xl">
-              {data.noMessage}
-            </p>
-          )}
           <AdminContactMessages
             handleSwitchIsTreated={handleSwitchIsTreated}
             isContactMessagesModale={isContactMessagesModale}

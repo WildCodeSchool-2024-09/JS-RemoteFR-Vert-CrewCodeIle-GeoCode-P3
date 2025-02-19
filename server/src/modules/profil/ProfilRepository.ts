@@ -16,7 +16,10 @@ class ProfilRepository {
   }
 
   async UpdateUserInfo(
-    user: Omit<UserProps, "id" | "password" | "confirm" | "dbpassword">,
+    user: Omit<
+      UserProps,
+      "id" | "password" | "confirm" | "dbpassword" | "role"
+    >,
   ) {
     const [result] = await databaseClient.query<Result>(
       `UPDATE user
@@ -38,10 +41,9 @@ class ProfilRepository {
 
   async ReadBooking(id: string) {
     const [rows] = await databaseClient.query(
-      `SELECT start_book b, end_book b, name s, address s
+      `SELECT b.id, b.start_book, b.end_book, s.name, s.address
       FROM book AS b
-      JOIN terminal AS t ON t.id = b.terminal_id
-      JOIN station AS s ON s.id_station = t.station_id
+      JOIN station AS s ON s.id_station = b.station_id
       JOIN user AS u ON u.id = b.user_id
       WHERE u.email = ?;`,
       [id],

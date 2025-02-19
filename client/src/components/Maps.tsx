@@ -54,7 +54,7 @@ export default function Maps({
   setShowContactModale: ContactModaleProps["setShowContactModale"];
 }) {
   const { userInfo } = useAuth();
-  const userId = userInfo?.email;
+  const userId = userInfo;
 
   // default map centering position
   const position = { lat: 48.8566, lng: 2.3522 };

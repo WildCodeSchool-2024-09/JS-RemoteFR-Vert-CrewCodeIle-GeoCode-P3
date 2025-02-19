@@ -22,6 +22,7 @@ export type UserProps = {
   password: string;
   confirm: string;
   dbpassword: string;
+  role: string;
 };
 
 export type ProfilModalProps = {
@@ -34,7 +35,7 @@ export type BookingProps = {
   start_book: Date;
   end_book: Date;
   name: string;
-  adress: string;
+  address: string;
 };
 
 export type BrandProps = {

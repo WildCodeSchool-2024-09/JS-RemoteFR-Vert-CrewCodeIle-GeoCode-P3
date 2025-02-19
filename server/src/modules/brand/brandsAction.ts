@@ -18,7 +18,7 @@ const add: RequestHandler = async (req, res, next) => {
     const newVehicle = req.body;
     const insertId = await BrandsRepository.create(newVehicle);
 
-    res.sendStatus(201);
+    res.status(201).json(insertId);
   } catch (err) {
     next(err);
   }
@@ -27,7 +27,6 @@ const add: RequestHandler = async (req, res, next) => {
 const destroy: RequestHandler = async (req, res, next) => {
   try {
     const vehicle = req.body;
-
     await BrandsRepository.deleteVehicle(vehicle);
     res.sendStatus(204);
   } catch (err) {
