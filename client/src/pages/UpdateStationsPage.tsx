@@ -64,7 +64,7 @@ export default function UpdateStationsPage() {
           onChange={handleFileChange}
         />
       </div>
-      <div className="w-72 mt-10 lg:w-[500px] p-2.5 font-paragraph flex flex-row items-center">
+      <div className="mt-10 lg:w-[500px] p-2.5 font-paragraph flex flex-row justify-center items-center">
         <PulseLoader
           color="#21A89A"
           loading={loading}
@@ -72,7 +72,7 @@ export default function UpdateStationsPage() {
           size={8}
           speedMultiplier={1}
         />
-        {message === "" ? "" : message}
+        <p className="text-center">{message === "" ? "" : message}</p>
       </div>
       <button
         type="button"
