@@ -125,7 +125,7 @@ export type Station = {
   longitude: number;
 };
 
-export type Marker = {
+export type MarkerType = {
   station_id: string;
   name: string;
   address: string;

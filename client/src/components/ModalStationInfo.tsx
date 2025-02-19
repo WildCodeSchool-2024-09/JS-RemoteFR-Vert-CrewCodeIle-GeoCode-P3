@@ -1,7 +1,8 @@
 import { type MouseEventHandler, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-import type { Marker } from "../assets/definition/lib";
+import type { MarkerType } from "../assets/definition/lib";
+import ShowInfoStation from "./ShowInfoStation";
 
 export default function ModalStationInfo({
   onClose,
@@ -14,14 +15,14 @@ export default function ModalStationInfo({
   stationId: string;
   distance: number;
 }) {
-  const [findStation, setFindStation] = useState<Marker[]>();
+  const [findStation, setFindStation] = useState<MarkerType[]>();
   const id = stationId;
 
-  // loading stations from database
+  // retrieving information from the selected station
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/admin/marker/${id}`)
       .then((response) => response.json())
-      .then((data: Marker[]) => {
+      .then((data: MarkerType[]) => {
         if (data !== null) {
           setFindStation(data);
         } else {
@@ -34,35 +35,21 @@ export default function ModalStationInfo({
   }, [id]);
 
   return (
-    <div className="w-full flex flex-col shadow-md bg-gray-50 border border-gray-600 rounded-lg absolute lg:w-[360px] top-[40%] lg:left-10 lg:bottom-10 bottom-20 z-[3000]">
-      <div className="m-10">
-        <h1 className="lg:font-paragraph lg:text-2xl ">
-          {findStation?.[0].name}
-        </h1>
-        <h2 className="">{findStation?.[0].address}</h2>
-        <h2>Distance : {distance} km.</h2>
-        <br />
-        <h2>Puissance de charge :</h2>
-        <ul>
-          {findStation?.map((m) => (
-            <li key={m.power}>
-              {" "}
-              {m.power} Kwh (x{m.nb_power})
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="flex flex-row justify-center absolute inset-x-0 bottom-2 ">
+    <div className="w-full flex flex-col justify-between bg-gray-50 border border-gray-600 rounded-lg absolute lg:w-[360px] lg:left-10 lg:bottom-10 bottom-0 z-[3000]">
+      {/* display station information here */}
+      <ShowInfoStation findStation={findStation} distance={distance} />
+
+      <div className="flex justify-center">
         <button
           type="button"
-          className="bg-accentColor text-white px-2 py-1 rounded m-2"
+          className="bg-interestColor 1 font-bold  text-white px-8 py-2 rounded-3xl m-4"
           onClick={onClose}
         >
           Annuler
         </button>
         <button
           type="button"
-          className="bg-accentColor text-white px-2 py-1 rounded m-2"
+          className="bg-interestColor 1 font-bold  text-white px-8 py-2 rounded-3xl m-4"
           onClick={onBook}
         >
           Reserver
