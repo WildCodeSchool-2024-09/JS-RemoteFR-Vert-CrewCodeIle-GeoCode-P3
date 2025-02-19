@@ -210,7 +210,7 @@ export default function AdminAddBrandPage() {
   };
 
   return (
-    <main className="overflow-y-auto pb-8 flex h-[100vh] flex-col w-full gap-2 items-center lg:border-darkColor">
+    <main className="overflow-auto pb-8 flex h-[100vh] flex-col w-full gap-2 items-center lg:border-darkColor">
       <h2 className="text-2xl text-center mb-2 font-title text-darkColor mt-4 lg:text-4xl">
         {data.adminListModelBrand}
       </h2>

@@ -48,7 +48,7 @@ export default function ModalLogin({ closeModal }: { closeModal: () => void }) {
   };
 
   return (
-    <section className="border-12 border-blue-500">
+    <section>
       {openRegisterModal &&
         createPortal(
           <ModalRegistration
