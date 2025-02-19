@@ -20,10 +20,12 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
 };
 const readPrimaryUserCar: RequestHandler = async (req, res, next) => {
   try {
-    const userMail: string = req.body.email;
+    const userMail = req.params.id;
     const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
     console.info(userMail);
+    console.info(UserId);
+
     const vehiculeInfo: UserVehiculeProps =
       await VehiculeRepository.readPrimaryCar(UserId.id);
     if (vehiculeInfo) {

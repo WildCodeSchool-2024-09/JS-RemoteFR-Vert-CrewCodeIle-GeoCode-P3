@@ -36,7 +36,7 @@ export default function ModalUserVehicule({
 
   useEffect(() => {
     console.info(id);
-    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/user/${id}`)
       .then((res) => res.json())
       .then((data) => setPrimaryCar(data));
   }, [id]);
