@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import type { BookingProps } from "../assets/definition/lib";
+import { formatedDAte } from "../assets/helpers/formatedDate";
 import { useAuth } from "../context/userContext";
 
 export default function ModalBooking({
@@ -24,6 +25,7 @@ export default function ModalBooking({
   }, [id]);
 
   const deleteBooking = async (bookId: number) => {
+    console.info(bookId);
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/profile/book/${bookId}`,
       {
@@ -54,12 +56,12 @@ export default function ModalBooking({
             (booking.length > 0 ? (
               booking.map((m) => (
                 <tr className="border-2 border-interestColor " key={m.id}>
-                  <td className="border-2 border-interestColor ">{m.name}</td>,
-                  <td>{m.adress}</td>,
+                  <td className="border-2 border-interestColor ">{m.name}</td>
+                  <td>{m.address}</td>
                   <td className="border-2 border-interestColor ">
-                    {m.start_book.toString()}
+                    {formatedDAte(m.start_book)}
                   </td>
-                  ,<td>{m.end_book.toString()}</td>
+                  <td>{formatedDAte(m.end_book)}</td>
                   <td>
                     <button
                       type="button"

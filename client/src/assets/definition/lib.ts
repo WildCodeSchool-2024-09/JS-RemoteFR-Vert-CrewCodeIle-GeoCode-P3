@@ -35,7 +35,7 @@ export type BookingProps = {
   start_book: Date;
   end_book: Date;
   name: string;
-  adress: string;
+  address: string;
 };
 
 export type BrandProps = {
