@@ -36,7 +36,6 @@ export default function ModalVehiculeRegistration({
       .then((response) => response.json())
       .then(() => {
         localStorage.removeItem("userId");
-        console.info(userData);
       })
       .catch((err) => console.error(err));
     setShowValidateModal(true);
