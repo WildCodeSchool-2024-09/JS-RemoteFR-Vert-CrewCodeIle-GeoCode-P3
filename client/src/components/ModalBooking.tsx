@@ -85,7 +85,7 @@ export default function ModalBooking({
                     <button
                       type="button"
                       onClick={closeModal}
-                      className="fixed  border border-interestColor w-fit mx-auto h-fit  rounded-3xl bg-interestColor text-white py-1 px-2 md:translate-x-[9vw] lg:translate-x-[16vw] lg:text-4xl xl:translate-x-[3vw]"
+                      className="fixed  border border-interestColor left-[45vw] w-fit mx-auto h-fit  rounded-3xl bg-interestColor text-white py-1 px-2 md:translate-x-[9vw] lg:translate-x-[16vw] lg:text-2xl xl:translate-x-[3vw] xl:left-[8vw]"
                     >
                       Ok
                     </button>
