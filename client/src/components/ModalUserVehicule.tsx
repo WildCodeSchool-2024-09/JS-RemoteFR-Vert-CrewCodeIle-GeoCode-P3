@@ -34,13 +34,6 @@ export default function ModalUserVehicule({
     setOpenBurgerMenu(!openBurgerMenu);
   };
 
-  useEffect(() => {
-    console.info(id);
-    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/user/${id}`)
-      .then((res) => res.json())
-      .then((data) => setPrimaryCar(data));
-  }, [id]);
-
   const handleClickAdd = () => {
     setFormVehicule(!formVehicule);
     setAddVehicule(!addVehicule);
@@ -49,9 +42,16 @@ export default function ModalUserVehicule({
   const [primaryCar, setPrimaryCar] = useState<number | undefined>();
   const [vehiculeId, setVehiculeId] = useState<number | undefined>(primaryCar);
 
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicule/user/${id}`)
+      .then((res) => res.json())
+      .then((data) => setPrimaryCar(data.id));
+  }, [id]);
+
   const onSubmit: SubmitHandler<VehiculeProps> = async (dataVehicule) => {
     const carId = vehiculeId;
     const userVehiculeInfo = { ...dataVehicule, carId: carId };
+    console.info(dataVehicule.model);
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/vehicule/update/${id}`,
       {
@@ -119,20 +119,20 @@ export default function ModalUserVehicule({
   const idSocket = watch("model");
 
   // Fetch brand from DB & stock them with state
-  const [dataBrand, setDatabrand] = useState<BrandProps[]>();
+  const [dataBrand, setDatabrand] = useState<BrandProps[]>([]);
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/register`).then((res) =>
-      res.json().then((data: ModelProps[]) => setDatabrand(data)),
-    );
+    fetch(`${import.meta.env.VITE_API_URL}/api/register`)
+      .then((res) => res.json())
+      .then((data: BrandProps[]) => setDatabrand(data));
   }, []);
 
   // Fetch model from DB where model_id = brand(id) & stock model with state
   const [dataModel, setDataModel] = useState<ModelProps[]>();
   useEffect(() => {
     if (idBrand) {
-      fetch(`${import.meta.env.VITE_API_URL}/api/register/${idBrand}`).then(
-        (res) => res.json().then((data: ModelProps[]) => setDataModel(data)),
-      );
+      fetch(`${import.meta.env.VITE_API_URL}/api/register/${idBrand}`)
+        .then((res) => res.json())
+        .then((data: ModelProps[]) => setDataModel(data));
     }
   }, [idBrand]);
 
@@ -140,11 +140,9 @@ export default function ModalUserVehicule({
   const [dataSocket, setDataSocket] = useState<SocketProps>();
   useEffect(() => {
     if (idSocket) {
-      fetch(
-        `${import.meta.env.VITE_API_URL}/api/register/socket/${idSocket}`,
-      ).then((res) =>
-        res.json().then((data: SocketProps) => setDataSocket(data)),
-      );
+      fetch(`${import.meta.env.VITE_API_URL}/api/register/socket/${idSocket}`)
+        .then((res) => res.json())
+        .then((data: SocketProps) => setDataSocket(data));
     }
   }, [idSocket]);
 

@@ -23,9 +23,6 @@ const readPrimaryUserCar: RequestHandler = async (req, res, next) => {
     const userMail = req.params.id;
     const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
-    console.info(userMail);
-    console.info(UserId);
-
     const vehiculeInfo: UserVehiculeProps =
       await VehiculeRepository.readPrimaryCar(UserId.id);
     if (vehiculeInfo) {
@@ -61,12 +58,13 @@ const addUserVehicule: RequestHandler = async (req, res, next) => {
   try {
     const vehiculeInfo = req.body;
     const userMail = req.params.id;
+    const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
     const newVehiculeId =
       await VehiculeRepository.createNewVehicule(vehiculeInfo);
-    const userId = await VehiculeRepository.readUserByEmail(userMail);
+
     const insertVehiculeId = await VehiculeRepository.createNewUserCar(
-      Number(userId),
+      UserId.id,
       newVehiculeId,
     );
 

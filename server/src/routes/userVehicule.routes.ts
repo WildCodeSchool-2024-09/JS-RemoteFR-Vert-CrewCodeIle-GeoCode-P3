@@ -4,8 +4,8 @@ import vehiculeAction from "../modules/vehicule/vehiculeAction";
 
 const router = express.Router();
 
-router.post("/api/vehicule", vehiculeAction.readVehiculeInfo);
 router.get("/api/vehicule/user/:id", vehiculeAction.readPrimaryUserCar);
+router.post("/api/vehicule", vehiculeAction.readVehiculeInfo);
 router.put("/api/vehicule/update/:id", vehiculeAction.updateUserVehiculeInfo);
 
 router.post("/api/vehicule/add/:id", vehiculeAction.addUserVehicule);

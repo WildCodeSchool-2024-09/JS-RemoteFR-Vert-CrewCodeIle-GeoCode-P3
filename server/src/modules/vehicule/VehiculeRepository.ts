@@ -9,7 +9,7 @@ import databaseClient, {
 
 class VehiculeRepository {
   async readUserVehicule(userId: number, vehiculeId: number) {
-    const [rows] = await databaseClient.query(
+    const [rows] = await databaseClient.query<Rows>(
       `SELECT b.label AS brand, m.label AS model, s.label AS socket
             FROM user_car AS u
             JOIN car AS c ON c.id = u.car_id
@@ -17,8 +17,7 @@ class VehiculeRepository {
             JOIN model AS m ON m.id = c.model_id
             JOIN socket AS s ON s.id = c.socket_id
             WHERE u.user_id = ?
-            AND c.id = ?;
-
+            AND c.id = ?
         `,
       [userId, vehiculeId],
     );
@@ -26,7 +25,7 @@ class VehiculeRepository {
   }
   async readPrimaryCar(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
-      `SELECT b.label AS brand, m.label AS model, s.label AS socket
+      `SELECT c.id, b.label AS brand, m.label AS model, s.label AS socket
             FROM user_car AS u
             JOIN car AS c ON c.id = u.car_id
             JOIN brand AS b ON b.id = c.brand_id
