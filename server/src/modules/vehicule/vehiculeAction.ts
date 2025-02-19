@@ -8,7 +8,7 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
     const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
     const vehiculeInfo: UserVehiculeProps[] =
-      await VehiculeRepository.readUserVehicule(UserId, vehiculeId);
+      await VehiculeRepository.readUserVehicule(UserId.id, vehiculeId);
     if (vehiculeInfo.length > 0) {
       res.status(201).json(vehiculeInfo);
     } else {
@@ -20,12 +20,12 @@ const readVehiculeInfo: RequestHandler = async (req, res, next) => {
 };
 const readPrimaryUserCar: RequestHandler = async (req, res, next) => {
   try {
-    const { userMail } = req.body;
+    const userMail = req.params.id;
     const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
-    const vehiculeInfo: UserVehiculeProps[] =
-      await VehiculeRepository.readPrimaryCar(UserId);
-    if (vehiculeInfo.length > 0) {
+    const vehiculeInfo: UserVehiculeProps =
+      await VehiculeRepository.readPrimaryCar(UserId.id);
+    if (vehiculeInfo) {
       res.status(201).json(vehiculeInfo);
     } else {
       res.status(400).json({ message: "Aucun véhicule enregistré" });
@@ -58,12 +58,13 @@ const addUserVehicule: RequestHandler = async (req, res, next) => {
   try {
     const vehiculeInfo = req.body;
     const userMail = req.params.id;
+    const UserId = await VehiculeRepository.readUserByEmail(userMail);
 
     const newVehiculeId =
       await VehiculeRepository.createNewVehicule(vehiculeInfo);
-    const userId = await VehiculeRepository.readUserByEmail(userMail);
+
     const insertVehiculeId = await VehiculeRepository.createNewUserCar(
-      Number(userId),
+      UserId.id,
       newVehiculeId,
     );
 
@@ -84,7 +85,7 @@ const browseVehicule: RequestHandler = async (req, res, next) => {
 
     const userId = await VehiculeRepository.readUserByEmail(userMail);
 
-    const allUserVehicule = await VehiculeRepository.readAllVehicule(userId);
+    const allUserVehicule = await VehiculeRepository.readAllVehicule(userId.id);
 
     if (allUserVehicule.length === 0) {
       res.status(400).json({ message: "Aucun véhicule trouvé" });
