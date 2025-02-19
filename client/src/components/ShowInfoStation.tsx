@@ -1,9 +1,14 @@
 import type { MarkerType } from "../assets/definition/lib";
+import capitalizeNameStation from "../services/capitalizeNameStation";
 
 export default function ShowInfoStation({
   findStation,
   distance,
 }: { findStation: MarkerType[] | undefined; distance: number }) {
+  const stationName: string | undefined = capitalizeNameStation(
+    findStation?.[0].name,
+  );
+
   return (
     <>
       <div className="m-5">
@@ -15,7 +20,7 @@ export default function ShowInfoStation({
           />
           <span>
             <h1 className="m-1 lg:font-paragraph lg:text-[22px] font-paragraph text-lg">
-              {findStation?.[0].name}
+              {stationName}
             </h1>
           </span>
         </div>
