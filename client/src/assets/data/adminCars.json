@@ -1,0 +1,13 @@
+{
+  "adminListModelBrand": "Liste des modèles par marques",
+  "brand": "Marque",
+  "model": "Modèle",
+  "socket": "Prise",
+  "addButton": "Ajouter",
+  "modifyButton": "Modifier",
+  "deleteButton": "Supprimer",
+  "returnButton": "Retour",
+  "newCar": "Nouveau véhicule",
+  "deleteModel": "Supprimer une modèle",
+  "noVehicle": "Aucune marque, modèle ou prise recencés"
+}

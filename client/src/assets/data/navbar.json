@@ -1,0 +1,6 @@
+[
+  { "id": 1, "name": "Carte", "url": "/home" },
+  { "id": 2, "name": "Profil", "url": "/user" },
+  { "id": 3, "name": "Véhicule", "url": "/cars" },
+  { "id": 4, "name": "Contact", "url": "/contact" }
+]
